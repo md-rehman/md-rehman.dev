@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ColorWave } from "../components/compound/canvas/ColorWave";
+import { ColorWave } from "../components/compounds/canvas/ColorWave";
 import { Glitch } from "../components/pages/Home/Glitch";
 
 const Home: NextPage = () => {
