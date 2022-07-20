@@ -13,7 +13,7 @@ export const Uploader: React.FC<any> = (props) => {
 		console.log("MYLOG: dataArray: ", dataArray);
 	});
 
-	const handleAudioUpload = (e) => {
+	const handleAudioUpload = (e: any) => {
 		console.log("MYLOG: e: ", e);
 		console.log("MYLOG: e.target.: ", e.target.files[0]);
 	};

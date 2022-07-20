@@ -24,7 +24,7 @@ export const Glitch: React.FC<any> = (props) => {
 		});
 	};
 
-	const keyPressHandler = (e) => {
+	const keyPressHandler = (e: any) => {
 		switch (e.key) {
 			case ".":
 				nextChannel();
