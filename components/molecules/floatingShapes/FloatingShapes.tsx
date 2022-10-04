@@ -1,6 +1,7 @@
+import { Children } from "react";
 import styles from "./FloatingShapes.module.scss";
 
-export const FloatingShapes = () => {
+export const FloatingShapes = ({ children }) => {
 	return (
 		<>
 			<div className={styles.area}>
@@ -76,6 +77,7 @@ export const FloatingShapes = () => {
 						/>
 					</svg>
 				</ul>
+				{children}
 			</div>
 		</>
 	);

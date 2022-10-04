@@ -16,12 +16,29 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
+			"@fermions": ["components/fermions/index"],
 			"@atoms": ["components/atoms/index"],
 			"@molecules": ["components/molecules"],
 			"@compounds": ["components/compounds/index"],
-			"@pages": ["components/pages/index"]
+			"@canvas": ["components/canvas/index"],
+			"@channels": ["components/channels/index"],
+			"@constants": ["components/constants/index"],
+			"@navigator": ["components/navigator/index"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules"],
+	// custom config
+	"allowUnreachableCode": false,
+	"allowUnusedLabels": false,
+	"esModuleInterop": true,
+	"importsNotUsedAsValues": "error",
+	"forceConsistentCasingInFileNames": true,
+	"noFallthroughCasesInSwitch": true,
+	"noImplicitReturns": true,
+	"noImplicitUseStrict": false,
+	"noStrictGenericChecks": false,
+	"noUnusedLocals": true,
+	"noUnusedParameters": true,
+	"resolveJsonModule": true
 }

@@ -10,6 +10,8 @@ module.exports = {
 				serif: ['"Bubblegum Sans"', "serif"],
 				body: ['"Bubblegum Sans"', "serif"],
 				arial: ["arial"],
+				death_note_1: ["death_note_1"],
+				death_note_2: ["death_note_2"],
 			},
 			colors: {
 				lime: {
