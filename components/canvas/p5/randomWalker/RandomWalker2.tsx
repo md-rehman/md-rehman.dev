@@ -11,11 +11,10 @@ interface ComponentProps {
 let x = 50;
 const y = 50;
 
-export const RandomWalker: React.FC<ComponentProps> = (
+export const RandomWalker2: React.FC<ComponentProps> = (
 	props: ComponentProps,
 ) => {
 	const [walker, setWalker] = useState<Walker | null>(null);
-
 	useEffect(() => {
 		const w = new Walker(window.innerWidth / 2, window.innerHeight / 2, 8);
 		setWalker(w);
@@ -36,6 +35,7 @@ export const RandomWalker: React.FC<ComponentProps> = (
 	};
 
 	const draw = (p5: p5Types) => {
+		if (!window) return;
 		walker.step(p5, {
 			// max: { x: window.innerWidth * 0.6, y: window.innerHeight * 0.6 },
 			// min: { x: window.innerWidth * 0.4, y: window.innerHeight * 0.4 },
@@ -49,5 +49,3 @@ export const RandomWalker: React.FC<ComponentProps> = (
 
 	return <P5Sketch setup={setup} draw={draw} />;
 };
-
-// Shankar suman socity, shiv shakti chock, bakrai nagar, near garwa hotel

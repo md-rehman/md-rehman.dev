@@ -1,7 +1,7 @@
 import { Children } from "react";
 import styles from "./FloatingShapes.module.scss";
 
-export const FloatingShapes = ({ children }) => {
+export const FloatingShapes: React.FC = ({ children }) => {
 	return (
 		<>
 			<div className={styles.area}>

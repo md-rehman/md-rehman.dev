@@ -6,7 +6,7 @@ export const TvSetNoise = () => {
 	let context = useRef<CanvasRenderingContext2D | null>(null).current;
 	const [isDrawing, setIsDrawing] = useState(false);
 
-	const noiseGenerator = (e) => {
+	const noiseGenerator = (e: any) => {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 		if (!context) return;
@@ -72,7 +72,7 @@ export const TvSetNoise = () => {
 		// context.lineWidth = 2;
 	}, []);
 
-	const startDrawing = ({ nativeEvent }) => {
+	const startDrawing = ({ nativeEvent }: any) => {
 		if (!context) return;
 
 		const { offsetX, offsetY } = nativeEvent;
@@ -86,7 +86,7 @@ export const TvSetNoise = () => {
 		context.closePath();
 		setIsDrawing(false);
 	};
-	const draw = ({ nativeEvent }) => {
+	const draw = ({ nativeEvent }: any) => {
 		if (!context) return;
 		if (!isDrawing) {
 			return;

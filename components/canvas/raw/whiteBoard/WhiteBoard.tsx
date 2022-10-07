@@ -25,31 +25,31 @@ export const WhiteBoard = () => {
 		// chalkPaint.setStrokeWidth(12);
 		// Bitmap chalkShader = ((BitmapDrawable)context.getResources().getDrawable(R.drawable.chalk_texture)).getBitmap();
 		// chalkPaint.setShader(new BitmapShader(chalkShader, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
-
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.lineWidth = 2;
-
+		if (context) {
+			context.lineCap = "round";
+			context.strokeStyle = "white";
+			context.lineWidth = 2;
+		}
 		contextRef.current = context;
 	}, []);
 
-	const startDrawing = ({ nativeEvent }) => {
+	const startDrawing = ({ nativeEvent }: any) => {
 		const { offsetX, offsetY } = nativeEvent;
-		contextRef.current.beginPath();
-		contextRef.current.moveTo(offsetX, offsetY);
+		contextRef?.current?.beginPath();
+		contextRef?.current?.moveTo(offsetX, offsetY);
 		setIsDrawing(true);
 	};
 	const stopDrawing = () => {
-		contextRef.current.closePath();
+		contextRef?.current?.closePath();
 		setIsDrawing(false);
 	};
-	const draw = ({ nativeEvent }) => {
+	const draw = ({ nativeEvent }: any) => {
 		if (!isDrawing) {
 			return;
 		}
 		const { offsetX, offsetY } = nativeEvent;
-		contextRef.current.lineTo(offsetX, offsetY);
-		contextRef.current.stroke();
+		contextRef?.current?.lineTo(offsetX, offsetY);
+		contextRef?.current?.stroke();
 	};
 
 	return (
