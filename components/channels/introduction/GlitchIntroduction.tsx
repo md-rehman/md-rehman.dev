@@ -14,9 +14,12 @@ export const GlitchIntroduction: React.FC = () => {
 	const [floatingText, setFloatingText] = useState<any | null>(null);
 	useEffect(() => {
 		randomTextSetter();
-		setInterval(() => {
+		const timerId = setInterval(() => {
 			randomTextSetter();
 		}, 3000);
+		return () => {
+			clearInterval(timerId);
+		};
 	}, []);
 	// if (typeof window === "undefined") return null;
 	const TextArray = [
@@ -59,7 +62,7 @@ export const GlitchIntroduction: React.FC = () => {
 	return (
 		<FloatingShapes>
 			<div className="flex flex-1 flex-col items-center justify-center h-full relative overflow-hidden">
-				<Text className="text-2xl">Hi, I&apos;m Rehman</Text>
+				<Text className="font-silkscreen text-2xl">Hi, I&apos;m Rehman</Text>
 				{/* {randomTextSetter()} */}
 				{floatingText}
 			</div>

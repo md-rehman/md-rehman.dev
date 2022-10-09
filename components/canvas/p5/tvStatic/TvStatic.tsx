@@ -47,8 +47,9 @@ export const TvStatic: React.FC<ComponentProps> = ({
 		}
 		p5.updatePixels();
 		// p5.background(0);
-		p5.fill(255, 52, 42);
-		p5.text(p5.frameRate(), 20, 20);
+		// p5.fill(255, 52, 42);
+
+		// p5.text(p5.frameRate(), 20, 20);
 	};
 
 	return (

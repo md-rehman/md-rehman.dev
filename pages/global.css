@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Edu+QLD+Beginner:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap");
+
 @font-face {
 	font-family: "death_note_1";
 	src: url("../public/fonts/Death_Note_1.ttf");

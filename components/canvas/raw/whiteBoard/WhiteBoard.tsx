@@ -52,6 +52,27 @@ export const WhiteBoard = () => {
 		contextRef?.current?.stroke();
 	};
 
+	const touchStartHandler = (e: any) => {
+		const { clientX: offsetX, clientY: offsetY } = e.touches[0];
+		contextRef?.current?.beginPath();
+		contextRef?.current?.moveTo(offsetX, offsetY);
+		setIsDrawing(true);
+	};
+	const touchMoveHandler = (e: any) => {
+		if (!isDrawing) {
+			return;
+		}
+		// touchEndPos.x = e.touches[0].clientX;
+		// touchEndPos.y = e.touches[0].clientY;
+		const { clientX: offsetX, clientY: offsetY } = e.touches[0];
+		contextRef?.current?.lineTo(offsetX, offsetY);
+		contextRef?.current?.stroke();
+	};
+	const touchEndHandler = (e: any) => {
+		contextRef?.current?.closePath();
+		setIsDrawing(false);
+	};
+
 	return (
 		<canvas
 			id="FlowFieldEffect"
@@ -59,6 +80,9 @@ export const WhiteBoard = () => {
 			className={styles.flowFieldEffectCanvas}
 			onMouseDown={startDrawing}
 			onMouseUp={stopDrawing}
+			onTouchStart={touchStartHandler}
+			onTouchMove={touchMoveHandler}
+			onTouchEnd={touchEndHandler}
 			onMouseMove={draw}
 		></canvas>
 	);
