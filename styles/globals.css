@@ -12,3 +12,10 @@
 	font-family: "death_note_2";
 	src: url("../public/fonts/Death_Note_2.ttf");
 }
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}

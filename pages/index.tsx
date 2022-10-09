@@ -6,15 +6,6 @@ import { Glitch } from "../components/channels/glitch/Glitch";
 
 const Home: NextPage = () => {
 	return <TvSetNavigator config={channels} />;
-	return (
-		<NavigationRouteContext.Provider
-			value={{
-				test: "123",
-			}}
-		>
-			<TvSetNavigator config={channels} />
-		</NavigationRouteContext.Provider>
-	);
 	return <Glitch />;
 };
 
