@@ -23,12 +23,17 @@ export const GlitchIntroduction: React.FC = () => {
 	}, []);
 	// if (typeof window === "undefined") return null;
 	const TextArray = [
-		"A Web Developer",
+		"A Web Developer 🕷",
 		"A React Developer",
 		"A JavaScript Developer",
 		"A ReactNative Developer",
 		"Anime are awesome",
-		"Shinigami loves apple",
+		"Shinigami loves apple 🍎",
+		"React > Angular 😝",
+		"I love to travel",
+		"playing with p5.js",
+		"Emojies are too powerful 😐",
+		"Cats are too cute 🦁",
 	];
 	const randomTextSetter = () => {
 		let randomPosition: ICSSPosition = {};
@@ -48,9 +53,8 @@ export const GlitchIntroduction: React.FC = () => {
 
 		setFloatingText(
 			<GlitchText
+				className="absolute w-4/5 text-lg"
 				style={{
-					position: "absolute",
-					width: "80%",
 					...randomPosition,
 					marginLeft: window.innerWidth * Math.random(),
 				}}
@@ -62,7 +66,7 @@ export const GlitchIntroduction: React.FC = () => {
 	return (
 		<FloatingShapes>
 			<div className="flex flex-1 flex-col items-center justify-center h-full relative overflow-hidden">
-				<Text className="font-silkscreen text-2xl">Hi, I&apos;m Rehman</Text>
+				<Text className="font-silkscreen text-4xl">Hi, I&apos;m Rehman</Text>
 				{/* {randomTextSetter()} */}
 				{floatingText}
 			</div>

@@ -86,12 +86,14 @@ export const TvSetNavigator: React.FC<any> = ({
 	const nextChannel = () => {
 		/*  */
 		setChannelMeta((prevState) => {
+			// TODO: need to add mechanism to clear the timeout and also move all this common code to single function
 			setTimeout(() => {
 				setChannelMeta((prevState) => {
 					return {
 						...prevState,
 						overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
-						infoOverlay: config[prevState.activeChannel] ? false : true,
+						// infoOverlay: config[prevState.activeChannel] ? false : true,
+						infoOverlay: true,
 					};
 				});
 			}, OVERLAY_DURATION);
@@ -191,15 +193,6 @@ export const TvSetNavigator: React.FC<any> = ({
 						return `${prevState}${e.key}`;
 						return parseInt(`${prevState}${e.key}`);
 					});
-					// setChannelMeta((prevState) => {
-					// 	return {
-					// 		...prevState,
-					// 		infoOverlay: true,
-					// 	};
-					// });
-					// setTimeout(() => {
-					// 	prevChannel();
-					// }, (buttonAudioRef?.current?.duration || 1) * 800);
 				}
 				break;
 		}
@@ -245,27 +238,9 @@ export const TvSetNavigator: React.FC<any> = ({
 					}
 					return prevState;
 				});
-
-				// setChannelMeta((prevState) => {
-				// 	return {
-				// 		...prevState,
-				// 		activeChannel: channelNumber || prevState.activeChannel,
-				// 		prevChannel: prevState.activeChannel,
-				// 		infoOverlay: false,
-				// 		channelNumber: "fixed",
-				// 	};
-				// });
-				// setChannelNumber(null);
 				break;
 		}
 	};
-	// useEffect(() => {
-	// 	// Handling key presses on keyboard
-	// 	document.addEventListener("keydown", keyDownHandler, true);
-	// 	return () => {
-	// 		document.removeEventListener("keydown", keyDownHandler, true);
-	// 	};
-	// }, []);
 
 	const touchStartHandler: TouchEventHandler<HTMLDivElement> = (e) => {
 		if (!globalTouchDetection) return null;
@@ -324,17 +299,7 @@ export const TvSetNavigator: React.FC<any> = ({
 		touchEndPos.y = null;
 		setBlur(0);
 	};
-	// useEffect(() => {
-	// 	// Handling swipes on touch screen
-	// 	document.addEventListener("touchstart", touchStartHandler, false);
-	// 	document.addEventListener("touchmove", touchMoveHandler, false);
-	// 	document.addEventListener("touchend", touchEndHandler, false);
-	// 	return () => {
-	// 		document.removeEventListener("touchstart", touchStartHandler, false);
-	// 		document.removeEventListener("touchmove", touchMoveHandler, false);
-	// 		document.removeEventListener("touchend", touchEndHandler, false);
-	// 	};
-	// }, []);
+
 	const CurrentScene = config[channelMeta.activeChannel]?.component;
 	const channelNumberTemplate = () => {
 		if (channelMeta.channelNumber === "setting") {

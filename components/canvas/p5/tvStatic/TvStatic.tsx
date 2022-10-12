@@ -15,7 +15,7 @@ export const TvStatic: React.FC<ComponentProps> = ({
 	useEffect(() => {
 		if (noiseAudioRef?.current) noiseAudioRef.current.volume = volume;
 	}, []);
-	//See annotations in JS for more information
+
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		// p5.createCanvas(500, 500).parent(canvasParentRef);
 		// const cnv = p5.createCanvas(width, height).parent(canvasParentRef);

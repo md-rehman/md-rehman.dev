@@ -1,12 +1,18 @@
 import React from "react";
 import { Text } from "@atoms";
 import { FloatingShapes, GlitchText } from "@molecules";
+import { useMediaQuery } from "@react-hook/media-query";
 
-export const Instructions: React.FC<{}> = () => {
+export const Instructions: React.FC = () => {
+	// Maybe use it remove certains rules, if the number of rules becomes large.
+	const probablyTouchScreen = useMediaQuery(
+		"only screen and (pointer: coarse)",
+	);
 	const rules: Array<string> = [
 		"Use left and right arrow to change channels.",
 		"Swipe left and right on touch screen to change channel.",
 		"Touch on bottom right botton to disable global touches (default enabled) to itetact with the page.",
+		'Use "Ctrl + <number>" for quick jumping to that channel.',
 	];
 	const rulesTemplate = () => {
 		return rules.map((rule, i) => (
