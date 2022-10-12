@@ -8,7 +8,7 @@ export const GlitchText = ({
 	duration,
 	_text = {},
 	...props
-}: {
+}: React.HTMLAttributes<HTMLDivElement> & {
 	duration?: number;
 	children: string;
 	className?: string;

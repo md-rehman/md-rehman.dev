@@ -4,6 +4,8 @@ export const Uploader: React.FC<any> = (props) => {
 	let audioCtx, analyser, bufferLength, dataArray;
 
 	useEffect(() => {
+		if (!window) return;
+
 		audioCtx = new window.AudioContext();
 		analyser = audioCtx.createAnalyser();
 

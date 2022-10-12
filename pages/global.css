@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: "death_note_1";
+	src: url("../public/fonts/Death_Note_1.ttf");
+}
+@font-face {
+	font-family: "death_note_2";
+	src: url("../public/fonts/Death_Note_2.ttf");
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}

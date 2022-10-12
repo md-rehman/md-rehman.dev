@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "@atoms";
+import { WhiteBoard, TvSetNoise, TvStatic, RandomWalker } from "@canvas";
 import { GlitchText, GlitchScreen, FloatingShapes } from "@molecules";
 import styles from "./Glitch.module.scss";
 
@@ -41,7 +42,12 @@ export const Glitch: React.FC<any> = (props) => {
 			document.removeEventListener("keydown", keyPressHandler, true);
 		};
 	}, []);
+	return <TvStatic />;
+	return <RandomWalker />;
 	// return <FloatingShapes />;
+	// return <TvSetNoise />;
+	// return <WhiteBoard />;
+	// return <FlowFieldEffect />;
 	return (
 		<main
 			className={`relative flex flex-1 h-screen w-screen items-center justify-center`}

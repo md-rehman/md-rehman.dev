@@ -6,10 +6,15 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['"Bubblegum Sans"', "sans-serif"],
-				serif: ['"Bubblegum Sans"', "serif"],
-				body: ['"Bubblegum Sans"', "serif"],
+				body: ['"Edu QLD Beginner"', "serif"],
+				sans: ['"Edu QLD Beginner"', "serif"],
+				serif: ['"Edu QLD Beginner"', "serif"],
+				bubble: ['"Bubblegum Sans"', "serif"],
+				chalk: ['"Cabin Sketch"', "serif"],
+				silkscreen: ["Silkscreen", "serif"],
 				arial: ["arial"],
+				death_note_1: ["death_note_1"],
+				death_note_2: ["death_note_2"],
 			},
 			colors: {
 				lime: {
@@ -24,6 +29,15 @@ module.exports = {
 					800: "#3f6212",
 					900: "#365314",
 				},
+			},
+			keyframes: {
+				blink: {
+					"0%": { opacity: 0 },
+					"100%": { opacity: 1 },
+				},
+			},
+			animation: {
+				blink: "blink .3s linear infinite alternate",
 			},
 		},
 	},
