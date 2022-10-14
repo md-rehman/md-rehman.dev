@@ -18,6 +18,7 @@ import styles from "./TvSetNavigator.module.scss";
 const OVERLAY_DURATION = 600;
 const INFO_OVERLAY_DURATION = 2600;
 const AUDIO_VOL = 0.1;
+// const START_CHANNEL = 0;
 const START_CHANNEL = 0;
 
 interface vector {

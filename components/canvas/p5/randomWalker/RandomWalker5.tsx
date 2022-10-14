@@ -21,7 +21,8 @@ export const RandomWalker5: React.FC<ComponentProps> = (
 
 	const draw = (p5: p5Types) => {
 		walker.update(p5);
-		walker.render(p5);
+		// walker.render(p5);
+		walker.renderArcs(p5);
 	};
 
 	return <P5Sketch setup={setup} draw={draw} />;

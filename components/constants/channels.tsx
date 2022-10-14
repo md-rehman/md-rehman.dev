@@ -9,6 +9,7 @@ import {
 	WhiteBoard,
 	TvSetNoise,
 	TvStatic,
+	Motion101,
 	RandomWalker,
 	RandomWalker2,
 	RandomWalker3,
@@ -53,6 +54,10 @@ export const channels = {
 	6: {
 		name: "Random Walker 5",
 		component: RandomWalker5,
+	},
+	7: {
+		name: "Motion 101",
+		component: Motion101,
 	},
 
 	// GITHUB as iframe is not possible
