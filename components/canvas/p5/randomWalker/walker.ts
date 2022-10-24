@@ -1,4 +1,4 @@
-import p5Types from "p5";
+import type p5Types from "p5";
 
 interface IPoint {
 	x: number;

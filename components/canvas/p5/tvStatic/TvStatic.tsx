@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import p5Types from "p5"; //Import this for typechecking and intellisense
+import type p5Types from "p5"; //Import this for typechecking and intellisense
 import { P5Sketch } from "@atoms";
 
 interface ComponentProps {

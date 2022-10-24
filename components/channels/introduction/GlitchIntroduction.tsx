@@ -1,7 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { Text } from "@atoms";
 import { FloatingShapes, GlitchText } from "@molecules";
-import p5 from "p5";
 
 interface ICSSPosition {
 	top?: number;

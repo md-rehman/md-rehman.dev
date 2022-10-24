@@ -18,8 +18,8 @@ import styles from "./TvSetNavigator.module.scss";
 const OVERLAY_DURATION = 600;
 const INFO_OVERLAY_DURATION = 2600;
 const AUDIO_VOL = 0.1;
-// const START_CHANNEL = 0;
-const START_CHANNEL = 0;
+// const INITIAL_CHANNEL = 0;
+const INITIAL_CHANNEL = 7;
 
 interface vector {
 	x: number | null;
@@ -47,8 +47,8 @@ export const TvSetNavigator: React.FC<any> = ({
 }) => {
 	// const [currentChannel, setCurrentChannel] = useState("001");
 	const [channelMeta, setChannelMeta] = useState<channelMeta>({
-		activeChannel: START_CHANNEL,
-		prevChannel: START_CHANNEL,
+		activeChannel: INITIAL_CHANNEL,
+		prevChannel: INITIAL_CHANNEL,
 		overlay: "none",
 		infoOverlay: true,
 		channelNumber: "fixed",
