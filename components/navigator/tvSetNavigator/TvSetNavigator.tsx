@@ -370,6 +370,7 @@ export const TvSetNavigator: React.FC<any> = ({
 				// @ts-ignore
 				ref={mainRef}
 				className="navigation-wrapper outline-none bg-gray-900"
+				// bg-gray-900 = rgba(17,24,39,1);
 				onTouchStart={touchStartHandler}
 				onTouchMove={touchMoveHandler}
 				onTouchEnd={touchEndHandler}

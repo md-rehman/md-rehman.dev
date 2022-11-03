@@ -21,30 +21,28 @@ export const GlitchIntroduction: React.FC = () => {
 			clearInterval(timerId);
 		};
 	}, []);
-	// if (typeof window === "undefined") return null;
+
 	const TextArray = [
-		"A Web Developer 🕷",
-		"A React Developer",
-		"A JavaScript Developer",
-		"A ReactNative Developer",
-		"Anime are awesome",
-		"Shinigami loves apple 🍎",
-		"React > Angular 😝",
+		"I'm a Web Developer 🕷",
+		"I'm a React Developer",
+		"I'm a JavaScript Developer",
+		"I'm a ReactNative Developer",
+		// "This is called TvSet",
+		"I'm building plugin to make documentation",
 		"I love to travel",
-		"playing with p5.js",
-		"Emojies are too powerful 😐",
-		"Cats are too cute 🦁",
+		"I love Cats 🦁",
+		"I love Anime",
 	];
 	const randomTextSetter = () => {
 		let randomPosition: ICSSPosition = {};
 		randomPosition.top =
 			window.innerHeight * 0.1 + window.innerHeight * (Math.random() * 0.8);
 
+		// NOTE: To avoid placing over the center title
 		if (
 			randomPosition.top > window.innerHeight / 2 - 50 &&
 			randomPosition.top < window.innerHeight / 2 + 50
 		) {
-			// to avoid placing over the center title
 			randomPosition.top = randomPosition.top + 150;
 		}
 		// setTimeout(() => {
@@ -65,7 +63,7 @@ export const GlitchIntroduction: React.FC = () => {
 	};
 	return (
 		<FloatingShapes>
-			<div className="flex flex-1 flex-col items-center justify-center h-full relative overflow-hidden">
+			<div className="flex flex-1 flex-col items-center justify-center h-full overflow-hidden">
 				<Text className="font-silkscreen text-4xl">Hi, I&apos;m Rehman</Text>
 				{/* {randomTextSetter()} */}
 				{floatingText}
