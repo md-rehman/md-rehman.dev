@@ -14,6 +14,9 @@ import {
 	RandomWalker3,
 	RandomWalker4,
 	RandomWalker5,
+	MotionBasic,
+	BallShooter,
+	StringShooter,
 } from "@canvas";
 
 export const channels = {
@@ -54,6 +57,20 @@ export const channels = {
 		name: "Random Walker 5",
 		component: RandomWalker5,
 	},
+
+	7: {
+		name: "Motion 101",
+		component: MotionBasic,
+	},
+
+	8: {
+		name: "Ball Shooter",
+		component: BallShooter,
+	},
+	// 8: {
+	// 	name: "String Shooter",
+	// 	component: StringShooter,
+	// },
 
 	// GITHUB as iframe is not possible
 	// 6: {

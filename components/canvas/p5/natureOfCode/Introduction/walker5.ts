@@ -5,12 +5,6 @@ interface IPoint {
 	y: number;
 }
 
-declare global {
-	interface Window {
-		p5: typeof p5Types;
-	}
-}
-
 export class Walker {
 	pos: Vector;
 	vel: p5Types.Vector;

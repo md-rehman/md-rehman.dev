@@ -25,7 +25,11 @@ export const GlitchText = ({
 	if (state === "hidden") return null;
 	if (state === "visible")
 		return (
-			<div className={`${styles.glitchTextWrapper} ${className}`} {...props}>
+			<div
+				// NOTE: removing relative positioning form below element
+				className={`${styles.glitchTextWrapper} ${className}`}
+				{...props}
+			>
 				<Text
 					{..._text}
 					className={`${styles.glitch} ${_text.className}`}
