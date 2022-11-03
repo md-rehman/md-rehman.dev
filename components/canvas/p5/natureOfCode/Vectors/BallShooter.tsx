@@ -49,9 +49,6 @@ class Ball {
 		}
 	}
 	render() {
-		if (this.force && this.resistance) {
-			console.log(this.force.angleBetween(this.resistance));
-		}
 		this.p5.background(17, 24, 39);
 		this.p5.circle(this.pos.x, this.pos.y, 20);
 	}
@@ -61,15 +58,12 @@ let string: Ball;
 
 export const BallShooter: React.FC = () => {
 	const mousePressed = (e: p5Types) => {
-		console.log("MYLOG: mousePressed: ", string);
 		string.create();
 	};
 	const mouseDragged = (e: p5Types) => {
-		console.log("MYLOG: mouseDragged: ", string);
 		string.stretch();
 	};
 	const mouseReleased = (e: p5Types) => {
-		console.log("MYLOG: mouseReleased: ", string);
 		string.release();
 	};
 	// const touchStarted = (e) => {};

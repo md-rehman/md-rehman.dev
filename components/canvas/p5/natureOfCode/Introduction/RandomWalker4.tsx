@@ -40,7 +40,6 @@ export const RandomWalker4: React.FC<ComponentProps> = (props) => {
 			p5.random(p5.width * 0.3, p5.width * 0.7),
 			p5.random(p5.height * 0.3, p5.height * 0.7),
 		);
-		console.log("MYLOG: p5.height: ", p5.height);
 
 		if (p5.width > p5.height) {
 			greaterSide = p5.width;
@@ -55,7 +54,6 @@ export const RandomWalker4: React.FC<ComponentProps> = (props) => {
 		}
 		screenRatio = greaterSide / smallerSide;
 		count = 0;
-		console.log("MYLOG: screenRatio: ", screenRatio);
 	}
 	function draw(p5: p5Types) {
 		if (window === undefined) return;

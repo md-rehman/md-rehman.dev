@@ -27,9 +27,7 @@ export const RandomWalker: React.FC<ComponentProps> = (
 		const cnv = p5
 			.createCanvas(window.innerWidth, window.innerHeight)
 			.parent(canvasParentRef);
-		cnv.mousePressed((event) => {
-			console.log("Clicked on the canvas. Event:", event);
-		});
+		cnv.mousePressed((event) => {});
 	};
 
 	const draw = (p5: p5Types) => {

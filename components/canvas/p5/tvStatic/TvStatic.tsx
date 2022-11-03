@@ -24,9 +24,7 @@ export const TvStatic: React.FC<ComponentProps> = ({
 			.parent(canvasParentRef);
 		p5.pixelDensity(0.7);
 		p5.frameRate(60);
-		cnv.mousePressed((event) => {
-			console.log("Clicked on the canvas. Event:", event);
-		});
+		cnv.mousePressed((event) => {});
 		p5.background(0);
 	};
 

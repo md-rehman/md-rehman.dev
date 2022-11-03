@@ -42,8 +42,6 @@ export const TvSetNoise = () => {
 		// canvas.style.height = `${window.innerHeight}px`;
 
 		context = canvas.getContext("2d");
-		console.log("MYLOG: context: ", context);
-
 		if (!context) return;
 
 		noiseGenerator(canvas);

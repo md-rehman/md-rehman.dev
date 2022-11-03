@@ -32,7 +32,6 @@
 // 		}
 // 	}, [canvasRef]);
 // 	useEffect(() => {
-// 		console.log("MYLOG: canvasRef: ", canvasRef);
 
 // 		if (canvasRef) {
 // 			// document.addEventListener("resize", resizeCanvas, []);

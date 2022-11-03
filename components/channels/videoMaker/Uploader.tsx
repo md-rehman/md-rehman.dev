@@ -12,13 +12,9 @@ export const Uploader: React.FC<any> = (props) => {
 		analyser.fftSize = 2048;
 		bufferLength = analyser.frequencyBinCount;
 		dataArray = new Uint8Array(bufferLength);
-		console.log("MYLOG: dataArray: ", dataArray);
 	});
 
-	const handleAudioUpload = (e: any) => {
-		console.log("MYLOG: e: ", e);
-		console.log("MYLOG: e.target.: ", e.target.files[0]);
-	};
+	const handleAudioUpload = (e: any) => {};
 
 	return (
 		<main className="flex flex-1 h-screen w-screen items-center justify-center">
