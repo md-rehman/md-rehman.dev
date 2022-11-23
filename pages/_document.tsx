@@ -17,7 +17,6 @@ class MyDocument extends Document {
 		return (
 			<Html>
 				<Head>
-					<title>MD-REHMAN</title>
 					{/* <link
 						href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap"
 						rel="stylesheet"

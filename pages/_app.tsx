@@ -6,6 +6,7 @@ import Script from "next/script";
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
+			<title>MD-REHMAN</title>
 			<Script
 				strategy="lazyOnload"
 				src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					});
 				`}
 			</Script>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</>
 	);
 }

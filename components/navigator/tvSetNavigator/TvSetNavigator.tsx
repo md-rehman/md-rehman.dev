@@ -28,7 +28,7 @@ interface vector {
 type channelMeta = {
 	activeChannel: number;
 	prevChannel: number;
-	overlay: "noise" | "blueScreen" | "none";
+	overlay: "noise" | "blueScreen" | "off" | "none";
 	infoOverlay: boolean;
 	channelNumber: "setting" | "fixed";
 };
@@ -48,12 +48,13 @@ export const TvSetNavigator: React.FC<any> = ({
 	const [channelMeta, setChannelMeta] = useState<channelMeta>({
 		activeChannel: START_CHANNEL,
 		prevChannel: START_CHANNEL,
-		overlay: "none",
-		infoOverlay: true,
+		overlay: "off",
+		infoOverlay: false,
 		channelNumber: "fixed",
 	});
 	const [channelNumber, setChannelNumber] = useState<number | null>(null);
 	const [blur, setBlur] = useState<number>(0);
+	const [offAnimation, setOffAnimation] = useState<boolean>(false);
 	const [globalTouchDetection, setGlobalTouchDetection] =
 		useState<boolean>(true);
 	const mainRef = useRef<HTMLDivElement>();
@@ -71,17 +72,17 @@ export const TvSetNavigator: React.FC<any> = ({
 	);
 
 	/* Handle first render with noise  */
-	useEffect(() => {
-		setTimeout(() => {
-			setChannelMeta((prevState) => {
-				return {
-					...prevState,
-					infoOverlay: false,
-				};
-			});
-		}, INFO_OVERLAY_DURATION);
-		mainRef?.current?.focus();
-	}, []);
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setChannelMeta((prevState) => {
+	// 			return {
+	// 				...prevState,
+	// 				infoOverlay: false,
+	// 			};
+	// 		});
+	// 	}, INFO_OVERLAY_DURATION);
+	// 	mainRef?.current?.focus();
+	// }, []);
 
 	const nextChannel = () => {
 		/*  */
@@ -407,14 +408,41 @@ export const TvSetNavigator: React.FC<any> = ({
 						className={`bg-blue-600 flex flex-1 h-screen w-screen items-center justify-center`}
 					></div>
 				)}
+				{channelMeta.overlay === "off" && (
+					<div
+						className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center"
+						onClick={() => {
+							setOffAnimation(true);
+							setTimeout(() => {
+								setChannelMeta((prevState) => {
+									return {
+										...prevState,
+										overlay: "none",
+										infoOverlay: true,
+									};
+								});
+							}, 1250);
+						}}
+					>
+						<Text
+							className={`font-silkscreen text-white text-2xl mx-12 ${
+								offAnimation ? styles.offText : ""
+							}`}
+						>
+							{probablyTouchScreen ? "Press" : "Click"} to Turn{" "}
+							<span className="text-lime-500">On </span>
+							the TV
+						</Text>
+					</div>
+				)}
 				{channelMeta.infoOverlay && (
-					<div className={`flex flex-1 items-center justify-center`}>
-						<div className="text-lime-500 absolute top-10 left-10 font-arial">
+					<div className="flex flex-1 items-center justify-center text-lime-500">
+						<div className={`absolute top-10 left-10 font-arial`}>
 							<Text>
 								{config[channelMeta.activeChannel]?.name ?? "No service"}
 							</Text>
 						</div>
-						<div className="text-lime-500  absolute top-10 right-10 font-arial tracking-widest">
+						<div className="absolute top-10 right-10 font-arial tracking-widest">
 							<Text>{channelNumberTemplate()}</Text>
 						</div>
 						{/* <div className="text-lime-500 text-2xl absolute bottom-20 font-arial">
