@@ -72,17 +72,17 @@ export const TvSetNavigator: React.FC<any> = ({
 	);
 
 	/* Handle first render with noise  */
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setChannelMeta((prevState) => {
-	// 			return {
-	// 				...prevState,
-	// 				infoOverlay: false,
-	// 			};
-	// 		});
-	// 	}, INFO_OVERLAY_DURATION);
-	// 	mainRef?.current?.focus();
-	// }, []);
+	useEffect(() => {
+		setTimeout(() => {
+			setChannelMeta((prevState) => {
+				return {
+					...prevState,
+					infoOverlay: false,
+				};
+			});
+		}, INFO_OVERLAY_DURATION);
+		mainRef?.current?.focus();
+	}, []);
 
 	const nextChannel = () => {
 		/*  */
@@ -363,101 +363,107 @@ export const TvSetNavigator: React.FC<any> = ({
 	};
 
 	return (
-		<NavigationRouteContext.Provider
-			value={{ channels: config, currentChannel: channelMeta.activeChannel }}
-		>
-			<main
-				// TODO: Will Fix it later
-				// @ts-ignore
-				ref={mainRef}
-				className="navigation-wrapper outline-none bg-gray-900"
-				// bg-gray-900 = rgba(17,24,39,1);
-				onTouchStart={touchStartHandler}
-				onTouchMove={touchMoveHandler}
-				onTouchEnd={touchEndHandler}
-				onKeyDown={keyDownHandler}
-				onKeyUp={keyUpHandler}
-				tabIndex={-1}
-			>
-				{CurrentScene && (
-					<div
-						className="animation-wrapper"
-						style={{
-							filter: `blur(${blur}px)`,
-							transform: `translateX(${blur}px)`,
-						}}
-					>
-						<CurrentScene
-							testProps={"fdskfjskljljflkjflksjl"}
-							{...config[channelMeta.activeChannel].props}
-						/>
-					</div>
-				)}
-				{/* TODO: Will Fix it later
+    <NavigationRouteContext.Provider
+      value={{ channels: config, currentChannel: channelMeta.activeChannel }}
+    >
+      <main
+        // TODO: Will Fix it later
+        // @ts-ignore
+        ref={mainRef}
+        className="navigation-wrapper outline-none bg-gray-900"
+        // bg-gray-900 = rgba(17,24,39,1);
+        onTouchStart={touchStartHandler}
+        onTouchMove={touchMoveHandler}
+        onTouchEnd={touchEndHandler}
+        onKeyDown={keyDownHandler}
+        onKeyUp={keyUpHandler}
+        tabIndex={-1}
+      >
+        {CurrentScene && (
+          <div
+            className="animation-wrapper"
+            style={{
+              filter: `blur(${blur}px)`,
+              transform: `translateX(${blur}px)`,
+            }}
+          >
+            <CurrentScene
+              testProps={"test props"}
+              {...config[channelMeta.activeChannel].props}
+            />
+          </div>
+        )}
+        {/* TODO: Will Fix it later
 				// @ts-ignore */}
-				<audio ref={buttonAudioRef} src="/audios/remote_button_2.mp3" />
-				{channelMeta.overlay === "noise" && (
-					<div
-						style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
-					>
-						<TvStatic volume={AUDIO_VOL} />
-					</div>
-				)}
-				{channelMeta.overlay === "blueScreen" && (
-					<div
-						className={`bg-blue-600 flex flex-1 h-screen w-screen items-center justify-center`}
-					></div>
-				)}
-				{channelMeta.overlay === "off" && (
-					<div
-						className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center"
-						onClick={() => {
-							setOffAnimation(true);
-							setTimeout(() => {
-								setChannelMeta((prevState) => {
-									return {
-										...prevState,
-										overlay: "none",
-										infoOverlay: true,
-									};
-								});
-							}, 1250);
-						}}
-					>
-						<Text
-							className={`font-silkscreen text-white text-2xl mx-12 ${
-								offAnimation ? styles.offText : ""
-							}`}
-						>
-							{probablyTouchScreen ? "Press" : "Click"} to Turn{" "}
-							<span className="text-lime-500">On </span>
-							the TV
-						</Text>
-					</div>
-				)}
-				{channelMeta.infoOverlay && (
-					<div className="flex flex-1 items-center justify-center text-lime-500">
-						<div className={`absolute top-10 left-10 font-arial`}>
-							<Text>
-								{config[channelMeta.activeChannel]?.name ?? "No service"}
-							</Text>
-						</div>
-						<div className="absolute top-10 right-10 font-arial tracking-widest">
-							<Text>{channelNumberTemplate()}</Text>
-						</div>
-						{/* <div className="text-lime-500 text-2xl absolute bottom-20 font-arial">
+        <audio ref={buttonAudioRef} src="/audios/remote_button_2.mp3" />
+        {channelMeta.overlay === "noise" && (
+          <div
+            style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
+          >
+            <TvStatic volume={AUDIO_VOL} />
+          </div>
+        )}
+        {channelMeta.overlay === "blueScreen" && (
+          <div
+            className={`bg-blue-600 flex flex-1 h-screen w-screen items-center justify-center`}
+          ></div>
+        )}
+        {channelMeta.overlay === "off" && (
+          <div
+            className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center"
+            onClick={() => {
+              setOffAnimation(true);
+              setTimeout(() => {
+                setChannelMeta((prevState) => {
+                  return {
+                    ...prevState,
+                    overlay: "none",
+                    infoOverlay: true,
+                  };
+                });
+              }, 1250);
+            }}
+          >
+            <Text
+              className={`font-silkscreen text-white text-2xl mx-12 ${
+                offAnimation ? styles.offText : ""
+              }`}
+            >
+              {probablyTouchScreen ? "Press" : "Click"} to Turn
+              <Text
+                className={`inline  ${
+                  offAnimation ? "text-white" : "text-lime-500"
+                }`}
+              >
+                {" On "}
+              </Text>
+              the TV
+            </Text>
+          </div>
+        )}
+        {channelMeta.infoOverlay && (
+          <div className="flex flex-1 items-center justify-center text-lime-500">
+            <div className={`absolute top-10 left-10 font-arial`}>
+              <Text>
+                {config[channelMeta.activeChannel]?.name ?? "No service"}
+              </Text>
+            </div>
+            <div className="absolute top-10 right-10 font-arial tracking-widest">
+              <Text>{channelNumberTemplate()}</Text>
+            </div>
+            {/* <div className="text-lime-500 text-2xl absolute bottom-20 font-arial">
 							<GlitchText>Under construction</GlitchText>
 						</div> */}
-					</div>
-				)}
-				{probablyTouchScreen ? touchToggleTemplate() : null}
+          </div>
+        )}
+        {probablyTouchScreen ? touchToggleTemplate() : null}
 
-				{/* <input
+        {/* <input
 				type="checkbox"
 				className="absolute bottom-4 right-4 p-4 rounded-none"
 				checked={globalTouchDetection}
 			/> */}
-			</main>
-		</NavigationRouteContext.Provider>
-	);
+      </main>
+    </NavigationRouteContext.Provider>
+  );
 };

@@ -70,13 +70,13 @@ export const BallShooter: React.FC = () => {
 	// const touchMoved = (e) => {};
 	// const touchEnded = (e) => {};
 
-	const setup = (p5: p5Types, canvasParentRef: Element) => {
+	function setup(p5: p5Types, canvasParentRef: Element): void {
 		p5.createCanvas(window.innerWidth, window.innerHeight).parent(
 			canvasParentRef,
 		);
 		p5.noStroke();
 		string = new Ball(p5);
-	};
+	}
 
 	const draw = (p5: p5Types) => {
 		string.update();
