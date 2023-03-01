@@ -1,3 +1,3 @@
 export * from "./tvSetNavigator";
-// export { TvSetNavigator } from "./tvSetNavigator";
+export * from "./tvSetNavigatorX";
 export * from "./context";
