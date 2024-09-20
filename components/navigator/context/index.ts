@@ -1,1 +1,0 @@
-export { NavigationRouteContext } from "./navigationRouteContext";
