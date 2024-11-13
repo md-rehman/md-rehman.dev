@@ -1,4 +1,5 @@
 import { type Sketch } from "@p5-wrapper/react";
+import { P5Wrapper } from "../index";
 
 export const exampleSketch: Sketch = (p5) => {
   p5.setup = () => p5.createCanvas(600, 400, p5.WEBGL);
@@ -14,3 +15,9 @@ export const exampleSketch: Sketch = (p5) => {
     p5.pop();
   };
 };
+
+const Blah = () => {
+  return <P5Wrapper sketch={exampleSketch} />;
+};
+
+export default Blah;
