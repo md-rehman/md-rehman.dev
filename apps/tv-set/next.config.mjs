@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 
-import { enableModuleFederation } from "@repo/build-plugins";
+import { enableModuleFederation, loadEnv } from "@repo/build-plugins";
+
+loadEnv();
 
 const nextConfig = {
   appName: "tv-set",
+  env: {
+    APP_P5_PLAYGROUND: process.env.APP_P5_PLAYGROUND,
+  },
   remotes: {
-    "p5-playground":
-      "p5-playground@http://localhost:3005/_next/static/chunks/remoteEntry.js",
+    "p5-playground": `p5-playground@${process.env.APP_P5_PLAYGROUND}_next/static/chunks/remoteEntry.js`,
   },
 };
-
-// export default nextConfig;
 
 export default enableModuleFederation(nextConfig);
