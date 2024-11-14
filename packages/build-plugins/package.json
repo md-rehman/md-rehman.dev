@@ -2,14 +2,12 @@
   "name": "@repo/build-plugins",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "generate:component": "turbo gen react-component"
-  },
   "exports": {
     ".": "./src/index.js"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
     "@module-federation/nextjs-mf": "*",

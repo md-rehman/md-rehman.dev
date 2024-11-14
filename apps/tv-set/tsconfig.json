@@ -1,5 +1,9 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
+  "baseUrl": ".",
+  "paths": {
+    "p5-playground/*": ["src/types/*"]
+  },
   "compilerOptions": {
     "plugins": [
       {
