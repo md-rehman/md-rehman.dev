@@ -1,0 +1,17 @@
+{
+  "buildCommand": "turbo build",
+  "projects": {
+    "home": {
+      "src": "apps/home",
+      "alias": "md-rehman.dev"
+    },
+    "tv-set": {
+      "src": "apps/tv-set",
+      "alias": "md-rehman.dev/tv-set"
+    },
+    "p5-playground": {
+      "src": "apps/p5-playground",
+      "alias": "md-rehman.dev/p5-playground"
+    }
+  }
+}
