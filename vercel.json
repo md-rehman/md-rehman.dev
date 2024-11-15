@@ -3,22 +3,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "apps/tv-set/next.config.mjs",
+      "src": "apps/tv-set/package.json",
       "use": "@vercel/next"
     },
     {
-      "src": "apps/p5-playground/next.config.mjs",
+      "src": "apps/p5-playground/package.json",
       "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "^/tv-set(/.*)?$",
-      "dest": "apps/tv-set/$1"
+      "dest": "apps/tv-set$1"
     },
     {
       "src": "^/p5-playground(/.*)?$",
-      "dest": "apps/p5-playground/$1"
+      "dest": "apps/p5-playground$1"
     }
   ]
 }
