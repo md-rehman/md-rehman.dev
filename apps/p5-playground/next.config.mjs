@@ -4,6 +4,7 @@ import { enableModuleFederation } from "@repo/build-plugins";
 
 const nextConfig = {
   appName: "p5-playground",
+  basePath: "/p5-playground/",
   exposes: {
     "./Example": "./src/components/p5-sketches/example.tsx",
   },
