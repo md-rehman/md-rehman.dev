@@ -1,28 +1,14 @@
 {
   "name": "md-rehman.dev",
   "version": 2,
-  "scope": "my-org",
-  "framework": "nextjs",
-  "builds": [
-    {
-      "src": "apps/tv-set/next.config.js",
-      "use": "@vercel/next",
-      "config": { "outputDirectory": "apps/tv-set/out" }
-    },
-    {
-      "src": "apps/p5-playground/next.config.js",
-      "use": "@vercel/next",
-      "config": { "outputDirectory": "apps/p5-playground/out" }
-    }
-  ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/apps/tv-set"
+      "src": "^/tv-set(/.*)?$",
+      "dest": "/apps/tv-set$1"
     },
     {
-      "src": "/",
-      "dest": "/apps/p5-playground"
+      "src": "^/p5-playground(/.*)?$",
+      "dest": "/apps/p5-playground$1"
     }
   ]
 }
