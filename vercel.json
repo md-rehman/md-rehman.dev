@@ -13,6 +13,10 @@
   ],
   "routes": [
     {
+      "src": "^/$",
+      "dest": "apps/tv-set"
+    },
+    {
       "src": "^/tv-set(/.*)?$",
       "dest": "apps/tv-set$1"
     },
