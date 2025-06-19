@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/tv-set/:match*",
+      "destination": "https://md-rehman-dev-tv-set.vercel.app/:match*"
+    },
+
+    {
+      "source": "/resume-builder/:match*",
+      "destination": "https://resume-builder-md-rehman-dev.vercel.app/:match*"
+    }
+  ]
+}
