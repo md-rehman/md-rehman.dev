@@ -6,8 +6,8 @@
     },
 
     {
-      "source": "/resume-builder/:match*",
-      "destination": "https://resume-builder-md-rehman-dev.vercel.app/:match*"
+      "source": "/p5-playground/:match*",
+      "destination": "https://md-rehman-dev-p5-playground.vercel.app/:match*"
     }
   ]
 }

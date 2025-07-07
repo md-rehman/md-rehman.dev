@@ -20,6 +20,7 @@ It's is place where I keep all my projects under one Monorepo.
 | --------------- | -------- | -------------------------------------------- |
 | `p5-playground` | `3005`   | P5 Experiments                               |
 | `tv-set`        | `3011`   | Portfolio                                    |
+| `companion`     | `3001`   | -                                            |
 | `home`          | `4000`   | -                                            |
 | `doc`           | `4001`   | -                                            |
 | `empty`         | `5000`   | Just an empty project to be used as template |
