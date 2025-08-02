@@ -3,11 +3,8 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function Instruments() {
   const supabase = await createClient();
-  console.log("MYLOG: supabase: ", supabase);
 
-  const { data: instruments } = await supabase.from("instruments").select();
+  const { data } = await supabase.from("prayers").select();
 
-  console.log("MYLOG: instruments: ", instruments);
-
-  return <pre> instruments :{JSON.stringify(instruments, null, 2)}</pre>;
+  return <pre> data :{JSON.stringify(data, null, 2)}</pre>;
 }

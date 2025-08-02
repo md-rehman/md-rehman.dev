@@ -41,8 +41,6 @@ export async function signup(formData: FormData) {
     redirect("/error");
   }
 
-  console.log("MYLOG: blah : ", error);
-
   revalidatePath("/", "layout");
   redirect("/");
 }
