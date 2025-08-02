@@ -52,11 +52,21 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <input type="date" value={selectedDate} onChange={handleDateChange} />
       </header>
       <section className="flex w-full flex-wrap items-center justify-between">
-        <Button onClick={handleClick}>Fajr</Button>
-        <Button onClick={handleClick}>Dhuhr</Button>
-        <Button onClick={handleClick}>Asr</Button>
-        <Button onClick={handleClick}>Maghrib</Button>
-        <Button onClick={handleClick}>Isha</Button>
+        <Button onClick={handleClick} status={prayers[selectedDate]?.fajr}>
+          Fajr
+        </Button>
+        <Button onClick={handleClick} status={prayers[selectedDate]?.dhuhr}>
+          Dhuhr
+        </Button>
+        <Button onClick={handleClick} status={prayers[selectedDate]?.asr}>
+          Asr
+        </Button>
+        <Button onClick={handleClick} status={prayers[selectedDate]?.maghrib}>
+          Maghrib
+        </Button>
+        <Button onClick={handleClick} status={prayers[selectedDate]?.isha}>
+          Isha
+        </Button>
       </section>
     </main>
   );
