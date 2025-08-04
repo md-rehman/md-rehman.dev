@@ -14,6 +14,8 @@ type PrayerStatus = "masjid" | "home" | "untracker" | "missed" | "done";
 
 // TODO: Later will remove "| string"
 type DailyPrayers = {
+  id: number;
+  date: string;
   fajr: PrayerStatus | string;
   dhuhr: PrayerStatus | string;
   asr: PrayerStatus | string;

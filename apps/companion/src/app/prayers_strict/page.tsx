@@ -7,14 +7,22 @@ import {
 } from "@/constants/mock_prayers_strict";
 
 export default async function Prayers() {
-  // const supabase = await createClient();
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
+  const { NEXT_PUBLIC_MOCK_PRAYERS_STRICT_API } = process.env;
 
-  // const { data: prayers } = await supabase.from("prayers_strict").select();
-  // .eq(user_id === user.id);
+  // if (NEXT_PUBLIC_MOCK_PRAYERS_STRICT_API) {
+  //   return <Container prayers={prayer_strict_group_by_date} />;
+  // }
 
-  // return <pre> prayers :{JSON.stringify(prayers, null, 2)}</pre>;
-  return <Container prayers={prayer_strict_group_by_date} />;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase.rpc("get_prayers_by_date", {
+    target_user_id: user?.id,
+  });
+
+  console.log("MYLOG: user.id: ", user?.id);
+
+  return <Container prayers={data} />;
 }
