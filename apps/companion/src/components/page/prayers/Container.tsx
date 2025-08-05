@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui";
+import { PrayerButton } from "@/components/ui/Button";
 import { usePrayersAPI } from "@/hooks/prayers";
 import { useAuth, AuthProvider } from "@/providers/Auth";
 
@@ -31,11 +31,11 @@ export const PrayerTrackerCard = () => {
 
   return (
     <div>
-      <Button onClick={clickHandler}>Fajr</Button>
-      <Button onClick={clickHandler}>Dhuhr</Button>
-      <Button onClick={clickHandler}>Asr</Button>
-      <Button onClick={clickHandler}>Maghrib</Button>
-      <Button onClick={clickHandler}>Isha</Button>
+      <PrayerButton onClick={clickHandler} status="">Fajr</PrayerButton>
+      <PrayerButton onClick={clickHandler}>Dhuhr</PrayerButton>
+      <PrayerButton onClick={clickHandler}>Asr</PrayerButton>
+      <PrayerButton onClick={clickHandler}>Maghrib</PrayerButton>
+      <PrayerButton onClick={clickHandler}>Isha</PrayerButton>
     </div>
   );
 };

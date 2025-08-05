@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui";
+import { PrayerButton } from "@/components/ui/Button";
 import { usePrayersStrictAPI } from "@/hooks/prayers";
 import { useAuth, AuthProvider } from "@/providers/Auth";
 import {
@@ -28,9 +28,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
   console.log("MYLOG: prayers: ", prayers);
 
   const { user } = useAuth();
-  // const { addPrayer } = usePrayersStrictAPI();
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0],
+  const [selectedDate, setSelectedDate] = useState("2025-07-20"
   );
 
   const handlePrayerUpdate = (
@@ -61,37 +59,48 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
       <header className="mb-20 flex flex-row">
         <input type="date" value={selectedDate} onChange={handleDateChange} />
       </header>
-      <section className="flex w-full flex-wrap items-center justify-between">
-        <Button
+      <section className="w-full text-center">
+        <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "fajr", "done")}
+          time="fajr"
           status={prayers[selectedDate]?.fajr}
+          handlePrayerUpdate={handlePrayerUpdate}
+
         >
           Fajr
-        </Button>
-        <Button
+        </PrayerButton>
+        <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "dhuhr", "done")}
+          time="dhuhr"
           status={prayers[selectedDate]?.dhuhr}
+          handlePrayerUpdate={handlePrayerUpdate}
         >
           Dhuhr
-        </Button>
-        <Button
+        </PrayerButton>
+        <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "asr", "done")}
+          time="asr"
           status={prayers[selectedDate]?.asr}
+          handlePrayerUpdate={handlePrayerUpdate}
         >
           Asr
-        </Button>
-        <Button
+        </PrayerButton>
+        <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "maghrib", "done")}
+          time="maghrib"
           status={prayers[selectedDate]?.maghrib}
+          handlePrayerUpdate={handlePrayerUpdate}
         >
           Maghrib
-        </Button>
-        <Button
+        </PrayerButton>
+        <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "isha", "done")}
+          time="isha"
           status={prayers[selectedDate]?.isha}
+          handlePrayerUpdate={handlePrayerUpdate}
         >
           Isha
-        </Button>
+        </PrayerButton>
       </section>
 
       <Test />
@@ -101,34 +110,5 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
 
 
 const Test = () => {
-  const parentVariants = {
-  initial: {},
-  hover: {},
-};
-
-const childVariants = {
-  initial: { rotate: 0, scale: 1 },
-  hover: { rotate: 90, scale: 1.5 },
-};
-  return (
-    <motion.button
-      variants={parentVariants}
-      initial="initial"
-      whileHover="hover"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "1rem 2rem",
-        fontSize: "1.2rem",
-      }}
-    >
-      <span style={{ marginRight: 12 }}>Visit our Industry</span>
-      <motion.span
-        variants={childVariants}
-        style={{ display: "inline-block" }}
-      >
-        ↑
-      </motion.span>
-    </motion.button>
-  );
+  return null;
 }

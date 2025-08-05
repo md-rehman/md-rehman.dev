@@ -50,7 +50,7 @@ export const usePrayersStrictAPI = () => {
         .upsert(prayer)
         .select();
 
-      setData(response?.data[0]);
+      setData(response?.data);
     } catch (err) {
       setError(err as AuthError);
     } finally {
