@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
 import type { I_PRAYER_TIME, I_PRAYER_STATUS } from "@/types/fundamental";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, scale } from "motion/react";
 import { animate } from "motion";
 
 type IPrayerButton = ComponentProps<"button"> & {
@@ -24,8 +24,8 @@ export const PrayerButton: React.FC<IPrayerButton> = ({
   onClick,
   handlePrayerUpdate,
 }) => {
-  const extraButtonStyle: string[] = [];
-  const extraButtonExtensionStyle: string[] = [];
+  let extraButtonStyle = "";
+  let extraButtonExtensionStyle = "";
   const state = {
     type: "default",
     level: 1,
@@ -36,6 +36,7 @@ export const PrayerButton: React.FC<IPrayerButton> = ({
       initial: {},
       final: {},
       animate: {},
+      pressed: { scale: 0.98 },
     },
     masjid: {
       initial: { top: 16, left: 16 },
@@ -56,51 +57,47 @@ export const PrayerButton: React.FC<IPrayerButton> = ({
 
   switch (status) {
     case "untracked":
+      extraButtonStyle = "dark:bg-background-dark";
       break;
     case "missed":
       state.type = "extended";
       variants.missed.animate = variants.missed.final;
-      extraButtonStyle.push(" border-rose-700 text-rose-700");
-      extraButtonStyle.push(
-        " shadow-[inset_0px_0px_10px_0px_var(--color-rose-700)]",
-      );
-      extraButtonExtensionStyle.push(" border-rose-700 text-rose-700");
-      extraButtonExtensionStyle.push(
-        " shadow-[inset_0px_0px_10px_0px_var(--color-rose-700)]",
-      );
+      extraButtonStyle =
+        " border-rose-700 text-rose-700 dark:bg-background-950 shadow-[inset_0px_0px_10px_0px_var(--color-rose-700)]  dark:hover:border-emerald-500";
+
+      extraButtonExtensionStyle =
+        " border-rose-700 text-rose-700 shadow-[inset_0px_0px_10px_0px_var(--color-rose-700)] dark:hover:border-rose-700";
       break;
     case "done":
       state.type = "extended";
-      extraButtonStyle.push(" border-emerald-500 text-emerald-500");
-      extraButtonExtensionStyle.push(" border-emerald-500 text-emerald-500");
+      extraButtonStyle =
+        " border-emerald-500 text-emerald-500  dark:bg-background-950  dark:hover:border-emerald-500";
+      extraButtonExtensionStyle =
+        " border-emerald-500 text-emerald-500  dark:hover:border-emerald-500";
       break;
     case "home":
       state.type = "extended";
       variants.home.animate = variants.home.final;
-      extraButtonStyle.push(" border-emerald-500 text-emerald-500");
-      extraButtonStyle.push(
-        " shadow-[inset_0px_0px_10px_0px_var(--color-emerald-500)]",
-      );
-      extraButtonExtensionStyle.push(" border-emerald-500 text-emerald-500");
-      extraButtonExtensionStyle.push(
-        " shadow-[inset_0px_0px_10px_0px_var(--color-emerald-500)]",
-      );
+      extraButtonStyle =
+        " border-emerald-500 text-emerald-500 dark:bg-background-950 shadow-[inset_0px_0px_10px_0px_var(--color-emerald-500)] ";
+      extraButtonExtensionStyle =
+        " border-emerald-500 text-emerald-500 shadow-[inset_0px_0px_10px_0px_var(--color-emerald-500)]  dark:hover:border-emerald-500";
       break;
     case "masjid":
       state.type = "extended";
       variants.masjid.animate = variants.masjid.final;
-      extraButtonStyle.push(" border-emerald-500 text-emerald-500");
-      extraButtonStyle.push(
-        " shadow-[inset_0px_0px_20px_0px_var(--color-emerald-500)]",
-      );
-      extraButtonExtensionStyle.push(" border-emerald-500 text-emerald-500");
-      extraButtonExtensionStyle.push(
-        " shadow-[inset_0px_0px_20px_0px_var(--color-emerald-500)]",
-      );
+      extraButtonStyle =
+        " border-emerald-500 text-emerald-500 dark:bg-background-950 shadow-[inset_0px_0px_20px_0px_var(--color-emerald-500)]  dark:hover:border-emerald-500";
+      extraButtonExtensionStyle =
+        " border-emerald-500 text-emerald-500 shadow-[inset_0px_0px_20px_0px_var(--color-emerald-500)]  dark:hover:border-emerald-500";
+
       break;
     default:
       break;
   }
+
+  const interactionStyle =
+    "dark:hover:bg-background-900 active:dark:hover:bg-background-950";
 
   return (
     <motion.div
@@ -109,9 +106,10 @@ export const PrayerButton: React.FC<IPrayerButton> = ({
       initial="initial"
       whileHover="final"
       animate="animate"
+      whileTap="pressed"
     >
       <button
-        className={`z-10 h-24 w-24 rounded-full border-2 bg-gray-950 ${extraButtonStyle.join("")}`}
+        className={`${interactionStyle} z-10 h-24 w-24 rounded-full border-2 dark:hover:border-emerald-500 ${extraButtonStyle}`}
         onClick={onClick}
       >
         {children}
@@ -119,21 +117,21 @@ export const PrayerButton: React.FC<IPrayerButton> = ({
       {state.type === "extended" || true ? (
         <>
           <motion.button
-            className={`absolute h-16 w-16 rounded-full border-2 ${status === "masjid" ? extraButtonExtensionStyle.join("") : ""}`}
+            className={`${interactionStyle} absolute h-16 w-16 rounded-full border-2 dark:hover:border-emerald-500 ${status === "masjid" ? extraButtonExtensionStyle : ""}`}
             onClick={(e) => handlePrayerUpdate(e, time, "masjid")}
             variants={variants.masjid}
           >
             Masjid
           </motion.button>
           <motion.button
-            className={`absolute h-16 w-16 rounded-full border-2 ${status === "home" ? extraButtonExtensionStyle.join("") : ""}`}
+            className={`${interactionStyle} absolute h-16 w-16 rounded-full border-2 dark:hover:border-emerald-500 ${status === "home" ? extraButtonExtensionStyle : ""}`}
             onClick={(e) => handlePrayerUpdate(e, time, "home")}
             variants={variants.home}
           >
             Home
           </motion.button>
           <motion.button
-            className={`absolute h-16 w-16 rounded-full border-2 ${status === "missed" ? extraButtonExtensionStyle.join("") : ""}`}
+            className={`${interactionStyle} absolute h-16 w-16 rounded-full border-2 dark:hover:border-rose-700 ${status === "missed" ? extraButtonExtensionStyle : ""}`}
             onClick={(e) => handlePrayerUpdate(e, time, "missed")}
             variants={variants.missed}
           >

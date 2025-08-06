@@ -28,7 +28,9 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
   console.log("MYLOG: prayers: ", prayers);
 
   const { user } = useAuth();
-  const [selectedDate, setSelectedDate] = useState("2025-07-20"
+  const [selectedDate, setSelectedDate] = useState(
+    // new Date().toISOString().split("T")[0],
+    "2025-07-20"
   );
 
   const handlePrayerUpdate = (
@@ -37,10 +39,12 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
     prayerStatus: I_PRAYER_STATUS,
   ) => {
     // const time = e.currentTarget.textContent || "";
+    const existingStatus = prayers[selectedDate]?.[prayerTime];
+    // const computedStatus = 
     const prayerData: any = {
       user_id: user?.id,
       date: selectedDate,
-      [prayerTime]: prayerStatus,
+      [prayerTime]: existingStatus === prayerStatus ? "untracked" : prayerStatus,
     };
     if (prayers[selectedDate]?.id) {
       prayerData.id = prayers[selectedDate]?.id;
