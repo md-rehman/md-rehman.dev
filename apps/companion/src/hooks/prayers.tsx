@@ -54,12 +54,9 @@ export const usePrayersStrictAPI = () => {
     } catch (err) {
       setError(err as AuthError);
     } finally {
-      console.log("MYLOG: tseting: ");
       setLoading(false);
     }
   }
-
-  console.log("MYLOG: usePrayersStrictAPI data: ", data, loading, error);
 
   return { data, loading, error, addPrayer };
 };

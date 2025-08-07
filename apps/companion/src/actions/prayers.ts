@@ -14,8 +14,6 @@ type IPrayerRecord = { [K in I_PRAYER_TIME]?: I_PRAYER_STATUS } & {
 export async function addOrUpdatePrayer(prayersRecord: IPrayerRecord) {
   const supabase = await createClient();
 
-  console.log("MYLOG: prayersRecord: ", prayersRecord);
-
   const { error } = await supabase
     .from("prayers_strict")
     .upsert(prayersRecord)

@@ -25,8 +25,6 @@ export const Container: React.FC<IMain> = ({ prayers }) => {
 };
 
 export const Main: React.FC<IMain> = ({ prayers }) => {
-  console.log("MYLOG: prayers: ", prayers);
-
   const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(
     // new Date().toISOString().split("T")[0],

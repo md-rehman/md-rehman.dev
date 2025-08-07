@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import type { I_PRAYER_TIME, I_PRAYER_STATUS } from "@/types/fundamental";
 import { AnimatePresence, motion, scale } from "motion/react";
 import { animate } from "motion";

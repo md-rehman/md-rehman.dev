@@ -21,8 +21,5 @@ export default async function Prayers() {
   const { data, error } = await supabase.rpc("get_prayers_by_date", {
     target_user_id: user?.id,
   });
-
-  console.log("MYLOG: user.id: ", user?.id);
-
   return <Container prayers={data} />;
 }

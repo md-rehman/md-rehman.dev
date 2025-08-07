@@ -1,8 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { AuthError, AuthResponse } from "@supabase/supabase-js";
 
 type ISignUp = {
   email: string;
@@ -19,48 +19,34 @@ type ISignIn = {
   password: string;
 };
 
-export async function signUp(incomingData: ISignUp) {
+export async function signUp(incomingData: ISignUp): Promise<AuthResponse> {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signUp(incomingData);
-
-  console.log("MYLOG: data, error: ", data, error);
-
-  if (error) {
-    // redirect("/error");
-    console.log("MYLOG: data, error: ", data, error);
+  try {
+    await supabase.auth.signUp(incomingData);
+    redirect("/prayers_strict");
+  } catch (error) {
+    return { data: { user: null, session: null }, error: error as AuthError };
   }
-
-  //   revalidatePath("/", "layout");
-  //   redirect("/");
+  return { data: { user: null, session: null }, error: null };
 }
 
-export async function signIn(formData: ISignIn) {
+export async function signIn(formData: ISignIn): Promise<AuthResponse> {
   const supabase = await createClient();
-
-  const { error } = await supabase.auth.signInWithPassword(formData);
-
-  if (error) {
-    // redirect("/error");
-    console.log("MYLOG: error: ", error);
+  try {
+    await supabase.auth.signInWithPassword(formData);
+    redirect("/prayers_strict");
+  } catch (error) {
+    return { data: { user: null, session: null }, error: error as AuthError };
   }
-
-  //   revalidatePath("/", "layout");
-  //   redirect("/");
+  return { data: { user: null, session: null }, error: null };
 }
 
 export async function signOut() {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    // redirect("/error");
-    console.log("MYLOG: data: ", error);
-  }
-
-  //   revalidatePath("/", "layout");
-  //   redirect("/");
+  try {
+    await supabase.auth.signOut();
+    redirect("/login");
+  } catch (error) {}
 }

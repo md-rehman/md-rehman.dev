@@ -6,7 +6,7 @@
   --color-brand-200: var(--color-emerald-200);
   --color-brand-300: var(--color-emerald-300);
   --color-brand-400: var(--color-emerald-400);
-  --color-brand-000: var(--color-emerald-500);
+  --color-brand-500: var(--color-emerald-500);
   --color-brand-600: var(--color-emerald-600);
   --color-brand-700: var(--color-emerald-700);
   --color-brand-800: var(--color-emerald-800);
@@ -19,7 +19,7 @@
   --color-error-200: var(--color-rose-200);
   --color-error-300: var(--color-rose-300);
   --color-error-400: var(--color-rose-400);
-  --color-error-000: var(--color-rose-500);
+  --color-error-500: var(--color-rose-500);
   --color-error-600: var(--color-rose-600);
   --color-error-700: var(--color-rose-700);
   --color-error-800: var(--color-rose-800);
@@ -33,7 +33,7 @@
   --color-warning-200: var(--color-amber-200);
   --color-warning-300: var(--color-amber-300);
   --color-warning-400: var(--color-amber-400);
-  --color-warning-000: var(--color-amber-500);
+  --color-warning-500: var(--color-amber-500);
   --color-warning-600: var(--color-amber-600);
   --color-warning-700: var(--color-amber-700);
   --color-warning-800: var(--color-amber-800);
@@ -47,7 +47,7 @@
   --color-success-200: var(--color-green-200);
   --color-success-300: var(--color-green-300);
   --color-success-400: var(--color-green-400);
-  --color-success-000: var(--color-green-500);
+  --color-success-500: var(--color-green-500);
   --color-success-600: var(--color-green-600);
   --color-success-700: var(--color-green-700);
   --color-success-800: var(--color-green-800);
@@ -60,7 +60,7 @@
   --color-border-200: var(--color-slate-200);
   --color-border-300: var(--color-slate-300);
   --color-border-400: var(--color-slate-400);
-  --color-border-000: var(--color-slate-500);
+  --color-border-500: var(--color-slate-500);
   --color-border-600: var(--color-slate-600);
   --color-border-700: var(--color-slate-700);
   --color-border-800: var(--color-slate-800);
