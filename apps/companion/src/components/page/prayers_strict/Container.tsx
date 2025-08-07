@@ -32,6 +32,8 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
     // new Date().toISOString().split("T")[0],
     "2025-07-20"
   );
+  const existingState = prayers ? prayers[selectedDate] :  null;
+  
 
   const handlePrayerUpdate = (
     e: React.MouseEvent,
@@ -67,7 +69,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "fajr", "done")}
           time="fajr"
-          status={prayers[selectedDate]?.fajr}
+          status={existingState ? existingState?.fajr : 'untracked'}
           handlePrayerUpdate={handlePrayerUpdate}
 
         >
@@ -76,7 +78,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "dhuhr", "done")}
           time="dhuhr"
-          status={prayers[selectedDate]?.dhuhr}
+          status={existingState ? existingState?.dhuhr : 'untracked'}
           handlePrayerUpdate={handlePrayerUpdate}
         >
           Dhuhr
@@ -84,7 +86,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "asr", "done")}
           time="asr"
-          status={prayers[selectedDate]?.asr}
+          status={existingState ? existingState?.asr : 'untracked'}
           handlePrayerUpdate={handlePrayerUpdate}
         >
           Asr
@@ -92,7 +94,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "maghrib", "done")}
           time="maghrib"
-          status={prayers[selectedDate]?.maghrib}
+          status={existingState ? existingState?.maghrib : 'untracked'}
           handlePrayerUpdate={handlePrayerUpdate}
         >
           Maghrib
@@ -100,7 +102,7 @@ export const Main: React.FC<IMain> = ({ prayers }) => {
         <PrayerButton
           onClick={(e) => handlePrayerUpdate(e, "isha", "done")}
           time="isha"
-          status={prayers[selectedDate]?.isha}
+          status={existingState ? existingState?.isha : 'untracked'}
           handlePrayerUpdate={handlePrayerUpdate}
         >
           Isha
