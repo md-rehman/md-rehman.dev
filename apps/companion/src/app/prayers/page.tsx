@@ -9,6 +9,6 @@ export default async function Prayers() {
 
   const { data: prayers } = await supabase.from("prayers").select();
 
-  // return <pre> prayers :{JSON.stringify(prayers, null, 2)}</pre>;
+  return <pre> prayers :{JSON.stringify(prayers, null, 2)}</pre>;
   return <Container />;
 }

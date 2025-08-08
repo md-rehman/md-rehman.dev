@@ -10,23 +10,32 @@ export interface IPrayers_Strict {
   created_at: string;
 }
 
-type PrayerStatus = "masjid" | "home" | "untracker" | "missed" | "done";
+type PrayerStatus = "masjid" | "home" | "untracked" | "missed" | "done";
 
-// TODO: Later will remove "| string"
-type DailyPrayers = {
+export type IDailyPrayersObject = IDailyPrayers & {
   id: number;
   date: string;
-  fajr: PrayerStatus | string;
-  dhuhr: PrayerStatus | string;
-  asr: PrayerStatus | string;
-  maghrib: PrayerStatus | string;
-  isha: PrayerStatus | string;
+};
+export type IDailyPrayers = {
+  fajr: PrayerStatus;
+  dhuhr: PrayerStatus;
+  asr: PrayerStatus;
+  maghrib: PrayerStatus;
+  isha: PrayerStatus;
 };
 
+export const DAILY_PRAYERS = {
+  fajr: "untracked",
+  dhuhr: "untracked",
+  asr: "untracked",
+  maghrib: "untracked",
+  isha: "untracked",
+} as const;
+
 // The top-level object has dynamic keys (dates as strings),
-/// each mapping to a DailyPrayers object
+/// each mapping to a IDailyPrayers object
 export type IPrayers_Strict_Group_By_Date = {
-  [date: string]: DailyPrayers;
+  [date: string]: IDailyPrayers;
 };
 
 export const prayers_strict = [

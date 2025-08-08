@@ -24,6 +24,6 @@ export async function addOrUpdatePrayer(prayersRecord: IPrayerRecord) {
   //     // redirect("/error");
   //   }
 
-  revalidatePath("/prayers_strict", "page");
+  revalidatePath("/", "layout");
   //   redirect("/");
 }

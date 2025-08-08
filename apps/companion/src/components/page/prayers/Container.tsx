@@ -31,7 +31,9 @@ export const PrayerTrackerCard = () => {
 
   return (
     <div>
-      <PrayerButton onClick={clickHandler} status="">Fajr</PrayerButton>
+      <PrayerButton onClick={clickHandler} status="">
+        Fajr
+      </PrayerButton>
       <PrayerButton onClick={clickHandler}>Dhuhr</PrayerButton>
       <PrayerButton onClick={clickHandler}>Asr</PrayerButton>
       <PrayerButton onClick={clickHandler}>Maghrib</PrayerButton>
