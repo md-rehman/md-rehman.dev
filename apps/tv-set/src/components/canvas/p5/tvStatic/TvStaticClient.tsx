@@ -17,9 +17,39 @@ export const TvStaticClient: React.FC<ComponentProps> = ({
 
 	useEffect(() => {
 		setIsMounted(true);
-		if (noiseAudioRef?.current) {
-			noiseAudioRef.current.volume = volume;
-		}
+		
+		const audio = noiseAudioRef.current;
+		if (!audio) return;
+
+		audio.volume = volume;
+
+		const playAudio = () => {
+			audio.play()
+				.then(() => {
+					removeInteractionListeners();
+				})
+				.catch((err) => {
+					console.log("Audio play failed on interaction:", err);
+				});
+		};
+
+		const removeInteractionListeners = () => {
+			window.removeEventListener("click", playAudio);
+			window.removeEventListener("keydown", playAudio);
+			window.removeEventListener("touchstart", playAudio);
+		};
+
+		// Try playing immediately
+		audio.play().catch(() => {
+			// Catch error and wait for user interaction to avoid browser console error
+			window.addEventListener("click", playAudio);
+			window.addEventListener("keydown", playAudio);
+			window.addEventListener("touchstart", playAudio);
+		});
+
+		return () => {
+			removeInteractionListeners();
+		};
 	}, [volume]);
 
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -49,7 +79,6 @@ export const TvStaticClient: React.FC<ComponentProps> = ({
 		<>
 			<audio
 				ref={noiseAudioRef}
-				autoPlay
 				loop
 				preload="auto"
 				src="/audios/tv_static_1.mp3"
