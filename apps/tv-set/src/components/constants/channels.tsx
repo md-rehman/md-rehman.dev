@@ -2,14 +2,8 @@ import React from "react";
 import {
 	Instructions,
 	GlitchIntroduction,
-	TestPageOne,
-	TestPageTwo,
-	GithubProfile,
 } from "@channels";
 import {
-	WhiteBoard,
-	TvSetNoise,
-	TvStatic,
 	RandomWalker,
 	RandomWalker2,
 	RandomWalker3,
@@ -17,64 +11,54 @@ import {
 	RandomWalker5,
 	MotionBasic,
 	BallShooter,
-	StringShooter,
 } from "@canvas";
+import { channelsMetadata } from "./channelsMetadata";
 
-export const channels: Record<number, { name: string; component: React.ComponentType<any>; props?: any }> = {
+export interface ChannelConfig {
+	name?: string;
+	title?: string;
+	description?: string;
+	keywords?: string[];
+	contentHtml?: string;
+	component: React.ComponentType<any>;
+	props?: any;
+}
+
+export const channels: Record<number, ChannelConfig> = {
 	0: {
-		name: "",
+		...channelsMetadata[0],
 		component: Instructions,
 	},
 	1: {
-		name: "",
+		...channelsMetadata[1],
 		component: GlitchIntroduction,
 	},
-	// 2: {
-	// 	name: "Test Channel",
-	// 	component: TestPageTwo,
-	// 	props: { another: "efcksdkf;sdf;ds" },
-	// },
 	2: {
-		name: "Random Walker 3",
+		...channelsMetadata[2],
 		component: RandomWalker3,
 	},
 	3: {
-		name: "Random Walker",
+		...channelsMetadata[3],
 		component: RandomWalker,
 	},
 	4: {
-		name: "Random Walker 4",
+		...channelsMetadata[4],
 		component: RandomWalker4,
 	},
-	// 4: {
-	// 	name: "Black Board",
-	// 	component: WhiteBoard,
-	// },
 	5: {
-		name: "Random Walker 2",
+		...channelsMetadata[5],
 		component: RandomWalker2,
 	},
 	6: {
-		name: "Random Walker 5",
+		...channelsMetadata[6],
 		component: RandomWalker5,
 	},
-
 	7: {
-		name: "Motion 101",
+		...channelsMetadata[7],
 		component: MotionBasic,
 	},
-
 	8: {
-		name: "Ball Shooter",
+		...channelsMetadata[8],
 		component: BallShooter,
 	},
-	// 8: {
-	// 	name: "String Shooter",
-	// 	component: StringShooter,
-	// },
-
-	// GITHUB as iframe is not possible
-	// 6: {
-	// 	component: GithubProfile,
-	// },
 };

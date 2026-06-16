@@ -3,18 +3,14 @@
 import React, {
 	useEffect,
 	useState,
-	useContext,
 	useRef,
-	SyntheticEvent,
 	TouchEventHandler,
-	LegacyRef,
 } from "react";
 import { Text } from "@atoms";
-import { GlitchText } from "@molecules";
-import { WhiteBoard, TvSetNoise, TvStatic, RandomWalker } from "@canvas";
+import { TvStatic } from "@canvas";
 import { NavigationRouteContext } from "../context";
-import { useMediaQuery, useMediaQueries } from "@react-hook/media-query";
-// import { GlitchText } from "components/molecules";
+import { useMediaQuery } from "@react-hook/media-query";
+import { channels } from "@constants";
 import styles from "./TvSetNavigator.module.scss";
 
 const OVERLAY_DURATION = 600;
@@ -43,15 +39,16 @@ const lpad = (value: number, padding: number, symbol = "0") => {
 export const TvSetNavigator: React.FC<any> = ({
 	children,
 	noiseDuration = 20000,
-	config,
+	config = channels,
+	initialChannel = START_CHANNEL,
 	...props
 }) => {
-	// const [currentChannel, setCurrentChannel] = useState("001");
+
 	const [channelMeta, setChannelMeta] = useState<channelMeta>({
-		activeChannel: START_CHANNEL,
-		prevChannel: START_CHANNEL,
-		overlay: "off",
-		infoOverlay: false,
+		activeChannel: initialChannel,
+		prevChannel: initialChannel,
+		overlay: "noise",
+		infoOverlay: true,
 		channelNumber: "fixed",
 	});
 	const [channelNumber, setChannelNumber] = useState<number | null>(null);
@@ -61,6 +58,10 @@ export const TvSetNavigator: React.FC<any> = ({
 		useState<boolean>(true);
 	const mainRef = useRef<HTMLDivElement>(null);
 	const buttonAudioRef = useRef<HTMLAudioElement>(null);
+	
+	const overlayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const infoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 	const touchStartPos = useRef<vector>({
 		x: null,
 		y: null,
@@ -73,9 +74,85 @@ export const TvSetNavigator: React.FC<any> = ({
 		"only screen and (pointer: coarse)",
 	);
 
-	/* Handle first render with noise  */
+	const changeChannel = (channel: number) => {
+		if (channel < 0 || channel > 999) return;
+
+		// Clear any existing timeouts to avoid race conditions
+		if (overlayTimeoutRef.current) clearTimeout(overlayTimeoutRef.current);
+		if (infoTimeoutRef.current) clearTimeout(infoTimeoutRef.current);
+
+		setChannelMeta((prevState) => {
+			overlayTimeoutRef.current = setTimeout(() => {
+				setChannelMeta((prevState) => {
+					return {
+						...prevState,
+						overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+						infoOverlay: true,
+					};
+				});
+			}, OVERLAY_DURATION);
+
+			infoTimeoutRef.current = setTimeout(() => {
+				setChannelMeta((prevState) => {
+					return {
+						...prevState,
+						infoOverlay: false,
+					};
+				});
+			}, INFO_OVERLAY_DURATION);
+
+			return {
+				activeChannel: channel,
+				prevChannel: prevState.activeChannel,
+				overlay: "noise",
+				infoOverlay: true,
+				channelNumber: "fixed",
+			};
+		});
+	};
+
+	// Update browser URL path when active channel changes
 	useEffect(() => {
-		setTimeout(() => {
+		if (channelMeta.activeChannel !== undefined) {
+			const targetUrl = `/${channelMeta.activeChannel}`;
+			if (window.location.pathname !== targetUrl) {
+				window.history.pushState(null, "", targetUrl);
+			}
+		}
+	}, [channelMeta.activeChannel]);
+
+	// Sync state when URL changes (e.g. back/forward browser navigation)
+	useEffect(() => {
+		const handlePopState = () => {
+			const path = window.location.pathname;
+			const match = path.match(/^\/(\d+)$/);
+			if (match && match[1]) {
+				const channelId = parseInt(match[1], 10);
+				if (!isNaN(channelId) && channelId !== channelMeta.activeChannel) {
+					changeChannel(channelId);
+				}
+			}
+		};
+
+		window.addEventListener("popstate", handlePopState);
+		return () => {
+			window.removeEventListener("popstate", handlePopState);
+		};
+	}, [channelMeta.activeChannel]);
+
+	// Set initial timers on mount for first channel noise transition
+	useEffect(() => {
+		overlayTimeoutRef.current = setTimeout(() => {
+			setChannelMeta((prevState) => {
+				return {
+					...prevState,
+					overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+					infoOverlay: true,
+				};
+			});
+		}, OVERLAY_DURATION);
+
+		infoTimeoutRef.current = setTimeout(() => {
 			setChannelMeta((prevState) => {
 				return {
 					...prevState,
@@ -83,78 +160,25 @@ export const TvSetNavigator: React.FC<any> = ({
 				};
 			});
 		}, INFO_OVERLAY_DURATION);
+
 		mainRef?.current?.focus();
+
+		return () => {
+			if (overlayTimeoutRef.current) clearTimeout(overlayTimeoutRef.current);
+			if (infoTimeoutRef.current) clearTimeout(infoTimeoutRef.current);
+		};
 	}, []);
 
 	const nextChannel = () => {
-		/*  */
-		setChannelMeta((prevState) => {
-			// TODO: need to add mechanism to clear the timeout and also move all this common code to single function
-			setTimeout(() => {
-				setChannelMeta((prevState) => {
-					return {
-						...prevState,
-						overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
-						// infoOverlay: config[prevState.activeChannel] ? false : true,
-						infoOverlay: true,
-					};
-				});
-			}, OVERLAY_DURATION);
-			/*  */
-			setTimeout(() => {
-				setChannelMeta((prevState) => {
-					return {
-						...prevState,
-						infoOverlay: false,
-					};
-				});
-			}, INFO_OVERLAY_DURATION);
-			/*  */
-			if (prevState.activeChannel < 999) {
-				return {
-					activeChannel: prevState.activeChannel + 1,
-					prevChannel: prevState.activeChannel,
-					overlay: "noise",
-					infoOverlay: true,
-					channelNumber: "fixed",
-				};
-			}
-			return prevState;
-		});
+		if (channelMeta.activeChannel < 999) {
+			changeChannel(channelMeta.activeChannel + 1);
+		}
 	};
+
 	const prevChannel = () => {
-		setChannelMeta((prevState) => {
-			/*  */
-			setTimeout(() => {
-				setChannelMeta((prevState) => {
-					return {
-						...prevState,
-						overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
-						infoOverlay: true,
-					};
-				});
-			}, OVERLAY_DURATION);
-			/*  */
-			setTimeout(() => {
-				setChannelMeta((prevState) => {
-					return {
-						...prevState,
-						infoOverlay: false,
-					};
-				});
-			}, INFO_OVERLAY_DURATION);
-			/*  */
-			if (prevState.activeChannel > 0) {
-				return {
-					activeChannel: prevState.activeChannel - 1,
-					prevChannel: prevState.activeChannel,
-					overlay: "noise",
-					infoOverlay: true,
-					channelNumber: "fixed",
-				};
-			}
-			return prevState;
-		});
+		if (channelMeta.activeChannel > 0) {
+			changeChannel(channelMeta.activeChannel - 1);
+		}
 	};
 
 	const keyDownHandler = (e: any) => {
@@ -192,55 +216,30 @@ export const TvSetNavigator: React.FC<any> = ({
 			case "9":
 				if (e.ctrlKey) {
 					setChannelNumber((prevState) => {
-						if (prevState === null) return e.key;
-						return `${prevState}${e.key}`;
+						if (prevState === null) return parseInt(e.key);
 						return parseInt(`${prevState}${e.key}`);
 					});
 				}
 				break;
 		}
 	};
+
 	const keyUpHandler = (e: any) => {
 		switch (e.key) {
 			case "Control":
-				setChannelMeta((prevState) => {
-					if (channelNumber === null) {
-						return { ...prevState, channelNumber: "fixed", infoOverlay: false };
-					}
-					/*  */
-					setTimeout(() => {
-						setChannelMeta((prevState) => {
-							return {
-								...prevState,
-								overlay: config[prevState.activeChannel]
-									? "none"
-									: "blueScreen",
-								infoOverlay: true,
-							};
-						});
-					}, OVERLAY_DURATION);
-					/*  */
-					setTimeout(() => {
-						setChannelMeta((prevState) => {
-							return {
-								...prevState,
-								infoOverlay: false,
-							};
-						});
-					}, INFO_OVERLAY_DURATION);
-					/*  */
-					if (channelNumber && channelNumber >= 0 && channelNumber <= 999) {
-						setChannelNumber(null);
-						return {
-							activeChannel: channelNumber,
-							prevChannel: prevState.activeChannel,
-							overlay: "noise",
-							infoOverlay: true,
-							channelNumber: "fixed",
-						};
-					}
-					return prevState;
-				});
+				if (channelNumber === null) {
+					setChannelMeta((prevState) => ({
+						...prevState,
+						channelNumber: "fixed",
+						infoOverlay: false,
+					}));
+					break;
+				}
+				if (channelNumber >= 0 && channelNumber <= 999) {
+					const targetChan = channelNumber;
+					setChannelNumber(null);
+					changeChannel(targetChan);
+				}
 				break;
 		}
 	};
@@ -250,6 +249,7 @@ export const TvSetNavigator: React.FC<any> = ({
 		touchStartPos.x = e.touches[0].clientX;
 		touchStartPos.y = e.touches[0].clientY;
 	};
+
 	const touchMoveHandler: TouchEventHandler<HTMLDivElement> = (e) => {
 		if (!touchStartPos.x || !touchStartPos.y || !globalTouchDetection || !e.touches[0]) {
 			return;
@@ -261,25 +261,14 @@ export const TvSetNavigator: React.FC<any> = ({
 		const delY = touchStartPos.y - touchEndPos.y;
 
 		if (Math.abs(delX) > Math.abs(delY)) {
-			/*most significant*/
 			if (delX > 0) {
-				/* right swipe */
 				setBlur(delX / 100);
 			} else {
-				/* left swipe */
 				setBlur(-delX / 100);
 			}
-		} else {
-			if (delY > 0) {
-				/* down swipe */
-			} else {
-				/* up swipe */
-			}
 		}
-		// /* reset values */
-		// touchStartPos.x = null;
-		// touchStartPos.y = null;
 	};
+
 	const touchEndHandler: TouchEventHandler<HTMLDivElement> = (e) => {
 		if (!globalTouchDetection) {
 			return null;
@@ -287,15 +276,12 @@ export const TvSetNavigator: React.FC<any> = ({
 		if (!touchStartPos.x || !touchEndPos.x) return;
 
 		const delX = touchStartPos.x - touchEndPos.x;
-		// Not care about delY for now
-		// const delY = touchStartPos.y - touchEndPos.y;
 		if (!delX) return;
 		if (delX > 100) {
 			nextChannel();
 		} else if (delX < -100) {
 			prevChannel();
 		}
-		/* reset values */
 		touchStartPos.x = null;
 		touchStartPos.y = null;
 		touchEndPos.x = null;
@@ -304,6 +290,7 @@ export const TvSetNavigator: React.FC<any> = ({
 	};
 
 	const CurrentScene = config[channelMeta.activeChannel]?.component;
+	
 	const channelNumberTemplate = () => {
 		if (channelMeta.channelNumber === "setting") {
 			if (channelNumber) {
@@ -313,17 +300,15 @@ export const TvSetNavigator: React.FC<any> = ({
 			}
 			return <span className="animate-blink">---</span>;
 		}
-		// if (channelMeta.channelNumber === "fixed")
 		return lpad(channelMeta.activeChannel, 3);
 	};
+
 	const touchToggleTemplate = () => {
 		return globalTouchDetection ? (
 			<div
-				className="absolute  bg-gray-50 bottom-4 right-4  flex algin-ceter justify-center w-10 h-10 rounded-md"
+				className="absolute bg-gray-50 bottom-4 right-4 flex align-center justify-center w-10 h-10 rounded-md cursor-pointer z-50"
 				onClick={() => {
-					setGlobalTouchDetection((prevState) => {
-						return !prevState;
-					});
+					setGlobalTouchDetection((prevState) => !prevState);
 				}}
 			>
 				<svg
@@ -339,11 +324,9 @@ export const TvSetNavigator: React.FC<any> = ({
 			</div>
 		) : (
 			<div
-				className="absolute bg-gray-400 bottom-4 right-4 flex algin-ceter justify-center w-10 h-10 rounded-md"
+				className="absolute bg-gray-400 bottom-4 right-4 flex align-center justify-center w-10 h-10 rounded-md cursor-pointer z-50"
 				onClick={() => {
-					setGlobalTouchDetection((prevState) => {
-						return !prevState;
-					});
+					setGlobalTouchDetection((prevState) => !prevState);
 				}}
 			>
 				<svg
@@ -353,7 +336,6 @@ export const TvSetNavigator: React.FC<any> = ({
 					viewBox="0 0 85.55 122.88"
 					className="w-4"
 				>
-					<defs></defs>
 					<title>hand-mouse-cursor</title>
 					<path
 						fill="#231f20"
@@ -365,107 +347,99 @@ export const TvSetNavigator: React.FC<any> = ({
 	};
 
 	return (
-    <NavigationRouteContext.Provider
-      value={{ channels: config, currentChannel: channelMeta.activeChannel }}
-    >
-      <main
-        // TODO: Will Fix it later
-        // @ts-ignore
-        ref={mainRef}
-        className="navigation-wrapper outline-none bg-gray-900"
-        // bg-gray-900 = rgba(17,24,39,1);
-        onTouchStart={touchStartHandler}
-        onTouchMove={touchMoveHandler}
-        onTouchEnd={touchEndHandler}
-        onKeyDown={keyDownHandler}
-        onKeyUp={keyUpHandler}
-        tabIndex={-1}
-      >
-        {CurrentScene && (
-          <div
-            className="animation-wrapper"
-            style={{
-              filter: `blur(${blur}px)`,
-              transform: `translateX(${blur}px)`,
-            }}
-          >
-            <CurrentScene
-              testProps={"test props"}
-              {...config[channelMeta.activeChannel].props}
-            />
-          </div>
-        )}
-        {/* TODO: Will Fix it later
-				// @ts-ignore */}
-        <audio ref={buttonAudioRef} src="/audios/remote_button_2.mp3" />
-        {channelMeta.overlay === "noise" && (
-          <div
-            style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
-          >
-            <TvStatic volume={AUDIO_VOL} />
-          </div>
-        )}
-        {channelMeta.overlay === "blueScreen" && (
-          <div
-            className={`bg-blue-600 flex flex-1 h-screen w-screen items-center justify-center`}
-          ></div>
-        )}
-        {channelMeta.overlay === "off" && (
-          <div
-            className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center"
-            onClick={() => {
-              setOffAnimation(true);
-              setTimeout(() => {
-                setChannelMeta((prevState) => {
-                  return {
-                    ...prevState,
-                    overlay: "none",
-                    infoOverlay: true,
-                  };
-                });
-              }, 1250);
-            }}
-          >
-            <Text
-              className={`font-silkscreen text-white text-2xl mx-12 ${
-                offAnimation ? styles.offText : ""
-              }`}
-            >
-              {probablyTouchScreen ? "Press" : "Click"} to Turn
-              <Text
-                className={`inline  ${
-                  offAnimation ? "text-white" : "text-lime-500"
-                }`}
-              >
-                {" On "}
-              </Text>
-              the TV
-            </Text>
-          </div>
-        )}
-        {channelMeta.infoOverlay && (
-          <div className="flex flex-1 items-center justify-center text-lime-500">
-            <div className={`absolute top-10 left-10 font-arial`}>
-              <Text>
-                {config[channelMeta.activeChannel]?.name ?? "No service"}
-              </Text>
-            </div>
-            <div className="absolute top-10 right-10 font-arial tracking-widest">
-              <Text>{channelNumberTemplate()}</Text>
-            </div>
-            {/* <div className="text-lime-500 text-2xl absolute bottom-20 font-arial">
-							<GlitchText>Under construction</GlitchText>
-						</div> */}
-          </div>
-        )}
-        {probablyTouchScreen ? touchToggleTemplate() : null}
-
-        {/* <input
-				type="checkbox"
-				className="absolute bottom-4 right-4 p-4 rounded-none"
-				checked={globalTouchDetection}
-			/> */}
-      </main>
-    </NavigationRouteContext.Provider>
-  );
+		<NavigationRouteContext.Provider
+			value={{
+				channels: config,
+				currentChannel: channelMeta.activeChannel,
+				changeChannel,
+				nextChannel,
+				prevChannel,
+			}}
+		>
+			<main
+				ref={mainRef}
+				className="navigation-wrapper outline-none bg-gray-900"
+				onTouchStart={touchStartHandler}
+				onTouchMove={touchMoveHandler}
+				onTouchEnd={touchEndHandler}
+				onKeyDown={keyDownHandler}
+				onKeyUp={keyUpHandler}
+				tabIndex={-1}
+			>
+				{CurrentScene && (
+					<div
+						className="animation-wrapper"
+						style={{
+							filter: `blur(${blur}px)`,
+							transform: `translateX(${blur}px)`,
+						}}
+					>
+						<CurrentScene
+							testProps={"test props"}
+							{...config[channelMeta.activeChannel].props}
+						/>
+					</div>
+				)}
+				<audio ref={buttonAudioRef} src="/audios/remote_button_2.mp3" />
+				{channelMeta.overlay === "noise" && (
+					<div
+						style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
+					>
+						<TvStatic volume={AUDIO_VOL} />
+					</div>
+				)}
+				{channelMeta.overlay === "blueScreen" && (
+					<div
+						className={`bg-blue-600 flex flex-1 h-screen w-screen items-center justify-center`}
+					></div>
+				)}
+				{channelMeta.overlay === "off" && (
+					<div
+						className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center"
+						onClick={() => {
+							setOffAnimation(true);
+							setTimeout(() => {
+								setChannelMeta((prevState) => {
+									return {
+										...prevState,
+										overlay: "none",
+										infoOverlay: true,
+									};
+								});
+							}, 1250);
+						}}
+					>
+						<Text
+							className={`font-silkscreen text-white text-2xl mx-12 ${
+								offAnimation ? styles.offText : ""
+							}`}
+						>
+							{probablyTouchScreen ? "Press" : "Click"} to Turn
+							<Text
+								className={`inline  ${
+									offAnimation ? "text-white" : "text-lime-500"
+								}`}
+							>
+								{" On "}
+							</Text>
+							the TV
+						</Text>
+					</div>
+				)}
+				{channelMeta.infoOverlay && (
+					<div className="flex flex-1 items-center justify-center text-lime-500">
+						<div className={`absolute top-10 left-10 font-arial`}>
+							<Text>
+								{config[channelMeta.activeChannel]?.name ?? "No service"}
+							</Text>
+						</div>
+						<div className="absolute top-10 right-10 font-arial tracking-widest">
+							<Text>{channelNumberTemplate()}</Text>
+						</div>
+					</div>
+				)}
+				{probablyTouchScreen ? touchToggleTemplate() : null}
+			</main>
+		</NavigationRouteContext.Provider>
+	);
 };
