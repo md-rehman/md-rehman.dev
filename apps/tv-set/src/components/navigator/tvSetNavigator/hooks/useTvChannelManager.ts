@@ -15,8 +15,8 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
 	const [channelMeta, setChannelMeta] = useState<ChannelMeta>({
 		activeChannel: initialChannel,
 		prevChannel: initialChannel,
-		overlay: "noise",
-		infoOverlay: true,
+		overlay: "off",
+		infoOverlay: false,
 		channelNumber: "fixed",
 	});
 
@@ -89,32 +89,7 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
 		}
 	}, [channelMeta.activeChannel]);
 
-	// Set initial timers on mount for first channel noise transition
-	useEffect(() => {
-		overlayTimeoutRef.current = setTimeout(() => {
-			setChannelMeta((prevState) => {
-				return {
-					...prevState,
-					overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
-					infoOverlay: true,
-				};
-			});
-		}, OVERLAY_DURATION);
 
-		infoTimeoutRef.current = setTimeout(() => {
-			setChannelMeta((prevState) => {
-				return {
-					...prevState,
-					infoOverlay: false,
-				};
-			});
-		}, INFO_OVERLAY_DURATION);
-
-		return () => {
-			if (overlayTimeoutRef.current) clearTimeout(overlayTimeoutRef.current);
-			if (infoTimeoutRef.current) clearTimeout(infoTimeoutRef.current);
-		};
-	}, []);
 
 	const nextChannel = () => {
 		if (channelMeta.activeChannel < 999) {

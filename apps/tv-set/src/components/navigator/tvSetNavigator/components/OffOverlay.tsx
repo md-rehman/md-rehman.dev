@@ -3,11 +3,13 @@ import { Text } from "@atoms";
 import styles from "../TvSetNavigator.module.scss";
 
 interface OffOverlayProps {
+	config: any;
 	probablyTouchScreen: boolean;
 	setChannelMeta: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const OffOverlay: React.FC<OffOverlayProps> = ({
+	config,
 	probablyTouchScreen,
 	setChannelMeta,
 }) => {
@@ -17,9 +19,30 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
 		setOffAnimation(true);
 		setTimeout(() => {
 			setChannelMeta((prevState: any) => {
+				// Transition to actual channel scene after noise transition duration (600ms)
+				setTimeout(() => {
+					setChannelMeta((prevState: any) => {
+						return {
+							...prevState,
+							overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+							infoOverlay: true,
+						};
+					});
+				}, 600); // OVERLAY_DURATION
+
+				// Fade out the info display after 2600ms
+				setTimeout(() => {
+					setChannelMeta((prevState: any) => {
+						return {
+							...prevState,
+							infoOverlay: false,
+						};
+					});
+				}, 2600); // INFO_OVERLAY_DURATION
+
 				return {
 					...prevState,
-					overlay: "none",
+					overlay: "noise",
 					infoOverlay: true,
 				};
 			});
@@ -32,15 +55,14 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
 			onClick={handleTurnOn}
 		>
 			<Text
-				className={`font-silkscreen text-white text-2xl mx-12 ${
-					offAnimation ? styles.offText : ""
-				}`}
+				as="div"
+				className={`font-silkscreen text-white text-2xl mx-12 ${offAnimation ? styles.offText : ""
+					}`}
 			>
 				{probablyTouchScreen ? "Press" : "Click"} to Turn
 				<Text
-					className={`inline  ${
-						offAnimation ? "text-white" : "text-lime-500"
-					}`}
+					className={`inline  ${offAnimation ? "text-white" : "text-lime-500"
+						}`}
 				>
 					{" On "}
 				</Text>

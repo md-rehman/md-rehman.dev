@@ -118,6 +118,7 @@ export const TvSetNavigator: React.FC<any> = ({
 				)}
 				{channelMeta.overlay === "off" && (
 					<OffOverlay
+						config={config}
 						probablyTouchScreen={probablyTouchScreen}
 						setChannelMeta={setChannelMeta}
 					/>
