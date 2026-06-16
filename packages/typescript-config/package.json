@@ -2,6 +2,9 @@
   "name": "@repo/typescript-config",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

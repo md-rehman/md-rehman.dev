@@ -1,39 +1,39 @@
 @keyframes textWhiteLine {
-	0% {
-		transform: scaleY(1);
-		opacity: 1;
-	}
+  0% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 
-	20% {
-		transform: scaleY(0.05);
-	}
+  20% {
+    transform: scaleY(0.05);
+  }
 
-	30% {
-		transform: scaleY(0.05);
-		background: white;
-	}
+  30% {
+    transform: scaleY(0.05);
+    background: white;
+  }
 
-	70% {
-		transform: scaleY(0.05) scaleX(10);
-		background: white;
-	}
+  70% {
+    transform: scaleY(0.05) scaleX(10);
+    background: white;
+  }
 
-	// 99% {
-	// 	transform: scaleY(100) scaleX(10);
-	// 	background: white;
-	// }
-	100% {
-		transform: scaleY(100) scaleX(10);
-		background: white;
-		opacity: 0;
-	}
+  // 99% {
+  // 	transform: scaleY(100) scaleX(10);
+  // 	background: white;
+  // }
+  100% {
+    transform: scaleY(100) scaleX(10);
+    background: white;
+    opacity: 0;
+  }
 
-	// 100% {
-	// 	color: transparent;
-	// 	background: transparent;
-	// }
+  // 100% {
+  // 	color: transparent;
+  // 	background: transparent;
+  // }
 }
 
 .offText {
-	animation: textWhiteLine 1.5s linear forwards;
+  animation: textWhiteLine 1.5s linear forwards;
 }

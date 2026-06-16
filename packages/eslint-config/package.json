@@ -2,6 +2,9 @@
   "name": "@repo/eslint-config",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
+  },
   "files": [
     "library.js",
     "next.js",

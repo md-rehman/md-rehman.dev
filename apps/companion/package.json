@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack  --port 3011",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",

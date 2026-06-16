@@ -6,7 +6,8 @@
     "dev": " NEXT_PRIVATE_LOCAL_WEBPACK=true next dev --port 4001",
     "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
     "@repo/ui": "*",
