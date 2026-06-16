@@ -1,0 +1,192 @@
+.wavePattern {
+	background-color: #00282f;
+	opacity: 1;
+	background-image: repeating-radial-gradient(
+			circle at 0 0,
+			transparent 0,
+			#00282f 313px
+		),
+		repeating-linear-gradient(#0cb8d555, #0cb8d5);
+}
+.wavePattern2 {
+	background-color: #00282f;
+	opacity: 1;
+	background-image: repeating-radial-gradient(
+			circle at 0 0,
+			transparent 0,
+			#00282f 313px
+		),
+		repeating-linear-gradient(#0cb8d555, #0cb8d5);
+}
+.rombusPattern {
+	background-color: #e5e5f7;
+	opacity: 0.8;
+	background-image: linear-gradient(135deg, #0cb8d5 25%, transparent 25%),
+		linear-gradient(225deg, #0cb8d5 25%, transparent 25%),
+		linear-gradient(45deg, #0cb8d5 25%, transparent 25%),
+		linear-gradient(315deg, #0cb8d555, #0cb8d5 25%);
+	background-position: 10px 0, 10px 0, 0 0, 0 0;
+	background-size: 10px 10px;
+	background-repeat: repeat;
+}
+.noisePattern {
+	background-color: #e5e5f7;
+	opacity: 1;
+	background-image: repeating-linear-gradient(
+			45deg,
+			#444cf7 25%,
+			transparent 25%,
+			transparent 75%,
+			#dad 75%,
+			#dad
+		),
+		repeating-linear-gradient(
+			45deg,
+			red 25%,
+			red 25%,
+			#e5e5f7 75%,
+			#444cf7 75%,
+			#444cf7
+		);
+	background-position: 0 0, 10px 10px;
+	background-size: 20px 20px;
+}
+
+//////////////////////////////////////
+// START: Noise
+//////////////////////////////////////
+.noiseBg {
+	background-color: transparent;
+	background: url(white-noise.jpg);
+	background-size: 30vw;
+	animation: noiseBgAni2 0.6s steps(10) infinite;
+	position: relative;
+}
+
+@keyframes noiseBgAni {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@keyframes noiseBgAni2 {
+	0% {
+		background-position: 50% 0%;
+	}
+	50% {
+		background-position: 50% 100%;
+	}
+	100% {
+		background-position: 50% 0%;
+	}
+}
+.bg {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-size: 300% 300%;
+	background-image: linear-gradient(
+		-45deg,
+		rgba(59, 173, 227, 1) 0%,
+		rgba(87, 111, 230, 1) 25%,
+		rgba(152, 68, 183, 1) 51%,
+		rgba(255, 53, 127, 1) 100%
+	);
+	animation: AnimateBG 20s ease infinite;
+}
+
+@keyframes AnimateBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.noiseWrapper {
+	position: absolute;
+	background-color: #444cf7;
+	/* Animation provies a slight random skew. Check bottom of doc
+	for more information on how to random skew. */
+	animation-name: glitch-opacity;
+	animation-duration: 16s;
+	animation-timing-function: cubic-bezier(0, 10, 1, -10);
+	animation-direction: alternate-reverse;
+	animation-iteration-count: infinite;
+}
+
+// Adding random opacity to the wrapper to give appearnce of text vainishing
+@keyframes glitch-opacity {
+	$steps: 15;
+	@for $i from 0 through $steps {
+		#{percentage($i*(1/$steps))} {
+			opacity: $i % 8;
+		}
+	}
+}
+//////////////////////////////////////
+// END: Noise
+//////////////////////////////////////
+
+//////////////////////////////////////
+// START: Black floating stips
+//////////////////////////////////////
+.strips {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.strips li {
+	position: absolute;
+	display: block;
+	list-style: none;
+	width: 100%;
+	bottom: -150px;
+}
+
+.strips li:nth-child(1) {
+	width: 100%;
+	height: 70px;
+	background: rgba(0, 0, 0, 0.4);
+	animation-delay: 0s;
+	animation: stripsAnimation 7s linear infinite,
+		glitch-opacity 7s cubic-bezier(0, 10, 1, -10) infinite;
+}
+
+.strips li:nth-child(2) {
+	background: rgba(0, 0, 0, 0.4);
+	width: 100%;
+	height: 65px;
+
+	animation: stripsAnimation 7s linear infinite,
+		glitch-opacity 7s cubic-bezier(0, 10, 1, -10) infinite;
+	animation-delay: 4s;
+}
+
+@keyframes stripsAnimation {
+	0% {
+		transform: translateY(0);
+	}
+
+	100% {
+		transform: translateY(-1000px);
+	}
+}
+//////////////////////////////////////
+// END: Black floating stips
+//////////////////////////////////////

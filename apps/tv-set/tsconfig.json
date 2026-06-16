@@ -1,10 +1,18 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
-  "baseUrl": ".",
-  "paths": {
-    "p5-playground/*": ["src/types/*"]
-  },
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "p5-playground/*": ["./src/types/*"],
+      "@fermions": ["./src/components/fermions/index"],
+      "@atoms": ["./src/components/atoms/index"],
+      "@molecules": ["./src/components/molecules"],
+      "@compounds": ["./src/components/compounds/index"],
+      "@canvas": ["./src/components/canvas/index"],
+      "@channels": ["./src/components/channels/index"],
+      "@constants": ["./src/components/constants/index"],
+      "@navigator": ["./src/components/navigator/index"]
+    },
     "plugins": [
       {
         "name": "next"

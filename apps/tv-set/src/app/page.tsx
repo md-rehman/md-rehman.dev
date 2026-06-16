@@ -1,10 +1,8 @@
+"use client";
+
 import { TvSetNavigator } from "../components";
+import { channels } from "@constants";
 
 export default function Home() {
-  return (
-    <div className="">
-      TV SET
-      <TvSetNavigator />
-    </div>
-  );
+  return <TvSetNavigator config={channels} />;
 }

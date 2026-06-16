@@ -1,0 +1,1 @@
+export { TvStatic } from "./TvStatic";

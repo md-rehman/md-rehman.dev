@@ -1,1 +1,1 @@
-export { TvSetNavigator } from "./navigator/TVSetNavigator";
+export * from "./navigator";
