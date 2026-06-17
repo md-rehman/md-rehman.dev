@@ -5,7 +5,9 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
+    "generate:app": "node scripts/generate-app.mjs",
+    "generate:package": "node scripts/generate-package.mjs"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
