@@ -32,8 +32,8 @@ export const Instructions: React.FC = () => {
         </GlitchText>
         {/* <Text className="font-death_note_2 text-6xl">DEATH NOTE</Text> */}
         <Text className="text-md pb-4">
-          Welcome to my TV SET, a place to see all my experiments. Each channel
-          have something exiting to show.{" "}
+          Welcome to my TV SET, a place to see a lot of my experiments. Each
+          channel have something exiting to show.
         </Text>
         <Text className="text-2xl pb-4">Enjoy the shows</Text>
         <Text className="font-death_note_2 text-5xl pb-4 ">How to use it</Text>

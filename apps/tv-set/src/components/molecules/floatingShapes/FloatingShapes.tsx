@@ -1,12 +1,26 @@
 import { Children } from "react";
 import styles from "./FloatingShapes.module.scss";
 
-export const FloatingShapes: React.FC<{ children?: React.ReactNode }> = ({
+interface FloatingShapesProps {
+  children?: React.ReactNode;
+  backDrop?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export const FloatingShapes: React.FC<FloatingShapesProps> = ({
   children,
+  backDrop,
+  className = "",
+  style,
 }) => {
+  const mergedStyle = backDrop
+    ? ({ ...style, "--backdrop-color": backDrop } as React.CSSProperties)
+    : style;
+
   return (
     <>
-      <div className={styles.area}>
+      <div className={`${styles.area} ${className}`} style={mergedStyle}>
         <ul className={styles.circles}>
           <svg
             width="404"

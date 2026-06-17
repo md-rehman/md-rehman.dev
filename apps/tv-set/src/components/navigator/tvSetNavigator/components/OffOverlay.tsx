@@ -6,6 +6,7 @@ import styles from "../TvSetNavigator.module.scss";
 interface OffOverlayProps {
   config: any;
   setChannelMeta: React.Dispatch<React.SetStateAction<any>>;
+  probablyTouchScreen?: boolean;
 }
 
 export const OffOverlay: React.FC<OffOverlayProps> = ({

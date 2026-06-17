@@ -134,4 +134,18 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Ball Shooter Experiment</h1><p>Aim, shoot, and watch gravity take action! This experiment features classic particle physics with bounding boxes and vector-based collisions.</p>",
   },
+  9: {
+    name: "InteractiveGlitchIntroduction",
+    title: "Interactive Introduction - Rehman's Portfolio",
+    description:
+      "An interactive version of the glitch introduction where clicking triggers custom events defined in a text array.",
+    keywords: [
+      "interactive",
+      "glitch",
+      "portfolio",
+      "custom events",
+    ],
+    contentHtml:
+      "<h1>Interactive Introduction</h1><p>Click anywhere on the screen to trigger custom events such as changing the background color or navigating to other channels!</p>",
+  },
 };
