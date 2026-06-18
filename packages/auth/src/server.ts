@@ -1,12 +1,24 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { isMockEnabled, createMockServerClient } from "./mock";
 
+/**
+ * Create a Supabase client for use in server components and server actions.
+ * Handles cookie management for session persistence.
+ *
+ * When NEXT_PUBLIC_AUTH_MOCK=true, returns a mock client with dummy
+ * credentials (test@test.com / password123).
+ */
 export async function createClient() {
+  if (isMockEnabled()) {
+    return createMockServerClient() as any;
+  }
+
   const cookieStore = await cookies();
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {

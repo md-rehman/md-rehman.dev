@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/auth/server";
 import { Container } from "@/components/page/prayers_strict/Container";
 import {
   prayers_strict,

@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/auth/server";
 // import { useState } from "react";
 
 export default async function Instruments() {

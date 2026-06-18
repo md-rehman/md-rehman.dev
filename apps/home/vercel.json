@@ -31,6 +31,14 @@
     {
       "source": "/companion/:match*",
       "destination": "https://md-rehman-dev-companion.vercel.app/companion/:match*"
+    },
+    {
+      "source": "/planner",
+      "destination": "https://md-rehman-dev-planner.vercel.app/planner"
+    },
+    {
+      "source": "/planner/:match*",
+      "destination": "https://md-rehman-dev-planner.vercel.app/planner/:match*"
     }
   ]
 }
