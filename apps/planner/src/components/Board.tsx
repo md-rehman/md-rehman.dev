@@ -11,6 +11,7 @@ export interface CardData {
   title: string;
   description: string;
   color: string;
+  parentId?: string;
 }
 
 export interface ColumnData {
@@ -51,6 +52,83 @@ function genId(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 }
 
+function enforceBoardConstraints(board: BoardData): BoardData {
+  const allCards = board.columns.flatMap((c) => c.cards);
+  const cardMap = new Map(allCards.map((c) => [c.id, c]));
+
+  function getGlobalRootId(cardId: string): string {
+    const visited = new Set<string>();
+    let curr = cardId;
+    while (true) {
+      if (visited.has(curr)) break;
+      visited.add(curr);
+      const parentId = cardMap.get(curr)?.parentId;
+      if (!parentId || !cardMap.has(parentId)) break;
+      curr = parentId;
+    }
+    return curr;
+  }
+
+  const newColumns = board.columns.map((col) => {
+    const clumps = new Map<string, CardData[]>();
+    const clumpOrder: string[] = [];
+
+    for (const card of col.cards) {
+      const rootId = getGlobalRootId(card.id);
+      if (!clumps.has(rootId)) {
+        clumps.set(rootId, []);
+        clumpOrder.push(rootId);
+      }
+      clumps.get(rootId)!.push(card);
+    }
+
+    const sortedCards: CardData[] = [];
+
+    for (const rootId of clumpOrder) {
+      const clumpCards = clumps.get(rootId)!;
+      const clumpSet = new Set(clumpCards.map((c) => c.id));
+      const localChildren = new Map<string, CardData[]>();
+      const localRoots: CardData[] = [];
+
+      for (const card of clumpCards) {
+        let curr = card.parentId;
+        let foundLocalParent = false;
+        const visited = new Set<string>();
+        while (curr) {
+          if (visited.has(curr)) break;
+          visited.add(curr);
+          if (clumpSet.has(curr)) {
+            if (!localChildren.has(curr)) localChildren.set(curr, []);
+            localChildren.get(curr)!.push(card);
+            foundLocalParent = true;
+            break;
+          }
+          curr = cardMap.get(curr)?.parentId;
+        }
+        if (!foundLocalParent) {
+          localRoots.push(card);
+        }
+      }
+
+      function traverse(card: CardData) {
+        sortedCards.push(card);
+        const children = localChildren.get(card.id) || [];
+        for (const child of children) {
+          traverse(child);
+        }
+      }
+
+      for (const root of localRoots) {
+        traverse(root);
+      }
+    }
+
+    return { ...col, cards: sortedCards };
+  });
+
+  return { ...board, columns: newColumns };
+}
+
 // ── Board Component ────────────────────────────────────────────────
 
 export function Board() {
@@ -65,12 +143,12 @@ export function Board() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        setBoard(JSON.parse(saved));
+        setBoard(enforceBoardConstraints(JSON.parse(saved)));
       } else {
-        setBoard(DEFAULT_BOARD);
+        setBoard(enforceBoardConstraints(DEFAULT_BOARD));
       }
     } catch {
-      setBoard(DEFAULT_BOARD);
+      setBoard(enforceBoardConstraints(DEFAULT_BOARD));
     }
   }, []);
 
@@ -120,7 +198,8 @@ export function Board() {
   const addCard = useCallback((columnId: string, title: string) => {
     setBoard((prev) => {
       if (!prev) return prev;
-      return {
+      return enforceBoardConstraints({
+        ...prev,
         columns: prev.columns.map((col) =>
           col.id === columnId
             ? {
@@ -132,7 +211,38 @@ export function Board() {
               }
             : col,
         ),
-      };
+      });
+    });
+  }, []);
+
+  const addChildCard = useCallback((columnId: string, parentId: string, title: string) => {
+    setBoard((prev) => {
+      if (!prev) return prev;
+      return enforceBoardConstraints({
+        ...prev,
+        columns: prev.columns.map((col) => {
+          if (col.id === columnId) {
+            const newCards = [...col.cards];
+            const targetIdx = newCards.findIndex((c) => c.id === parentId);
+            if (targetIdx === -1) return col;
+
+            let lastDescendantIdx = targetIdx;
+            const descendants = new Set<string>([parentId]);
+            for (let i = targetIdx + 1; i < newCards.length; i++) {
+              const currentCard = newCards[i];
+              if (currentCard?.parentId && descendants.has(currentCard.parentId)) {
+                descendants.add(currentCard.id);
+                lastDescendantIdx = i;
+              } else {
+                break;
+              }
+            }
+            newCards.splice(lastDescendantIdx + 1, 0, { id: genId(), title, description: "", color: "", parentId });
+            return { ...col, cards: newCards };
+          }
+          return col;
+        }),
+      });
     });
   }, []);
 
@@ -140,7 +250,8 @@ export function Board() {
     (columnId: string, cardId: string, updates: Partial<CardData>) => {
       setBoard((prev) => {
         if (!prev) return prev;
-        return {
+        return enforceBoardConstraints({
+          ...prev,
           columns: prev.columns.map((col) =>
             col.id === columnId
               ? {
@@ -151,7 +262,7 @@ export function Board() {
                 }
               : col,
           ),
-        };
+        });
       });
     },
     [],
@@ -160,13 +271,14 @@ export function Board() {
   const deleteCard = useCallback((columnId: string, cardId: string) => {
     setBoard((prev) => {
       if (!prev) return prev;
-      return {
+      return enforceBoardConstraints({
+        ...prev,
         columns: prev.columns.map((col) =>
           col.id === columnId
             ? { ...col, cards: col.cards.filter((c) => c.id !== cardId) }
             : col,
         ),
-      };
+      });
     });
   }, []);
 
@@ -180,11 +292,11 @@ export function Board() {
   );
 
   const handleDrop = useCallback(
-    (toColumnId: string, insertIndex?: number) => {
+    (toColumnId: string, insertIndex?: number, targetCardId?: string) => {
       if (!dragState || !board) return;
 
       const { cardId, fromColumnId } = dragState;
-      if (fromColumnId === toColumnId && insertIndex === undefined) {
+      if (fromColumnId === toColumnId && insertIndex === undefined && !targetCardId) {
         setDragState(null);
         return;
       }
@@ -208,20 +320,40 @@ export function Board() {
         });
 
         // Add to target
-        return {
+        return enforceBoardConstraints({
+          ...prev,
           columns: newColumns.map((col) => {
             if (col.id === toColumnId) {
               const newCards = [...col.cards];
-              const idx =
-                insertIndex !== undefined
-                  ? insertIndex
-                  : newCards.length;
-              newCards.splice(idx, 0, card);
+              const cardToInsert = { ...card };
+              
+              let finalInsertIndex = insertIndex !== undefined ? insertIndex : newCards.length;
+              
+              if (targetCardId) {
+                cardToInsert.parentId = targetCardId;
+                const targetIdx = newCards.findIndex(c => c.id === targetCardId);
+                if (targetIdx !== -1) {
+                  let lastDescendantIdx = targetIdx;
+                  const descendants = new Set<string>([targetCardId]);
+                  for (let i = targetIdx + 1; i < newCards.length; i++) {
+                    const currentCard = newCards[i];
+                    if (currentCard?.parentId && descendants.has(currentCard.parentId)) {
+                      descendants.add(currentCard.id);
+                      lastDescendantIdx = i;
+                    } else {
+                      break;
+                    }
+                  }
+                  finalInsertIndex = lastDescendantIdx + 1;
+                }
+              }
+
+              newCards.splice(finalInsertIndex, 0, cardToInsert);
               return { ...col, cards: newCards };
             }
             return col;
           }),
-        };
+        });
       });
 
       setDragState(null);
@@ -245,6 +377,33 @@ export function Board() {
     );
   }
 
+  // Compute depths and children for all cards
+  const allCards = board.columns.flatMap((c) => c.cards);
+  const cardDepths = new Map<string, number>();
+  const cardChildren = new Map<string, CardData[]>();
+  
+  for (const card of allCards) {
+    if (card.parentId) {
+      if (!cardChildren.has(card.parentId)) {
+        cardChildren.set(card.parentId, []);
+      }
+      cardChildren.get(card.parentId)!.push(card);
+    }
+    
+    let depth = 0;
+    let curr = card;
+    const visited = new Set<string>();
+    while (curr.parentId) {
+      if (visited.has(curr.id)) break;
+      visited.add(curr.id);
+      depth++;
+      const parent = allCards.find(c => c.id === curr.parentId);
+      if (!parent) break;
+      curr = parent;
+    }
+    cardDepths.set(card.id, depth);
+  }
+
   return (
     <div className={styles.board}>
       <div className={styles.columnsTrack}>
@@ -261,7 +420,10 @@ export function Board() {
             onDragStart={handleDragStart}
             onDrop={handleDrop}
             onDragEnd={handleDragEnd}
+            onAddChildCard={addChildCard}
             cardColors={CARD_COLORS}
+            cardDepths={cardDepths}
+            cardChildren={cardChildren}
           />
         ))}
 

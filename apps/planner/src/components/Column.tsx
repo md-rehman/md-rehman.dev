@@ -15,9 +15,12 @@ interface ColumnProps {
   onUpdateCard: (columnId: string, cardId: string, updates: Partial<CardData>) => void;
   onDeleteCard: (columnId: string, cardId: string) => void;
   onDragStart: (cardId: string, fromColumnId: string) => void;
-  onDrop: (toColumnId: string, insertIndex?: number) => void;
+  onDrop: (toColumnId: string, insertIndex?: number, targetCardId?: string) => void;
   onDragEnd: () => void;
+  onAddChildCard: (columnId: string, parentId: string, title: string) => void;
   cardColors: string[];
+  cardDepths: Map<string, number>;
+  cardChildren: Map<string, CardData[]>;
 }
 
 export function Column({
@@ -31,7 +34,10 @@ export function Column({
   onDragStart,
   onDrop,
   onDragEnd,
+  onAddChildCard,
   cardColors,
+  cardDepths,
+  cardChildren,
 }: ColumnProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(column.title);
@@ -39,6 +45,7 @@ export function Column({
   const [showAddForm, setShowAddForm] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
+  const [dropTargetId, setDropTargetId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
@@ -72,17 +79,32 @@ export function Column({
       const y = e.clientY - rect.top + cardsRef.current.scrollTop;
 
       let idx = cards.length;
+      let targetId: string | null = null;
       for (let i = 0; i < cards.length; i++) {
         const cardEl = cards[i];
         if (!cardEl) continue;
         const cardRect = cardEl.getBoundingClientRect();
-        const cardY = cardRect.top - rect.top + cardsRef.current.scrollTop + cardRect.height / 2;
-        if (y < cardY) {
-          idx = i;
+        const top = cardRect.top - rect.top + cardsRef.current.scrollTop;
+        const bottom = top + cardRect.height;
+
+        if (y >= top && y <= bottom) {
+          if (y < top + cardRect.height * 0.25) {
+            idx = i;
+          } else if (y > bottom - cardRect.height * 0.25) {
+            idx = i + 1;
+          } else {
+            idx = i;
+            targetId = cardEl.getAttribute("data-card-id");
+          }
           break;
+        }
+
+        if (y > bottom) {
+          idx = i + 1;
         }
       }
       setDropIndex(idx);
+      setDropTargetId(targetId);
     }
   }
 
@@ -92,13 +114,15 @@ export function Column({
     if (e.currentTarget.contains(related)) return;
     setIsOver(false);
     setDropIndex(null);
+    setDropTargetId(null);
   }
 
   function handleDrop(e: DragEvent) {
     e.preventDefault();
     setIsOver(false);
-    onDrop(column.id, dropIndex ?? undefined);
+    onDrop(column.id, dropIndex ?? undefined, dropTargetId ?? undefined);
     setDropIndex(null);
+    setDropTargetId(null);
   }
 
   return (
@@ -175,22 +199,26 @@ export function Column({
       {/* ── Cards ── */}
       <div className={styles.cards} ref={cardsRef}>
         {column.cards.map((card, index) => (
-          <div key={card.id}>
-            {dropIndex === index && isOver && (
+          <div key={card.id} data-card-id={card.id}>
+            {dropIndex === index && !dropTargetId && isOver && (
               <div className={styles.dropIndicator} />
             )}
             <Card
               card={card}
               columnId={column.id}
+              depth={cardDepths.get(card.id) ?? 0}
+              childCards={cardChildren.get(card.id) ?? []}
+              isDropTarget={dropTargetId === card.id}
               onUpdate={onUpdateCard}
               onDelete={onDeleteCard}
               onDragStart={onDragStart}
               onDragEnd={onDragEnd}
+              onAddChild={(title) => onAddChildCard(column.id, card.id, title)}
               colors={cardColors}
             />
           </div>
         ))}
-        {dropIndex === column.cards.length && isOver && (
+        {dropIndex === column.cards.length && !dropTargetId && isOver && (
           <div className={styles.dropIndicator} />
         )}
       </div>

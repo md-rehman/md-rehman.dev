@@ -11,7 +11,11 @@ interface CardProps {
   onDelete: (columnId: string, cardId: string) => void;
   onDragStart: (cardId: string, fromColumnId: string) => void;
   onDragEnd: () => void;
+  onAddChild: (title: string) => void;
   colors: string[];
+  depth: number;
+  childCards: CardData[];
+  isDropTarget: boolean;
 }
 
 export function Card({
@@ -21,13 +25,19 @@ export function Card({
   onDelete,
   onDragStart,
   onDragEnd,
+  onAddChild,
   colors,
+  depth,
+  childCards,
+  isDropTarget,
 }: CardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleValue, setTitleValue] = useState(card.title);
   const [descValue, setDescValue] = useState(card.description);
   const [showColors, setShowColors] = useState(false);
+  const [showAddChild, setShowAddChild] = useState(false);
+  const [childTitle, setChildTitle] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
@@ -72,7 +82,8 @@ export function Card({
 
   return (
     <div
-      className={`${styles.card} ${isDragging ? styles.dragging : ""} ${isExpanded ? styles.expanded : ""}`}
+      className={`${styles.card} ${isDragging ? styles.dragging : ""} ${isExpanded ? styles.expanded : ""} ${isDropTarget ? styles.dropTarget : ""}`}
+      style={{ marginLeft: `${depth * 1.5}rem` }}
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -113,7 +124,6 @@ export function Card({
               {card.title}
             </p>
           )}
-
           {/* Actions */}
           <div className={styles.actions}>
             <button
@@ -165,6 +175,13 @@ export function Card({
             </button>
           </div>
         </div>
+
+        {/* Short Description (when not expanded) */}
+        {!isExpanded && card.description && (
+          <p className={styles.shortDesc}>
+            {card.description}
+          </p>
+        )}
 
         {/* Expanded details */}
         {isExpanded && (
@@ -222,6 +239,83 @@ export function Card({
                     </button>
                   ))}
                 </div>
+              )}
+            </div>
+
+            {/* Children Section */}
+            <div className={styles.childrenSection}>
+              <div className={styles.childrenHeader}>Subtasks ({childCards.length})</div>
+              {childCards.length > 0 && (
+                <div className={styles.childrenList}>
+                  {childCards.map(child => (
+                    <div key={child.id} className={styles.childItem}>
+                      <span className={styles.childDot} />
+                      {child.title}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {showAddChild ? (
+                <div className={styles.addChildForm}>
+                  <input
+                    autoFocus
+                    className={styles.childInput}
+                    value={childTitle}
+                    onChange={(e) => setChildTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && childTitle.trim()) {
+                        onAddChild(childTitle.trim());
+                        setChildTitle("");
+                        setShowAddChild(false);
+                      }
+                      if (e.key === "Escape") {
+                        setChildTitle("");
+                        setShowAddChild(false);
+                      }
+                    }}
+                    placeholder="Subtask title..."
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <div className={styles.addChildActions}>
+                    <button
+                      className={styles.addChildBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (childTitle.trim()) {
+                          onAddChild(childTitle.trim());
+                          setChildTitle("");
+                          setShowAddChild(false);
+                        }
+                      }}
+                    >
+                      Add
+                    </button>
+                    <button
+                      className={styles.cancelChildBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setChildTitle("");
+                        setShowAddChild(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className={styles.showAddChildBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowAddChild(true);
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Add subtask
+                </button>
               )}
             </div>
           </div>
