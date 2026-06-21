@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import p5Types from "p5";
 import { P5Sketch } from "@atoms";
+import { tvStaticSetup, tvStaticDraw } from "@repo/channel";
 import styles from "./TvStatic.module.scss";
 
 interface ComponentProps {
@@ -53,27 +53,12 @@ export const TvStaticClient: React.FC<ComponentProps> = ({
     };
   }, [volume]);
 
-  const setup = (p5: p5Types, canvasParentRef: Element) => {
-    const cnv = p5
-      .createCanvas(window.innerWidth, window.innerHeight)
-      .parent(canvasParentRef);
-    p5.pixelDensity(0.7);
-    p5.frameRate(60);
-    p5.background(0);
+  const setup = (p5: any, canvasParentRef: Element) => {
+    tvStaticSetup(p5, canvasParentRef);
   };
 
-  const draw = (p5: p5Types) => {
-    p5.loadPixels();
-    for (let y = 0; y < p5.height; y++) {
-      for (let x = 0; x < p5.width; x++) {
-        let index = (x + y * p5.width) * 4;
-        p5.pixels[index + 0] = 0;
-        p5.pixels[index + 1] = 0;
-        p5.pixels[index + 2] = 0;
-        p5.pixels[index + 3] = p5.random([0, 50, 100, 150, 200, 255]);
-      }
-    }
-    p5.updatePixels();
+  const draw = (p5: any) => {
+    tvStaticDraw(p5);
   };
 
   return (

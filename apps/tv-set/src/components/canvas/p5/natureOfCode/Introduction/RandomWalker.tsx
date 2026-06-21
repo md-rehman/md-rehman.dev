@@ -3,6 +3,7 @@ import p5Types from "p5"; //Import this for typechecking and intellisense
 import { Walker } from "./walker";
 import dynamic from "next/dynamic";
 import { P5Sketch } from "@atoms";
+import { createRandomWalkerSketches } from "@repo/channel";
 
 interface ComponentProps {
   //Your component props
@@ -20,26 +21,14 @@ export const RandomWalker: React.FC<ComponentProps> = (
 
   if (walker === null) return null;
 
-  const setup = (p5: p5Types, canvasParentRef: Element) => {
-    // p5.createCanvas(500, 500).parent(canvasParentRef);
-    // const cnv = p5.createCanvas(width, height).parent(canvasParentRef);
-    p5.background(220, 200, 100);
-    const cnv = p5
-      .createCanvas(window.innerWidth, window.innerHeight)
-      .parent(canvasParentRef);
-    cnv.mousePressed((event) => {});
+  const { randomWalkerSetup, randomWalkerDraw } = createRandomWalkerSketches(walker);
+
+  const setup = (p5: any, canvasParentRef: Element) => {
+    randomWalkerSetup(p5, canvasParentRef);
   };
 
-  const draw = (p5: p5Types) => {
-    walker.step(p5, {
-      // max: { x: window.innerWidth * 0.6, y: window.innerHeight * 0.6 },
-      // min: { x: window.innerWidth * 0.4, y: window.innerHeight * 0.4 },
-      max: { x: window.innerWidth, y: window.innerHeight },
-      min: { x: 0, y: 0 },
-    });
-    walker.render(p5);
-    // p5.ellipse(x, y, 70, 70);
-    // x++;
+  const draw = (p5: any) => {
+    randomWalkerDraw(p5);
   };
 
   return <P5Sketch setup={setup} draw={draw} />;
