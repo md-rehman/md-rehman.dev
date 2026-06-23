@@ -20,8 +20,8 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
     channelNumber: "fixed",
   });
 
-  const overlayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const infoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const overlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const infoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const changeChannel = (channel: number) => {
     if (channel < 0 || channel > 999) return;
