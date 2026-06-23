@@ -15,7 +15,7 @@ export class Walker {
     this.size = size;
   }
   update(p5: p5Types) {
-    this.vel = window.p5.Vector.random2D();
+    this.vel = (window as any).p5.Vector.random2D();
     this.vel.mult(p5.random(2, 70));
     this.pos.add(this.vel);
   }
