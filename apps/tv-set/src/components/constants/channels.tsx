@@ -1,5 +1,6 @@
 import React from "react";
-import { Instructions, GlitchIntroduction, InteractiveGlitchIntroduction } from "@channels";
+import { Instructions } from "../channels/instructions";
+import { GlitchIntroduction, InteractiveGlitchIntroduction } from "../channels/introduction";
 import {
 	RandomWalker,
 	RandomWalker2,

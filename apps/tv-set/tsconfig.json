@@ -11,7 +11,8 @@
       "@canvas": ["./src/components/canvas/index"],
       "@channels": ["./src/components/channels/index"],
       "@constants": ["./src/components/constants/index"],
-      "@navigator": ["./src/components/navigator/index"]
+      "@navigator": ["./src/components/navigator/index"],
+      "@navigator/*": ["./src/components/navigator/*"]
     },
     "plugins": [
       {

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "@atoms";
 import { FloatingShapes, GlitchText } from "@molecules";
-import { useTvNavigator } from "@navigator";
+import { useTvNavigator } from "@navigator/context";
 
 interface ICSSPosition {
   top?: number;
