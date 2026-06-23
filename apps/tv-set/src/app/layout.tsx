@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { AnalyticsWrapper } from "@repo/shell";
 import "../styles/globals.css";
 
 const geistSans = localFont({
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AnalyticsWrapper>
+          {children}
+        </AnalyticsWrapper>
       </body>
     </html>
   );

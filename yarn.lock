@@ -2014,19 +2014,6 @@
   resolved "https://registry.npmjs.org/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
-"@p5-wrapper/next@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@p5-wrapper/next/-/next-3.0.1.tgz#7a9eae0a653822586b4b7560bec7ca14ad9c82f7"
-  integrity sha512-EmVBgVugx9b6zsPPs3dFzud3YcT+MaWN3cVIKZZzQuu+bbwIAH9SFDqQGIuqfU5Hw1TfkM26DvPL4Tn5eqtWtQ==
-
-"@p5-wrapper/react@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@p5-wrapper/react/-/react-5.0.4.tgz#c8ee25386755a6347b8955d31929125111cb67e2"
-  integrity sha512-hwGdvwRxxf1M3/6i/9dVxJRl7Z6BrsIGDeHOl+iRg3HtgRhJHSDQ2VoyaYhy1RL46078fz3lvMYOEY/4w3wpFQ==
-  dependencies:
-    microdiff "^1.5.0"
-    react-error-boundary "^6.1.1"
-
 "@parcel/watcher-android-arm64@2.5.6":
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/@parcel/watcher-android-arm64/-/watcher-android-arm64-2.5.6.tgz#5f32e0dba356f4ac9a11068d2a5c134ca3ba6564"
@@ -2915,11 +2902,6 @@
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@types/p5/-/p5-1.7.0.tgz#af56b6b930f31e73d6ec1cb9f4539481d3212b51"
   integrity sha512-6AnjmW98/edgXB+pYDBx7t6QbCogIG6NUzey93JpGTZA4096C+KjSN8y0sj43QRd9XtblrAhoRXHj1pFZ2vsCg==
-
-"@types/p5@^1.7.6":
-  version "1.7.6"
-  resolved "https://registry.npmjs.org/@types/p5/-/p5-1.7.6.tgz"
-  integrity sha512-6pLTOo0V3N5jZb5nTwjiv3lPHLK3Z/TjbhQUj8CTWXocUk1Z/f6OHTp3Pcwi1BhWnf5gqKUcyEb1gP0KIJuQgw==
 
 "@types/phoenix@^1.6.6":
   version "1.6.6"
@@ -7808,11 +7790,6 @@ metro@0.84.4, metro@^0.84.3:
     ws "^7.5.10"
     yargs "^17.6.2"
 
-microdiff@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/microdiff/-/microdiff-1.5.0.tgz#d16219b223396f11ffcf441da26a43d3e6bd06f8"
-  integrity sha512-Drq+/THMvDdzRYrK0oxJmOKiC24ayUV8ahrt8l3oRK51PWt6gdtrIGrlIH3pT/lFh1z93FbAcidtsHcWbnRz8Q==
-
 micromatch@^4.0.4, micromatch@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz"
@@ -8378,11 +8355,6 @@ p5@1.7.0:
   resolved "https://registry.yarnpkg.com/p5/-/p5-1.7.0.tgz#c983f12c2ffc1125e17cb89e97103f7716cb9f05"
   integrity sha512-qrbT/44Dwm63ZtOKX/mp61pw+5yj6ijYLOmRv7p6zcfjbo83Vb0gVFEvW0kTLFu7hceWCig0HONo9F1bSlqbsQ==
 
-p5@^1.11.1:
-  version "1.11.8"
-  resolved "https://registry.npmjs.org/p5/-/p5-1.11.8.tgz"
-  integrity sha512-owi2+HDP/KQvzc3mAagp74cc6yPalWejMjjDfrIqjsheo6CZ16WjbPRDKjgpuIH9F5eAPVTuTSbLsTawl2Djiw==
-
 p5@^1.4.2:
   version "1.11.13"
   resolved "https://registry.yarnpkg.com/p5/-/p5-1.11.13.tgz#1ee9fb1c79c0d97800f7ec6f7ebdaec8d73b1a17"
@@ -8822,11 +8794,6 @@ react-dom@^19.2.0:
   integrity sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ==
   dependencies:
     scheduler "^0.27.0"
-
-react-error-boundary@^6.1.1:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-6.1.2.tgz#d213780329ceb3678cec7813a76a00e2a7584f48"
-  integrity sha512-3DpCr5HVdZ0caUjYE/kIHBEJN0mNP3ZCgf16c48uJ5TbWjorKVp+YG8W3XqlJ7vJAVNw6wNIImyPXmFydwmyng==
 
 react-fast-compare@^3.2.2:
   version "3.2.2"

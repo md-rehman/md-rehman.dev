@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-hook/media-query": "^1.1.1",
     "@repo/channel": "*",
+    "@repo/shell": "*",
     "next": "16.2.9",
     "p5": "^1.4.2",
     "react": "^19.2.0",
