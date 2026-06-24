@@ -67,7 +67,7 @@ export const TvStaticClient: React.FC<ComponentProps> = ({
         ref={noiseAudioRef}
         loop
         preload="auto"
-        src="/audios/tv_static_1.mp3"
+        src="/tv-set/audios/tv_static_1.mp3"
       />
       {!isMounted ? (
         <svg

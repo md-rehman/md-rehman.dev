@@ -15,6 +15,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "TV Set",
   description: "TV Set Application",
+  icons: "/tv-set/favicon.ico",
 };
 
 export default function RootLayout({

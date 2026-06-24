@@ -64,7 +64,7 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      const match = path.match(/^\/(\d+)$/);
+      const match = path.match(/^(?:\/tv-set)?\/(\d+)$/);
       if (match && match[1]) {
         const channelId = parseInt(match[1], 10);
         if (!isNaN(channelId) && channelId !== channelMeta.activeChannel) {
@@ -82,7 +82,8 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
   // Update browser URL path when active channel changes
   useEffect(() => {
     if (channelMeta.activeChannel !== undefined) {
-      const targetUrl = `/${channelMeta.activeChannel}`;
+      const basePath = window.location.pathname.startsWith('/tv-set') ? '/tv-set' : '';
+      const targetUrl = `${basePath}/${channelMeta.activeChannel}`;
       if (window.location.pathname !== targetUrl) {
         window.history.pushState(null, "", targetUrl);
       }

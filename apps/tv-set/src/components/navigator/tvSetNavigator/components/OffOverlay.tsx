@@ -77,9 +77,8 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
       className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center z-50 cursor-pointer"
       onClick={handleTurnOn}
     >
-      <audio ref={audioRef} src="/audios/remote_button_2.mp3" />
-      {/* TODO: Add turn_on audio effect */}
-      {/* <audio ref={audioRef2} src="/audios/turn_on.mp3" /> */}
+      <audio ref={audioRef} src="/tv-set/audios/remote_button_2.mp3" />
+      {/* <audio ref={audioRef2} src="/tv-set/audios/turn_on.mp3" /> */}
       <span className={`flex flex-row ${offAnimation ? styles.offText : ""}`}>
         <Text
           className={`font-silkscreen text-white text-2xl mx-12 ${

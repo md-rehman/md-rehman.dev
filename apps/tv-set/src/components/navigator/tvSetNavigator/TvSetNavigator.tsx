@@ -98,7 +98,7 @@ export const TvSetNavigator: React.FC<any> = ({
             />
           </div>
         )}
-        <audio ref={buttonAudioRef} src="/audios/remote_button_2.mp3" />
+        <audio ref={buttonAudioRef} src="/tv-set/audios/remote_button_2.mp3" />
         {channelMeta.overlay === "noise" && (
           <div
             style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
