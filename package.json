@@ -5,11 +5,13 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
+    "generate:app": "node scripts/generate-app.mjs",
+    "generate:package": "node scripts/generate-package.mjs"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
-    "turbo": "^2.1.2",
+    "turbo": "2.9.18",
     "typescript": "^5.4.5"
   },
   "engines": {

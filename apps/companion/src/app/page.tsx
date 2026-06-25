@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/auth/server";
 
 async function Instruments() {
   const supabase = await createClient();

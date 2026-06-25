@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/auth/client";
 import { type User, type AuthError } from "@supabase/supabase-js";
 
 interface IPrayerType {

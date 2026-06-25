@@ -2,10 +2,10 @@ import { ComponentProps } from "react";
 import type { PRAYER_STATUS } from "@/types/fundamental";
 
 type IButton = ComponentProps<"button"> & {
-  status: PRAYER_STATUS | string;
+  status?: PRAYER_STATUS | string;
 };
 type IButtonExtension = ComponentProps<"button"> & {
-  status: PRAYER_STATUS | string;
+  status?: PRAYER_STATUS | string;
   extraButtonExtensionStyle: string[];
 };
 

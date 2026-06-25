@@ -1,0 +1,69 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.input {
+  font-size: 0.82rem;
+  color: var(--foreground);
+  background: var(--card-bg);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.75rem;
+  outline: none;
+  resize: none;
+  line-height: 1.4;
+  transition: border-color var(--transition);
+  box-shadow: var(--card-shadow);
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.submitBtn {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition), transform 0.15s;
+}
+
+.submitBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.cancelBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  transition: all var(--transition);
+}
+
+.cancelBtn:hover {
+  color: var(--foreground);
+  background: var(--surface-hover);
+}

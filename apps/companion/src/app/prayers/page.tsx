@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@repo/auth/server";
 import { Container } from "@/components/page/prayers/Container";
 
 export default async function Prayers() {

@@ -3,25 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": " NEXT_PRIVATE_LOCAL_WEBPACK=true next dev --port 5001",
-    "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
+    "dev": "next dev --port 5001",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
     "@repo/ui": "*",
-    "next": "14.2.6",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "next": "16.2.9",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "eslint": "^8",
-    "eslint-config-next": "14.2.6",
+    "eslint-config-next": "16.2.9",
     "typescript": "^5"
   }
 }

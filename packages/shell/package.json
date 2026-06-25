@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./src"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "generate:component": "turbo gen react-component"
+    "generate:component": "turbo gen react-component",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

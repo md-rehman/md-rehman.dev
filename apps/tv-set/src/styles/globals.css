@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Edu+QLD+Beginner:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,8 +16,20 @@
   }
 }
 
+@font-face {
+  font-family: "death_note_1";
+  src: url("/tv-set/fonts/Death_Note_1.ttf");
+}
+@font-face {
+  font-family: "death_note_2";
+  src: url("/tv-set/fonts/Death_Note_2.ttf");
+}
+
+html,
 body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }

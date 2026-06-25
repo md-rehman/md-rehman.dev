@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@repo/auth/client";
 import { type User, type AuthError } from "@supabase/supabase-js";
 import { authenticated_user } from "@/constants/mock_auth_user";
 
