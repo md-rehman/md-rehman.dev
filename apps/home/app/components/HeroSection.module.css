@@ -1,0 +1,125 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+}
+
+.container {
+  max-width: 800px;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.greeting {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 0.75rem;
+}
+
+.name {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.title {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  color: var(--fg-secondary);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.summary {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--fg-secondary);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.summary strong {
+  color: var(--accent-1);
+  font-weight: 600;
+}
+
+/* Skills badges */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.badge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
+  color: var(--badge-text);
+  transition: all 0.25s ease;
+}
+
+.badge:hover {
+  background: var(--accent-1);
+  color: #fff;
+  border-color: var(--accent-1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 77, 255, 0.25);
+}
+
+/* Social links */
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--fg-secondary);
+  transition: all 0.3s ease;
+}
+
+.socialLink:hover {
+  color: var(--accent-1);
+  border-color: var(--accent-1);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px var(--card-glow);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero {
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  .summary {
+    font-size: 0.9rem;
+  }
+
+  .badge {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+  }
+}

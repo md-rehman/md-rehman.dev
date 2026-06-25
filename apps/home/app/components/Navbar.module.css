@@ -1,0 +1,91 @@
+.navbar {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.6rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--fg-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px var(--shadow-color);
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-color: var(--card-hover-border);
+  box-shadow: 0 4px 20px var(--shadow-color), 0 0 24px var(--card-glow);
+  transform: translateY(-1px);
+}
+
+.navLink:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.icon {
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s ease, opacity 0.2s ease;
+}
+
+.navLink:hover .label {
+  max-width: 80px;
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+  
+  .links {
+    gap: 0.5rem;
+  }
+
+  .navLink {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
