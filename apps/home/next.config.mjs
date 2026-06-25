@@ -2,37 +2,35 @@
 
 /**
  * Sub-apps in the monorepo that the home app proxies to.
- * Each entry maps a URL prefix to the local dev server port.
- *
- * To add a new sub-app:
- *   1. Add an entry here with { name, port }
- *   2. Set `basePath: "/<name>"` in the sub-app's next.config.mjs
- *   3. (Production) Add a rewrite in vercel.json
+ * Each entry maps a URL prefix to the local dev server port and production domain.
  */
 const subApps = [
-  { name: "tv-set", port: 3011 },
-  { name: "docs", port: 4001 },
-  { name: "p5-playground", port: 3005 },
-  { name: "companion", port: 3012 },
+  { name: "tv-set", port: 3011, domain: "md-rehman-dev-tv-set.vercel.app" },
+  { name: "docs", port: 4001, domain: "md-rehman-dev-docs.vercel.app" },
+  { name: "companion", port: 3012, domain: "md-rehman-dev-companion.vercel.app" },
+  { name: "planner", port: 3013, domain: "md-rehman-dev-planner.vercel.app" },
 ];
 
-const nextConfig = {
-  appName: "home",
+const isDev = process.env.NODE_ENV !== "production";
 
+const nextConfig = {
   async rewrites() {
     return {
       // "beforeFiles" rewrites are checked before pages/public files,
       // so sub-app routes take priority over any home app catch-all pages.
-      beforeFiles: subApps.flatMap(({ name, port }) => [
-        {
-          source: `/${name}`,
-          destination: `http://localhost:${port}/${name}`,
-        },
-        {
-          source: `/${name}/:path*`,
-          destination: `http://localhost:${port}/${name}/:path*`,
-        },
-      ]),
+      beforeFiles: subApps.flatMap(({ name, port, domain }) => {
+        const baseUrl = isDev ? `http://localhost:${port}` : `https://${domain}`;
+        return [
+          {
+            source: `/${name}`,
+            destination: `${baseUrl}/${name}`,
+          },
+          {
+            source: `/${name}/:path*`,
+            destination: `${baseUrl}/${name}/:path*`,
+          },
+        ];
+      }),
     };
   },
 };

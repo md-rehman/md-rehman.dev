@@ -17,14 +17,6 @@
       "destination": "https://md-rehman-dev-docs.vercel.app/docs/:match*"
     },
     {
-      "source": "/p5-playground",
-      "destination": "https://md-rehman-dev-p5-playground.vercel.app/p5-playground"
-    },
-    {
-      "source": "/p5-playground/:match*",
-      "destination": "https://md-rehman-dev-p5-playground.vercel.app/p5-playground/:match*"
-    },
-    {
       "source": "/companion",
       "destination": "https://md-rehman-dev-companion.vercel.app/companion"
     },
