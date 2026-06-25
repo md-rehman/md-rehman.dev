@@ -21,7 +21,8 @@
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: 0.6rem;
+  height: 2.4rem;
+  padding: 0 0.6rem;
   border: 1px solid var(--glass-border);
   border-radius: 999px;
   background: var(--glass-bg);
@@ -33,16 +34,18 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 12px var(--shadow-color);
+  box-shadow: 0 2px 12px var(--shadow-color), 0 0 14px var(--card-hover-border);
   pointer-events: auto;
   text-decoration: none;
+  box-sizing: border-box;
+  margin-right: 2rem;
 }
 
 .navLink:hover {
   gap: 0.5rem;
-  padding: 0.6rem 1rem;
+  padding: 0 1rem;
   border-color: var(--card-hover-border);
-  box-shadow: 0 4px 20px var(--shadow-color), 0 0 24px var(--card-glow);
+  box-shadow: 0 4px 20px var(--shadow-color), 0 0 24px var(--card-hover-border);
   transform: translateY(-1px);
 }
 
@@ -51,8 +54,9 @@
 }
 
 .icon {
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
+  width: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +83,7 @@
     left: 1rem;
     right: 1rem;
   }
-  
+
   .links {
     gap: 0.5rem;
   }
