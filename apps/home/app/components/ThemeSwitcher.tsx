@@ -28,6 +28,7 @@ export function ThemeSwitcher() {
   const cycleTheme = () => {
     const nextIndex = (THEMES.indexOf(theme) + 1) % THEMES.length;
     const next = THEMES[nextIndex];
+    if (!next) return;
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("home-theme", next);
