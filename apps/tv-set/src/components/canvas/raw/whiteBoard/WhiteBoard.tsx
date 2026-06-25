@@ -16,7 +16,7 @@ export const WhiteBoard = () => {
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
 
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
 
     // TODO: have to explore bitmap to replace line for more realistic lines
     // chalk shadder

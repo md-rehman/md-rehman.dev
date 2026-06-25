@@ -1,0 +1,187 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px var(--shadow-color);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-6px);
+  box-shadow:
+    0 16px 48px var(--shadow-color),
+    0 0 0 1px var(--card-glow),
+    0 0 60px -12px var(--card-glow);
+}
+
+/* Image area */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    var(--bg-primary) 100%
+  );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Content */
+.content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.appName {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+}
+
+.description {
+  max-height: 3.4em;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0.25rem;
+}
+
+.descriptionExpanded {
+  max-height: 200px;
+}
+
+.description p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--fg-secondary);
+}
+
+.expandToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  color: var(--accent-1);
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.expandToggle:hover {
+  color: var(--accent-2);
+}
+
+.expandArrow {
+  transition: transform 0.3s ease;
+}
+
+.expandArrowUp {
+  transform: rotate(180deg);
+}
+
+/* Tech stack badges */
+.techStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.techBadge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
+  color: var(--badge-text);
+  transition: all 0.2s ease;
+}
+
+.card:hover .techBadge {
+  background: rgba(124, 77, 255, 0.15);
+}
+
+/* Footer with visit link */
+.cardFooter {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--section-divider);
+}
+
+.visitLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  transition: all 0.3s ease;
+}
+
+.card:hover .visitLabel {
+  color: var(--accent-1);
+}
+
+.visitLabel svg {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .visitLabel svg {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .content {
+    padding: 1.25rem;
+  }
+
+  .appName {
+    font-size: 1.15rem;
+  }
+}
