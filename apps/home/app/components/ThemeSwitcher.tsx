@@ -13,7 +13,7 @@ const THEME_META: Record<Theme, { icon: string; label: string }> = {
 };
 
 export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<Theme>("nebula");
+  const [theme, setTheme] = useState<Theme>("dark-glitch");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
