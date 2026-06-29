@@ -16,6 +16,12 @@
   gap: 0.5rem;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .navLink {
   display: flex;
   align-items: center;

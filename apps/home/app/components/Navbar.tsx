@@ -1,4 +1,5 @@
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ColorPicker } from "./ColorPicker";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -18,7 +19,10 @@ export function Navbar() {
           <span className={styles.label}>Planner</span>
         </a>
       </div>
-      <ThemeSwitcher />
+      <div className={styles.controls}>
+        <ColorPicker />
+        <ThemeSwitcher />
+      </div>
     </nav>
   );
 }
