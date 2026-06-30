@@ -7,11 +7,11 @@ import { canvas } from "../utils";
 interface ComponentProps { }
 
 const STAR_COLORS = [
-  { color: "#ffffff", probability: 0.8 },  // White (80%)
-  { color: "#ffe9c4", probability: 0.05 }, // Warm white (5%)
-  { color: "#d4fbff", probability: 0.05 }, // Pale blue (5%)
-  { color: "#ffb56b", probability: 0.05 }, // Orange/amber (5%)
-  { color: "#8c9cff", probability: 0.05 }  // Blue/purple (5%)
+  { color: "#ffffff", probability: 0.8 },
+  { color: "#ffe9c4", probability: 0.05 },
+  { color: "#d4fbff", probability: 0.05 },
+  { color: "#ffb56b", probability: 0.05 },
+  { color: "#8c9cff", probability: 0.05 }
 ] as const;
 
 function getRandomColor(p5: any): string {
@@ -84,7 +84,7 @@ export const Hyperdrive: React.FC<ComponentProps> = () => {
   const draw = (p5: any) => {
     let speed = 20;
     if (p5.mouseX > 0 || p5.mouseY > 0) {
-      speed = p5.map(p5.mouseX, 0, p5.width, 5, 50);
+      speed = p5.map(p5.mouseX, 0, p5.width, 5, 40);
     }
 
     p5.background(0);
@@ -95,9 +95,7 @@ export const Hyperdrive: React.FC<ComponentProps> = () => {
       star.show(p5);
     }
 
-    // Demonstrate canvas.log
-    canvas.log(p5, "Current Speed:", speed.toFixed(2));
-    canvas.log(p5, "Stars Count:", starsRef.current.length);
+    // canvas.log(p5, "Current Speed:", speed.toFixed(2));
   };
 
   return <P5Sketch setup={setup} draw={draw} />;
