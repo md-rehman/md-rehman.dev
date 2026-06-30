@@ -1,7 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import p5Types, { Vector } from "p5";
 import { P5Sketch } from "@atoms";
-import { VIBRANT_COLORS } from "@constants";
+
+export const VIBRANT_COLORS = [
+  "#db2777",
+  "#ef4444",
+  "#5eead4",
+  "#34d399",
+  "#a3e635",
+  "#38bdf8",
+  "#818cf8",
+  "#67e8f9",
+  "#e879f9",
+  "#fb923c",
+] as const;
+
 
 class Ball {
   point?: Vector;
@@ -14,16 +27,23 @@ class Ball {
   acc?: Vector;
   dAcc?: Vector;
   p5: p5Types;
+  color: string;
+  trailBuffer: p5Types.Graphics;
 
   constructor(p5: p5Types) {
     this.p5 = p5;
     this.pos = window.p5.Vector.random2D().setMag(11);
+    this.color = VIBRANT_COLORS[Math.floor(Math.random() * VIBRANT_COLORS.length)] || "#ffffff";
+    this.trailBuffer = p5.createGraphics(window.innerWidth, window.innerHeight);
+    this.trailBuffer.clear(0, 0, 0, 0);
   }
   // STEP: Creation
   create() {
-    this.pos = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
     this.force = undefined;
     this.mouseForce = undefined;
+    if (this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y) > 20) {
+      this.trailBuffer.clear(0, 0, 0, 0);
+    }
   }
   stretch() {
     const mouse = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
@@ -71,7 +91,39 @@ class Ball {
     }
   }
   render() {
+    if (this.force) {
+      this.trailBuffer.push();
+      this.trailBuffer.noStroke();
+      this.trailBuffer.fill(17, 24, 39, 25);
+      this.trailBuffer.rect(0, 0, this.trailBuffer.width, this.trailBuffer.height);
+      this.trailBuffer.pop();
+    }
+
+    this.trailBuffer.noStroke();
+    this.trailBuffer.fill(this.color);
+    this.trailBuffer.circle(this.pos.x, this.pos.y, 20);
+
     this.p5.background(17, 24, 39);
+    this.p5.image(this.trailBuffer, 0, 0);
+
+    if (this.mouseForce && !this.force) {
+      this.p5.push();
+      this.p5.stroke("#ef4444");
+      this.p5.strokeWeight(2);
+      this.p5.fill("#ef4444");
+      this.p5.translate(this.pos.x, this.pos.y);
+      this.p5.line(0, 0, this.mouseForce.x, this.mouseForce.y);
+
+      const angle = this.mouseForce.heading();
+      const arrowSize = 7;
+      this.p5.translate(this.mouseForce.x, this.mouseForce.y);
+      this.p5.rotate(angle);
+      this.p5.triangle(-arrowSize, arrowSize / 2, -arrowSize, -arrowSize / 2, 0, 0);
+      this.p5.pop();
+    }
+
+    this.p5.noStroke();
+    this.p5.fill(this.color);
     this.p5.circle(this.pos.x, this.pos.y, 20);
   }
 }
@@ -96,6 +148,7 @@ export const BallShooter: React.FC = () => {
     p5.createCanvas(window.innerWidth, window.innerHeight).parent(
       canvasParentRef,
     );
+    p5.background(17, 24, 39);
     p5.noStroke();
     string = new Ball(p5);
   }
@@ -112,9 +165,9 @@ export const BallShooter: React.FC = () => {
       mousePressed={mousePressed}
       mouseDragged={mouseDragged}
       mouseReleased={mouseReleased}
-      // touchStarted={touchStarted}
-      // touchMoved={touchMoved}
-      // touchEnded={touchEnded}
+    // touchStarted={touchStarted}
+    // touchMoved={touchMoved}
+    // touchEnded={touchEnded}
     />
   );
 };
