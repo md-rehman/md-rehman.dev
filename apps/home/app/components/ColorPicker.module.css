@@ -82,7 +82,7 @@
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--fg-primary) 30%, transparent);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

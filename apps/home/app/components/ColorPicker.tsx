@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./ColorPicker.module.css";
 
-const PREDEFINED_ACCENTS = ["#FFADAD", "#FFD6A5", "#FDFFB6", "#E4F1EE", "#D9EDF4", "#DEDAF4"];
+const PREDEFINED_ACCENTS = ["#ff0080", "#00ffc8", "#ffea00", "#d500f9", "#00b8ff", "#39ff14"];
 const PREDEFINED_BGS = ["#0b0d1a", "#050505", "#1a1a2e", "#f8f9fc", "#ffffff", "#f4f4f5"];
 
 export function ColorPicker() {
