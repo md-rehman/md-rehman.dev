@@ -32,7 +32,7 @@ class Ball {
 
   constructor(p5: p5Types) {
     this.p5 = p5;
-    this.pos = window.p5.Vector.random2D().setMag(11);
+    this.pos = this.p5.createVector(this.p5.width / 2, this.p5.height / 2);
     this.color = VIBRANT_COLORS[Math.floor(Math.random() * VIBRANT_COLORS.length)] || "#ffffff";
     this.trailBuffer = p5.createGraphics(window.innerWidth, window.innerHeight);
     this.trailBuffer.clear(0, 0, 0, 0);
