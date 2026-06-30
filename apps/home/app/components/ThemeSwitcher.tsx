@@ -32,6 +32,13 @@ export function ThemeSwitcher() {
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("home-theme", next);
+
+    // Reset custom colors when theme changes
+    localStorage.removeItem("home-bg-primary");
+    localStorage.removeItem("home-accent-primary");
+    document.documentElement.style.removeProperty("--bg-primary");
+    document.documentElement.style.removeProperty("--accent-primary");
+    window.dispatchEvent(new Event("theme-reset-colors"));
   };
 
   if (!mounted) return null;
