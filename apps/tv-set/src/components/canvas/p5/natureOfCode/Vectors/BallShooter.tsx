@@ -39,13 +39,35 @@ class Ball {
     }
   }
   update() {
-    if (
-      this.force &&
-      this.resistance &&
-      this.force.angleBetween(this.resistance) !== 0
-    ) {
-      this.force.add(this.resistance);
+    if (this.force && this.resistance) {
+      if (this.force.magSq() <= this.resistance.magSq()) {
+        this.force.set(0, 0);
+        this.resistance.set(0, 0);
+      } else {
+        this.force.add(this.resistance);
+      }
       this.pos.add(this.force);
+
+      const r = 10;
+      if (this.pos.x > this.p5.width - r) {
+        this.pos.x = this.p5.width - r;
+        this.force.x *= -1;
+        this.resistance.x *= -1;
+      } else if (this.pos.x < r) {
+        this.pos.x = r;
+        this.force.x *= -1;
+        this.resistance.x *= -1;
+      }
+
+      if (this.pos.y > this.p5.height - r) {
+        this.pos.y = this.p5.height - r;
+        this.force.y *= -1;
+        this.resistance.y *= -1;
+      } else if (this.pos.y < r) {
+        this.pos.y = r;
+        this.force.y *= -1;
+        this.resistance.y *= -1;
+      }
     }
   }
   render() {
