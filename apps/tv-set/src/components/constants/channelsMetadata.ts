@@ -148,4 +148,20 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Interactive Introduction</h1><p>Click anywhere on the screen to trigger custom events such as changing the background color or navigating to other channels!</p>",
   },
+  10: {
+    name: "Hyperdrive",
+    title: "Hyperdrive - Space Travel Simulation",
+    description:
+      "A p5.js generative art simulation of jumping to hyperdrive or moving through a starfield.",
+    keywords: [
+      "hyperdrive",
+      "starfield",
+      "p5js",
+      "canvas",
+      "creative coding",
+      "space",
+    ],
+    contentHtml:
+      "<h1>Hyperdrive Simulation</h1><p>Travel through a starfield using this p5.js canvas sketch. Move your mouse along the X-axis to control the speed of the jump into hyperdrive!</p>",
+  },
 };

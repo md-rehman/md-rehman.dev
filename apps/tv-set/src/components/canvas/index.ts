@@ -6,3 +6,5 @@ export * from "./raw/tvSetNoise";
 // p5.js canvas components
 export * from "./p5/tvStatic";
 export * from "./p5/natureOfCode";
+export * from "./p5/hyperdrive";
+export * from "./p5/utils";
