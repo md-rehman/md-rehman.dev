@@ -15,6 +15,7 @@ export const VIBRANT_COLORS = [
   "#fb923c",
 ] as const;
 
+export const TRACK_ALPHA = 0.1;
 
 class Ball {
   point?: Vector;
@@ -37,6 +38,10 @@ class Ball {
     this.trailBuffer = p5.createGraphics(window.innerWidth, window.innerHeight);
     this.trailBuffer.clear(0, 0, 0, 0);
   }
+  changeColor() {
+    this.color = VIBRANT_COLORS[Math.floor(Math.random() * VIBRANT_COLORS.length)] || "#ffffff";
+  }
+
   // STEP: Creation
   create() {
     this.force = undefined;
@@ -91,17 +96,13 @@ class Ball {
     }
   }
   render() {
-    if (this.force) {
-      this.trailBuffer.push();
+    if (this.force && this.force.magSq() > 0) {
+      const c = this.p5.color(this.color);
+      c.setAlpha(255 * TRACK_ALPHA);
       this.trailBuffer.noStroke();
-      this.trailBuffer.fill(17, 24, 39, 25);
-      this.trailBuffer.rect(0, 0, this.trailBuffer.width, this.trailBuffer.height);
-      this.trailBuffer.pop();
+      this.trailBuffer.fill(c);
+      this.trailBuffer.circle(this.pos.x, this.pos.y, 20);
     }
-
-    this.trailBuffer.noStroke();
-    this.trailBuffer.fill(this.color);
-    this.trailBuffer.circle(this.pos.x, this.pos.y, 20);
 
     this.p5.background(17, 24, 39);
     this.p5.image(this.trailBuffer, 0, 0);
@@ -131,7 +132,11 @@ class Ball {
 let string: Ball;
 
 export const BallShooter: React.FC = () => {
-  const mousePressed = (e: p5Types) => {
+  const mousePressed = (p5: p5Types) => {
+    if (p5.mouseButton === p5.RIGHT) {
+      string.changeColor();
+      return;
+    }
     string.create();
   };
   const mouseDragged = (e: p5Types) => {
