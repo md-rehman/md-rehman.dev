@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { isMockEnabled } from "./mock";
+import { isMockEnabled, createMockServerClient } from "./mock";
 
 export interface AuthMiddlewareOptions {
   /** Path to redirect unauthenticated users to (e.g. "/login" or "/planner/login"). */
@@ -31,33 +31,34 @@ export async function updateSession(
   request: NextRequest,
   options?: AuthMiddlewareOptions,
 ) {
-  // Mock mode: skip all auth checks
-  if (isMockEnabled()) {
-    return NextResponse.next({ request });
-  }
-
   let supabaseResponse = NextResponse.next({ request });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
+  const supabase = isMockEnabled()
+    ? (createMockServerClient({
+        getSession: () => request.cookies.get('mock_session')?.value,
+        setSession: () => supabaseResponse.cookies.set('mock_session', 'true'),
+        clearSession: () => supabaseResponse.cookies.delete('mock_session')
+      }) as any)
+    : createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value }) =>
+                request.cookies.set(name, value),
+              );
+              supabaseResponse = NextResponse.next({ request });
+              cookiesToSet.forEach(({ name, value, options }) =>
+                supabaseResponse.cookies.set(name, value, options),
+              );
+            },
+          },
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
-          );
-        },
-      },
-    },
-  );
+      );
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
   const {

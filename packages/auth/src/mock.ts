@@ -33,17 +33,25 @@ export function isMockEnabled(): boolean {
 
 // ── Mock Supabase-like client (server) ─────────────────────────────
 
+export interface MockCookieManager {
+  getSession: () => boolean | string | undefined;
+  setSession: () => void;
+  clearSession: () => void;
+}
+
 /**
  * Returns a mock object that mimics the Supabase client API surface
  * used by the apps (auth.getUser, auth.signInWithPassword, auth.signUp, etc.)
  */
-export function createMockServerClient() {
+export function createMockServerClient(cookies?: MockCookieManager) {
   return {
     auth: {
-      getUser: async () => ({
-        data: { user: MOCK_USER as any },
-        error: null,
-      }),
+      getUser: async () => {
+        if (!cookies || cookies.getSession()) {
+          return { data: { user: MOCK_USER as any }, error: null };
+        }
+        return { data: { user: null }, error: null };
+      },
       signInWithPassword: async ({
         email,
         password,
@@ -55,6 +63,7 @@ export function createMockServerClient() {
           email === MOCK_CREDENTIALS.email &&
           password === MOCK_CREDENTIALS.password
         ) {
+          cookies?.setSession();
           return { data: { user: MOCK_USER as any, session: {} }, error: null };
         }
         return {
@@ -65,7 +74,10 @@ export function createMockServerClient() {
       signUp: async ({ email }: { email: string; password: string }) => {
         return { data: { user: { ...MOCK_USER, email } as any }, error: null };
       },
-      signOut: async () => ({ error: null }),
+      signOut: async () => {
+        cookies?.clearSession();
+        return { error: null };
+      },
       exchangeCodeForSession: async () => ({
         data: { session: {} },
         error: null,
@@ -83,19 +95,28 @@ export function createMockServerClient() {
 
 // ── Mock Supabase-like client (browser) ────────────────────────────
 
-export function createMockBrowserClient() {
+export function createMockBrowserClient(cookies?: MockCookieManager) {
   return {
     auth: {
-      getUser: async () => ({
-        data: { user: MOCK_USER as any },
-        error: null,
-      }),
-      signOut: async () => ({ error: null }),
+      getUser: async () => {
+        if (!cookies || cookies.getSession()) {
+          return { data: { user: MOCK_USER as any }, error: null };
+        }
+        return { data: { user: null }, error: null };
+      },
+      signOut: async () => {
+        cookies?.clearSession();
+        return { error: null };
+      },
       onAuthStateChange: (
         callback: (event: string, session: any) => void,
       ) => {
-        // Fire immediately with a mock session
-        callback("SIGNED_IN", { user: MOCK_USER });
+        // Fire immediately with a mock session if logged in
+        if (!cookies || cookies.getSession()) {
+          callback("SIGNED_IN", { user: MOCK_USER });
+        } else {
+          callback("SIGNED_OUT", { user: null });
+        }
         return {
           data: {
             subscription: { unsubscribe: () => {} },
