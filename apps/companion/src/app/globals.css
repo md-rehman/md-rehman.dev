@@ -1,35 +1,109 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* ═══════════════════════════════════════════
+   GLOBAL COLOR DERIVATIONS
+   ═══════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default to Nebula */
+  --bg-primary: #0b0d1a;
+  --accent-primary: #7c4dff;
+  --mix-color: white; /* Used for mixing bg variants */
+  
+  /* Foreground Defaults (Text) */
+  --fg-primary: #e8eaf6;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --nebula-bg-visible: 1;
+
+  /* Dynamically Derived Backgrounds */
+  --bg-secondary: color-mix(in srgb, var(--bg-primary) 96%, var(--mix-color));
+  --bg-tertiary: color-mix(in srgb, var(--bg-primary) 92%, var(--mix-color));
+  
+  --glass-bg: color-mix(in srgb, var(--bg-primary) 80%, transparent);
+  --card-bg: color-mix(in srgb, var(--bg-primary) 90%, transparent);
+  --scrollbar-track: var(--bg-primary);
+
+  /* Dynamically Derived Accents */
+  --accent-1: var(--accent-primary);
+  --accent-2: color-mix(in srgb, var(--accent-primary) 70%, white);
+  --accent-3: color-mix(in srgb, var(--accent-primary) 50%, black);
+  --accent-gradient: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+  
+  --card-border: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  --card-hover-border: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  --card-glow: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+  
+  --badge-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  --badge-border: color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  --badge-text: color-mix(in srgb, var(--accent-primary) 80%, white);
+  
+  --timeline-line: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  --timeline-node: var(--accent-primary);
+  --timeline-node-glow: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  
+  --glass-border: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  --section-divider: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+  --scrollbar-thumb: color-mix(in srgb, var(--accent-primary) 80%, black);
+  
+  --fg-secondary: color-mix(in srgb, var(--accent-primary) 30%, color-mix(in srgb, var(--fg-primary) 75%, var(--bg-primary)));
+  --fg-muted: color-mix(in srgb, var(--accent-primary) 40%, var(--fg-secondary));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ═══════════════════════════════════════════
+   THEME PRESETS
+   ═══════════════════════════════════════════ */
+[data-theme="nebula"] {
+  --bg-primary: #0b0d1a;
+  --accent-primary: #7c4dff;
+  --mix-color: white;
+  --fg-primary: #e8eaf6;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --nebula-bg-visible: 1;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+[data-theme="dark-glitch"] {
+  --bg-primary: #050505;
+  --accent-primary: #00ffc8;
+  --mix-color: white;
+  --fg-primary: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --nebula-bg-visible: 0;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+[data-theme="light"] {
+  --bg-primary: #f8f9fc;
+  --accent-primary: #5c4dff;
+  --mix-color: black;
+  --fg-primary: #1a1a2e;
+  --shadow-color: rgba(0, 0, 30, 0.08);
+  --nebula-bg-visible: 0;
+}
+
+/* ═══════════════════════════════════════════
+   BASE RESET & TYPOGRAPHY
+   ═══════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  /* padding: 0; */
-  /* margin: 0; */
+body {
+  font-family: 'Inter', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--fg-primary);
+  background: var(--bg-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.4s ease;
 }
 
 a {
@@ -37,8 +111,141 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+/* ═══════════════════════════════════════════
+   NEBULA BACKGROUND EFFECT
+   ═══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+  opacity: var(--nebula-bg-visible);
+  transition: opacity 0.8s ease;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 77, 255, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(0, 229, 255, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(234, 128, 252, 0.06) 0%, transparent 70%);
+  animation: nebulaShift 20s ease-in-out infinite alternate;
+}
+
+/* Animated stars for nebula theme */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: var(--nebula-bg-visible);
+  transition: opacity 0.8s ease;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.3) 0%, transparent 100%);
+  animation: starTwinkle 8s ease-in-out infinite alternate;
+}
+
+/* ═══════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes nebulaShift {
+  0% {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 77, 255, 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 80% 70%, rgba(0, 229, 255, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(234, 128, 252, 0.06) 0%, transparent 70%);
   }
+  100% {
+    background:
+      radial-gradient(ellipse 70% 70% at 70% 60%, rgba(124, 77, 255, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(0, 229, 255, 0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 60% at 60% 30%, rgba(234, 128, 252, 0.08) 0%, transparent 70%);
+  }
+}
+
+@keyframes starTwinkle {
+  0% { opacity: var(--nebula-bg-visible); }
+  50% { opacity: calc(var(--nebula-bg-visible) * 0.6); }
+  100% { opacity: var(--nebula-bg-visible); }
+}
+
+@keyframes glitchFlicker {
+  0%, 93%, 100% { opacity: 1; }
+  94% { opacity: 0.8; transform: translateX(-2px); }
+  95% { opacity: 1; transform: translateX(1px); }
+  96% { opacity: 0.9; transform: translateX(-1px); }
+  97% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px var(--timeline-node-glow); }
+  50% { box-shadow: 0 0 16px var(--timeline-node-glow), 0 0 32px var(--timeline-node-glow); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════ */
+.gradient-text {
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }

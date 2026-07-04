@@ -1,0 +1,35 @@
+.clock {
+  font-family: 'Inter', sans-serif;
+  font-size: 5rem;
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  color: var(--fg-primary);
+  line-height: 1;
+  text-shadow: 0 2px 20px var(--shadow-color);
+}
+
+.date {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--fg-secondary);
+  letter-spacing: 0.02em;
+}
+
+.greeting {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--fg-muted);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .clock {
+    font-size: 3.5rem;
+  }
+
+  .date {
+    font-size: 1rem;
+  }
+}

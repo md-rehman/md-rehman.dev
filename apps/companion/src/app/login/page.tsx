@@ -1,32 +1,24 @@
-import Image from "next/image";
 import { login, signup } from "./actions";
+import styles from "./page.module.css";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 p-4 dark:bg-zinc-950">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-black/5 bg-white p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
-        <div className="mb-8 flex justify-center">
-          <Image
-            className="opacity-90 dark:invert"
-            src="/companion/next.svg"
-            alt="Next.js logo"
-            width={120}
-            height={25}
-            priority
-          />
+    <div className={styles.loginPage}>
+      <div className={styles.card}>
+        <div className={styles.branding}>
+          <span className={styles.brandIcon}>🕌</span>
+          <span className={styles.brandName}>Companion</span>
         </div>
-        
-        <h2 className="mb-6 text-center text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Welcome Back
-        </h2>
-        
-        <form className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="email">
+
+        <h2 className={styles.title}>Welcome Back</h2>
+
+        <form className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="email">
               Email Address
             </label>
             <input
-              className="w-full rounded-xl border border-black/10 bg-transparent px-4 py-3 text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-black focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:text-white dark:placeholder-zinc-500 dark:focus:border-zinc-300 dark:focus:bg-white/10 dark:focus:ring-zinc-300/20"
+              className={styles.input}
               id="email"
               name="email"
               type="email"
@@ -34,13 +26,13 @@ export default function LoginPage() {
               required
             />
           </div>
-          
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="password">
+
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="password">
               Password
             </label>
             <input
-              className="w-full rounded-xl border border-black/10 bg-transparent px-4 py-3 text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-black focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:text-white dark:placeholder-zinc-500 dark:focus:border-zinc-300 dark:focus:bg-white/10 dark:focus:ring-zinc-300/20"
+              className={styles.input}
               id="password"
               name="password"
               type="password"
@@ -48,19 +40,26 @@ export default function LoginPage() {
               required
             />
           </div>
-          
-          <div className="pt-4 flex flex-col gap-3">
+
+          <div className={styles.actions}>
             <button
-              className="w-full rounded-xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800 active:scale-[0.98] dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+              className={styles.btnPrimary}
               formAction={login}
             >
               Log in
             </button>
+
+            <div className={styles.divider}>
+              <span className={styles.dividerLine} />
+              <span className={styles.dividerText}>or</span>
+              <span className={styles.dividerLine} />
+            </div>
+
             <button
-              className="w-full rounded-xl border border-black/10 bg-transparent px-4 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-black/5 active:scale-[0.98] dark:border-white/10 dark:text-white dark:hover:bg-white/5"
+              className={styles.btnSecondary}
               formAction={signup}
             >
-              Sign up
+              Create Account
             </button>
           </div>
         </form>

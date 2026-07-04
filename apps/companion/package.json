@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
+    "@repo/atomic-ui": "*",
     "@repo/auth": "*",
     "@tailwindcss/postcss": "^4.1.11",
     "next": "16.2.9",
