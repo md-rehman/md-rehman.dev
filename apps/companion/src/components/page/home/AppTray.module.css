@@ -15,6 +15,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -68,7 +69,7 @@
   position: absolute;
   inset: -2px;
   border-radius: 16px;
-  background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  /* background: color-mix(in srgb, var(--accent-primary) 10%, transparent); */
   opacity: 0;
   transition: opacity 0.25s ease;
   z-index: -1;
@@ -89,15 +90,15 @@
   height: 3rem;
   border-radius: 12px;
   background: color-mix(in srgb, var(--bg-primary) 70%, transparent);
-  border: 1px solid color-mix(in srgb, var(--fg-primary) 8%, transparent);
+  /* border: 1px solid color-mix(in srgb, var(--fg-primary) 8%, transparent); */
   transition: all 0.25s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .dockItem:hover .dockIcon {
-  box-shadow:
+  /* box-shadow:
     0 4px 16px var(--shadow-color),
-    0 0 20px color-mix(in srgb, var(--accent-primary) 20%, transparent);
+    0 0 20px color-mix(in srgb, var(--accent-primary) 20%, transparent); */
 }
 
 /* ── Label (tooltip) ── */

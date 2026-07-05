@@ -1,0 +1,149 @@
+/* ═══════════════════════════════════════════
+   PRAYER TRACKER — Variant C (Horizontal Tiles)
+   ═══════════════════════════════════════════ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ── Score Bar ── */
+.scoreBar {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.scoreNum {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite;
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.scoreSep {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--fg-muted);
+}
+
+.scoreTotal {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+/* ── Tile Row ── */
+.tileRow {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Individual Tile ── */
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0.7rem 0.5rem;
+  min-width: 62px;
+  flex: 1;
+  max-width: 78px;
+  background: var(--glass-bg);
+  border: 1px solid var(--card-border);
+  border-bottom: 3px solid color-mix(in srgb, var(--tile-color) 50%, transparent);
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px var(--shadow-color);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--tile-color) 40%, transparent);
+  box-shadow:
+    0 6px 24px var(--shadow-color),
+    0 0 16px color-mix(in srgb, var(--tile-color) 15%, transparent);
+}
+
+.tile:active {
+  transform: scale(0.95);
+}
+
+.tileIcon {
+  font-size: 1.6rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.tile:active .tileIcon {
+  transform: scale(1.25);
+}
+
+.tileName {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--fg-primary);
+  letter-spacing: 0.1em;
+}
+
+.tileStatus {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .tileRow {
+    gap: 0.35rem;
+  }
+
+  .tile {
+    min-width: 54px;
+    padding: 0.6rem 0.35rem;
+  }
+
+  .tileIcon {
+    font-size: 1.3rem;
+  }
+
+  .tileName {
+    font-size: 0.55rem;
+  }
+}
