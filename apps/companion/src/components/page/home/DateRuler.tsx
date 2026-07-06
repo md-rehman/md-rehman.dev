@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import styles from "./DateRuler.module.css";
 
 const TICK_WIDTH = 12; // px per day
@@ -10,6 +10,39 @@ const PADDING_DAYS = 30; // extra days of padding on each side
 interface DateRulerProps {
   onDateChange: (dateStr: string) => void;
   selectedDate: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+function parsePropDate(dateStr?: string): string | undefined {
+  if (!dateStr) return undefined;
+  
+  // Check if already YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  
+  // Handle DD-MM-YYYY or D-MM-YYYY
+  const parts = dateStr.split(/[-/]/);
+  if (parts.length === 3) {
+    if (parts[2].length === 4) {
+      const day = parts[0].padStart(2, "0");
+      const month = parts[1].padStart(2, "0");
+      const year = parts[2];
+      return `${year}-${month}-${day}`;
+    } else if (parts[0].length === 4) {
+      const year = parts[0];
+      const month = parts[1].padStart(2, "0");
+      const day = parts[2].padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+  }
+  
+  // Fallback native date parse
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    return formatDateStr(d);
+  }
+
+  return dateStr;
 }
 
 function formatDateStr(date: Date): string {
@@ -42,45 +75,68 @@ function getDaysList(): Date[] {
   return days;
 }
 
-export function DateRuler({ onDateChange, selectedDate }: DateRulerProps) {
+export function DateRuler({
+  onDateChange,
+  selectedDate,
+  startDate,
+  endDate,
+}: DateRulerProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [days] = useState<Date[]>(() => getDaysList());
   const [displayDate, setDisplayDate] = useState<string>("");
   const [mounted, setMounted] = useState(false);
   const isInitialScroll = useRef(true);
 
+  // Calculate valid start and end indices based on props
+  const validStartIndex = useMemo(() => {
+    const parsedStart = parsePropDate(startDate);
+    if (!parsedStart) return 0;
+    const index = days.findIndex((d) => formatDateStr(d) === parsedStart);
+    return index >= 0 ? index : 0;
+  }, [days, startDate]);
+
+  const validEndIndex = useMemo(() => {
+    const parsedEnd = parsePropDate(endDate);
+    if (!parsedEnd) return days.length - 1;
+    const index = days.findIndex((d) => formatDateStr(d) === parsedEnd);
+    return index >= 0 ? index : days.length - 1;
+  }, [days, endDate]);
+
   // Find today's index in the days array
   const todayStr = formatDateStr(new Date());
-  const todayIndex = days.findIndex((d) => formatDateStr(d) === todayStr);
+  const rawTodayIndex = days.findIndex((d) => formatDateStr(d) === todayStr);
+  const todayIndex = Math.max(validStartIndex, Math.min(rawTodayIndex, validEndIndex));
 
   // Scroll to today on mount
   useEffect(() => {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
-    const containerWidth = container.clientWidth;
-    const scrollTarget =
-      todayIndex * TICK_WIDTH - containerWidth / 2 + TICK_WIDTH / 2;
+    
+    const scrollTarget = (todayIndex - validStartIndex) * TICK_WIDTH;
     container.scrollLeft = scrollTarget;
     setMounted(true);
 
     // Set initial display date
-    const today = new Date();
-    setDisplayDate(formatDisplayDate(today));
+    const clampedToday = days[todayIndex];
+    if (clampedToday) {
+      setDisplayDate(formatDisplayDate(clampedToday));
+    }
 
     // Small delay before allowing scroll events to fire onDateChange
     requestAnimationFrame(() => {
       isInitialScroll.current = false;
     });
-  }, [todayIndex]);
+  }, [todayIndex, validStartIndex, days]);
 
   // Handle scroll → update selected date
   const handleScroll = useCallback(() => {
     if (!scrollRef.current || isInitialScroll.current) return;
     const container = scrollRef.current;
-    const centerOffset = container.scrollLeft + container.clientWidth / 2;
-    const dayIndex = Math.round(centerOffset / TICK_WIDTH);
-    const clampedIndex = Math.max(0, Math.min(dayIndex, days.length - 1));
+    
+    const dayIndex = Math.round(container.scrollLeft / TICK_WIDTH) + validStartIndex;
+    const clampedIndex = Math.max(validStartIndex, Math.min(dayIndex, validEndIndex));
     const date = days[clampedIndex];
+    
     if (date) {
       const dateStr = formatDateStr(date);
       setDisplayDate(formatDisplayDate(date));
@@ -88,7 +144,7 @@ export function DateRuler({ onDateChange, selectedDate }: DateRulerProps) {
         onDateChange(dateStr);
       }
     }
-  }, [days, onDateChange, selectedDate]);
+  }, [days, onDateChange, selectedDate, validStartIndex, validEndIndex]);
 
   // Check if a day is Friday (day 5)
   const isFriday = (date: Date) => date.getDay() === 5;
@@ -113,17 +169,25 @@ export function DateRuler({ onDateChange, selectedDate }: DateRulerProps) {
         >
           <div
             className={styles.rulerTrack}
-            style={{ width: `${days.length * TICK_WIDTH}px` }}
+            style={{ 
+              width: `${Math.max(0, validEndIndex - validStartIndex) * TICK_WIDTH}px`,
+              paddingLeft: '50%',
+              paddingRight: '50%',
+              boxSizing: 'content-box',
+              overflow: 'hidden'
+            }}
           >
-            {days.map((day, i) => {
-              const friday = isFriday(day);
-              const today = isToday(day);
-              return (
-                <div
-                  key={i}
-                  className={`${styles.tick} ${friday ? styles.tickFriday : ""} ${today ? styles.tickToday : ""}`}
-                  style={{ left: `${i * TICK_WIDTH}px` }}
-                >
+            <div style={{ position: 'relative', height: '100%' }}>
+              {days.map((day, i) => {
+                const friday = isFriday(day);
+                const today = isToday(day);
+                const isDisabled = i < validStartIndex || i > validEndIndex;
+                return (
+                  <div
+                    key={i}
+                    className={`${styles.tick} ${friday ? styles.tickFriday : ""} ${today ? styles.tickToday : ""} ${isDisabled ? styles.tickDisabled : ""}`}
+                    style={{ left: `calc(${(i - validStartIndex) * TICK_WIDTH}px - ${TICK_WIDTH / 2}px)` }}
+                  >
                   <div
                     className={`${styles.tickLine} ${friday ? styles.tickLineFriday : ""}`}
                   />
@@ -133,9 +197,10 @@ export function DateRuler({ onDateChange, selectedDate }: DateRulerProps) {
                       {day.getDate()}
                     </span>
                   )}
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

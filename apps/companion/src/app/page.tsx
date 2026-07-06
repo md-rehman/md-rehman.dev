@@ -34,6 +34,8 @@ export default function Home() {
         <DateRuler
           onDateChange={setSelectedDate}
           selectedDate={selectedDate}
+        // startDate="1-06-2026"
+        // endDate={"13-06-2026"}
         />
       </div>
 

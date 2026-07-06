@@ -138,6 +138,13 @@
   box-shadow: 0 0 8px color-mix(in srgb, var(--accent-primary) 50%, transparent);
 }
 
+/* ── Disabled Tick ── */
+.tickDisabled {
+  opacity: 0.25;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
 /* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
