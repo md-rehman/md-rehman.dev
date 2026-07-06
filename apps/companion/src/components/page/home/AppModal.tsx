@@ -1,17 +1,25 @@
-"use client";
-
 import { useEffect, useRef } from "react";
 import styles from "./AppModal.module.css";
+import { ProfileBody } from "./modal-bodies/ProfileBody";
+
+type AppBodyProps = {
+  accentColor?: string;
+};
+
+const APP_BODY_REGISTRY: Record<string, React.ComponentType<AppBodyProps>> = {
+  profile: ProfileBody,
+};
 
 type AppModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  appId?: string;
   icon: string;
   label: string;
   accentColor?: string;
 };
 
-export function AppModal({ isOpen, onClose, icon, label, accentColor }: AppModalProps) {
+export function AppModal({ isOpen, onClose, appId, icon, label, accentColor }: AppModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,16 +70,23 @@ export function AppModal({ isOpen, onClose, icon, label, accentColor }: AppModal
 
         {/* ── Window Body ── */}
         <div className={styles.body}>
-          <div className={styles.emptyState}>
-            <span
-              className={styles.emptyIcon}
-              style={accentColor ? { filter: `drop-shadow(0 0 20px ${accentColor})` } : undefined}
-            >
-              {icon}
-            </span>
-            <p className={styles.emptyTitle}>{label}</p>
-            <p className={styles.emptyDesc}>Coming soon — this feature is under development.</p>
-          </div>
+          {appId && APP_BODY_REGISTRY[appId] ? (
+            (() => {
+              const BodyComponent = APP_BODY_REGISTRY[appId];
+              return <BodyComponent accentColor={accentColor} />;
+            })()
+          ) : (
+            <div className={styles.emptyState}>
+              <span
+                className={styles.emptyIcon}
+                style={accentColor ? { filter: `drop-shadow(0 0 20px ${accentColor})` } : undefined}
+              >
+                {icon}
+              </span>
+              <p className={styles.emptyTitle}>{label}</p>
+              <p className={styles.emptyDesc}>Coming soon — this feature is under development.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

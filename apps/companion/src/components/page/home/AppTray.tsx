@@ -46,6 +46,7 @@ export function AppTray() {
       <AppModal
         isOpen={activeApp !== null}
         onClose={() => setActiveApp(null)}
+        appId={activeApp?.id}
         icon={activeApp?.icon ?? ""}
         label={activeApp?.label ?? ""}
         accentColor={activeApp?.accentColor}
