@@ -35,30 +35,30 @@ export async function updateSession(
 
   const supabase = isMockEnabled()
     ? (createMockServerClient({
-      getSession: () => request.cookies.get('mock_session')?.value,
-      setSession: () => supabaseResponse.cookies.set('mock_session', 'true'),
-      clearSession: () => supabaseResponse.cookies.delete('mock_session')
-    }) as any)
+        getSession: () => request.cookies.get('mock_session')?.value,
+        setSession: () => supabaseResponse.cookies.set('mock_session', 'true'),
+        clearSession: () => supabaseResponse.cookies.delete('mock_session')
+      }) as any)
     : createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value),
-            );
-            supabaseResponse = NextResponse.next({ request });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              supabaseResponse.cookies.set(name, value, options),
-            );
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value }) =>
+                request.cookies.set(name, value),
+              );
+              supabaseResponse = NextResponse.next({ request });
+              cookiesToSet.forEach(({ name, value, options }) =>
+                supabaseResponse.cookies.set(name, value, options),
+              );
+            },
           },
         },
-      },
-    );
+      );
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
   const {
