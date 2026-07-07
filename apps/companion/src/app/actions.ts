@@ -26,3 +26,54 @@ export async function addPrayer(formData: FormData) {
   //   revalidatePath("/", "layout");
   //   redirect("/");
 }
+
+export async function saveDayPrayers(payload: {
+  date: string;
+  prayers: { fajr: string; dhuhr: string; asr: string; maghrib: string; isha: string };
+  id?: number;
+}) {
+  const supabase = await createClient();
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !userData?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  const userId = userData.user.id;
+
+  if (payload.id) {
+    const { data, error } = await supabase
+      .from("prayers")
+      .update({
+        fajr: payload.prayers.fajr,
+        dhuhr: payload.prayers.dhuhr,
+        asr: payload.prayers.asr,
+        maghrib: payload.prayers.maghrib,
+        isha: payload.prayers.isha,
+      })
+      .eq("id", payload.id)
+      .eq("user_id", userId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { data };
+  } else {
+    const { data, error } = await supabase
+      .from("prayers")
+      .insert({
+        user_id: userId,
+        date: payload.date,
+        fajr: payload.prayers.fajr,
+        dhuhr: payload.prayers.dhuhr,
+        asr: payload.prayers.asr,
+        maghrib: payload.prayers.maghrib,
+        isha: payload.prayers.isha,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { data };
+  }
+}

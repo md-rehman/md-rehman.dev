@@ -25,7 +25,7 @@ export function PrayerTrackerRadial({
   selectedDate,
   prayersData,
 }: PrayerTrackerRadialProps) {
-  const { prayers, cycleStatus, score } = usePrayerTracker(selectedDate, prayersData);
+  const { prayers, cycleStatus, score, isSaving } = usePrayerTracker(selectedDate, prayersData);
 
   // Position 5 nodes evenly around a circle, starting from the top
   const radius = 120; // px from center
@@ -90,11 +90,17 @@ export function PrayerTrackerRadial({
         </defs>
       </svg>
 
-      {/* Center score badge */}
+      {/* Center score badge or loading spinner */}
       <div className={styles.centerBadge}>
-        <span className={styles.scoreNum}>{score.completed}</span>
-        <span className={styles.scoreDivider}>/</span>
-        <span className={styles.scoreTotal}>{score.total}</span>
+        {isSaving ? (
+          <div className={styles.spinner} title="Saving..."></div>
+        ) : (
+          <>
+            <span className={styles.scoreNum}>{score.completed}</span>
+            <span className={styles.scoreDivider}>/</span>
+            <span className={styles.scoreTotal}>{score.total}</span>
+          </>
+        )}
       </div>
 
       {/* Prayer nodes */}
@@ -108,6 +114,7 @@ export function PrayerTrackerRadial({
             key={name}
             className={styles.node}
             onClick={() => cycleStatus(name)}
+            disabled={isSaving}
             style={
               {
                 "--node-x": `${pos.x}px`,

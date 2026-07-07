@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { prayer_strict_group_by_date } from "@/constants/mock_prayers_strict";
+import { saveDayPrayers } from "@/app/actions";
 
 export type PrayerName = "fajr" | "dhuhr" | "asr" | "maghrib" | "isha";
 export type PrayerStatus = "untracked" | "masjid" | "home" | "done" | "missed";
@@ -51,22 +52,39 @@ const DEFAULT_DAY: DailyPrayers = {
 };
 
 export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[]) {
+  // We keep a local copy of the fetched data to update it without needing a full page refetch
+  const [localPrayersData, setLocalPrayersData] = useState<any[]>(initialPrayersData || []);
+
+  // Sync with initial data if it changes from the server
+  useEffect(() => {
+    if (initialPrayersData) {
+      setLocalPrayersData(initialPrayersData);
+    }
+  }, [initialPrayersData]);
+
+  const localPrayersDataRef = useRef(localPrayersData);
+  useEffect(() => {
+    localPrayersDataRef.current = localPrayersData;
+  }, [localPrayersData]);
+
   // Local overrides: keyed by "YYYY-MM-DD", stores the full DailyPrayers
   const [overrides, setOverrides] = useState<Record<string, DailyPrayers>>({});
 
+  const [isSaving, setIsSaving] = useState(false);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const pendingSaveRef = useRef<{ date: string; data: DailyPrayers } | null>(null);
+
   // Get the base data for the selected date from supabase data or fallback to mock data
   const baseData = useMemo((): DailyPrayers => {
-    if (initialPrayersData) {
-      const dayData = initialPrayersData.find((p: any) => p.date === selectedDate);
-      if (dayData) {
-        return {
-          fajr: normalizeStatus(dayData.fajr ?? "untracked"),
-          dhuhr: normalizeStatus(dayData.dhuhr ?? "untracked"),
-          asr: normalizeStatus(dayData.asr ?? "untracked"),
-          maghrib: normalizeStatus(dayData.maghrib ?? "untracked"),
-          isha: normalizeStatus(dayData.isha ?? "untracked"),
-        };
-      }
+    const dayData = localPrayersData.find((p: any) => p.date === selectedDate);
+    if (dayData) {
+      return {
+        fajr: normalizeStatus(dayData.fajr ?? "untracked"),
+        dhuhr: normalizeStatus(dayData.dhuhr ?? "untracked"),
+        asr: normalizeStatus(dayData.asr ?? "untracked"),
+        maghrib: normalizeStatus(dayData.maghrib ?? "untracked"),
+        isha: normalizeStatus(dayData.isha ?? "untracked"),
+      };
     }
 
     const raw = (
@@ -83,12 +101,82 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
       maghrib: normalizeStatus(raw.maghrib ?? "untracked"),
       isha: normalizeStatus(raw.isha ?? "untracked"),
     };
-  }, [selectedDate, initialPrayersData]);
+  }, [selectedDate, localPrayersData]);
 
   // Merge overrides on top of base data
   const prayers: DailyPrayers = useMemo(() => {
     return overrides[selectedDate] ?? baseData;
   }, [selectedDate, baseData, overrides]);
+
+  const flushSave = useCallback(async () => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+
+    if (!pendingSaveRef.current) return;
+
+    const { date, data } = pendingSaveRef.current;
+    pendingSaveRef.current = null;
+
+    setIsSaving(true);
+    try {
+      const existingData = localPrayersDataRef.current.find(p => p.date === date);
+      const id = existingData?.id;
+
+      const result = await saveDayPrayers({
+        date,
+        prayers: {
+          fajr: data.fajr,
+          dhuhr: data.dhuhr,
+          asr: data.asr,
+          maghrib: data.maghrib,
+          isha: data.isha,
+        },
+        id,
+      });
+
+      if (result.data) {
+        setLocalPrayersData((prev) => {
+          const index = prev.findIndex((p) => p.date === date);
+          if (index !== -1) {
+            const newArr = [...prev];
+            newArr[index] = result.data;
+            return newArr;
+          } else {
+            return [...prev, result.data];
+          }
+        });
+        
+        // Clear the override for this date since it's now synced with local data
+        setOverrides((prev) => {
+          const next = { ...prev };
+          delete next[date];
+          return next;
+        });
+      }
+    } catch (error) {
+      console.error("Failed to save prayers:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  }, []);
+
+  // Flush pending save immediately if we switch dates
+  useEffect(() => {
+    if (pendingSaveRef.current && pendingSaveRef.current.date !== selectedDate) {
+      flushSave();
+    }
+  }, [selectedDate, flushSave]);
+
+  // Flush on unmount
+  useEffect(() => {
+    return () => {
+      if (pendingSaveRef.current) {
+        flushSave();
+      }
+    };
+  }, [flushSave]);
 
   // Cycle a prayer's status
   const cycleStatus = useCallback(
@@ -99,16 +187,27 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
         const currentIndex = STATUS_CYCLE.indexOf(currentStatus);
         const nextStatus =
           STATUS_CYCLE[(currentIndex + 1) % STATUS_CYCLE.length];
+        
+        const newData = {
+          ...current,
+          [prayer]: nextStatus,
+        };
+
+        pendingSaveRef.current = { date: selectedDate, data: newData };
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
+        debounceTimerRef.current = setTimeout(() => {
+          flushSave();
+        }, 10000); // 10 seconds debounce
+
         return {
           ...prev,
-          [selectedDate]: {
-            ...current,
-            [prayer]: nextStatus,
-          },
+          [selectedDate]: newData,
         };
       });
     },
-    [selectedDate, baseData]
+    [selectedDate, baseData, flushSave]
   );
 
   // Calculate score for the day (count of non-untracked, non-missed)
@@ -123,5 +222,5 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
     return { completed, total: 5 };
   }, [prayers]);
 
-  return { prayers, cycleStatus, score };
+  return { prayers, cycleStatus, score, isSaving };
 }

@@ -39,7 +39,7 @@ export function HomeClient({ prayers }: { prayers?: any[] }) {
           onDateChange={setSelectedDate}
           selectedDate={selectedDate}
         // startDate="1-06-2026"
-        // endDate={"13-06-2026"}
+        // endDate="13-06-2026"
         />
       </div>
 
