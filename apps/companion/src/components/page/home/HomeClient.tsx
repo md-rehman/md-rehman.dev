@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@repo/atomic-ui/compounds";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
@@ -23,8 +23,14 @@ function getTodayStr(): string {
   return `${y}-${m}-${d}`;
 }
 
-export function HomeClient({ prayers }: { prayers?: any[] }) {
+export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayStr);
+  const [prayers, setPrayers] = useState<any[]>(initialPrayers || []);
+
+  // Sync state if server prop changes
+  useEffect(() => {
+    setPrayers(initialPrayers || []);
+  }, [initialPrayers]);
 
   // TODO: remove it later
   console.log("Fetched prayers data:", prayers);
@@ -44,7 +50,11 @@ export function HomeClient({ prayers }: { prayers?: any[] }) {
       </div>
 
       <div className={styles.trackerSection}>
-        <PrayerTrackerRadial selectedDate={selectedDate} prayersData={prayers} />
+        <PrayerTrackerRadial 
+          selectedDate={selectedDate} 
+          prayersData={prayers} 
+          onPrayersUpdate={setPrayers}
+        />
       </div>
       <AppTray />
     </div>

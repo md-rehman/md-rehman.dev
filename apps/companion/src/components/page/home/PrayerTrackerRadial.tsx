@@ -4,6 +4,7 @@ import {
   usePrayerTracker,
   PRAYER_NAMES,
   STATUS_META,
+  DEBOUNCE_DELAY_MS,
   type PrayerName,
 } from "@/hooks/usePrayerTracker";
 import styles from "./PrayerTrackerRadial.module.css";
@@ -19,13 +20,19 @@ const PRAYER_DISPLAY: Record<PrayerName, { name: string; emoji: string }> = {
 interface PrayerTrackerRadialProps {
   selectedDate: string;
   prayersData?: any[];
+  onPrayersUpdate?: (data: any[]) => void;
 }
 
 export function PrayerTrackerRadial({
   selectedDate,
   prayersData,
+  onPrayersUpdate,
 }: PrayerTrackerRadialProps) {
-  const { prayers, cycleStatus, score, isSaving } = usePrayerTracker(selectedDate, prayersData);
+  const { prayers, cycleStatus, score, isSaving, debounceKey } = usePrayerTracker(
+    selectedDate,
+    prayersData,
+    onPrayersUpdate
+  );
 
   // Position 5 nodes evenly around a circle, starting from the top
   const radius = 120; // px from center
@@ -96,6 +103,19 @@ export function PrayerTrackerRadial({
           <div className={styles.spinner} title="Saving..."></div>
         ) : (
           <>
+            {debounceKey !== 0 && (
+              <svg className={styles.timerSvg} viewBox="0 0 72 72">
+                <circle
+                  cx="36"
+                  cy="36"
+                  r="34"
+                  className={styles.timerRing}
+                  key={debounceKey}
+                  stroke="url(#progressGradient)"
+                  style={{ animationDuration: `${DEBOUNCE_DELAY_MS}ms` } as React.CSSProperties}
+                />
+              </svg>
+            )}
             <span className={styles.scoreNum}>{score.completed}</span>
             <span className={styles.scoreDivider}>/</span>
             <span className={styles.scoreTotal}>{score.total}</span>

@@ -23,6 +23,8 @@ export const PRAYER_NAMES: PrayerName[] = [
   "isha",
 ];
 
+export const DEBOUNCE_DELAY_MS = 10000;
+
 export const STATUS_META: Record<
   PrayerStatus,
   { icon: string; label: string; color: string }
@@ -51,7 +53,11 @@ const DEFAULT_DAY: DailyPrayers = {
   isha: "untracked",
 };
 
-export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[]) {
+export function usePrayerTracker(
+  selectedDate: string,
+  initialPrayersData?: any[],
+  onPrayersUpdate?: (data: any[]) => void
+) {
   // We keep a local copy of the fetched data to update it without needing a full page refetch
   const [localPrayersData, setLocalPrayersData] = useState<any[]>(initialPrayersData || []);
 
@@ -71,6 +77,7 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
   const [overrides, setOverrides] = useState<Record<string, DailyPrayers>>({});
 
   const [isSaving, setIsSaving] = useState(false);
+  const [debounceKey, setDebounceKey] = useState<number>(0);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pendingSaveRef = useRef<{ date: string; data: DailyPrayers } | null>(null);
 
@@ -120,6 +127,7 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
     pendingSaveRef.current = null;
 
     setIsSaving(true);
+    setDebounceKey(0);
     try {
       const existingData = localPrayersDataRef.current.find(p => p.date === date);
       const id = existingData?.id;
@@ -142,12 +150,16 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
           if (index !== -1) {
             const newArr = [...prev];
             newArr[index] = result.data;
+            
+            if (onPrayersUpdate) onPrayersUpdate(newArr);
             return newArr;
           } else {
-            return [...prev, result.data];
+            const newArr = [...prev, result.data];
+            if (onPrayersUpdate) onPrayersUpdate(newArr);
+            return newArr;
           }
         });
-        
+
         // Clear the override for this date since it's now synced with local data
         setOverrides((prev) => {
           const next = { ...prev };
@@ -187,19 +199,21 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
         const currentIndex = STATUS_CYCLE.indexOf(currentStatus);
         const nextStatus =
           STATUS_CYCLE[(currentIndex + 1) % STATUS_CYCLE.length];
-        
+
         const newData = {
           ...current,
           [prayer]: nextStatus,
         };
 
         pendingSaveRef.current = { date: selectedDate, data: newData };
+        setDebounceKey(Date.now());
+
         if (debounceTimerRef.current) {
           clearTimeout(debounceTimerRef.current);
         }
         debounceTimerRef.current = setTimeout(() => {
           flushSave();
-        }, 10000); // 10 seconds debounce
+        }, DEBOUNCE_DELAY_MS);
 
         return {
           ...prev,
@@ -222,5 +236,5 @@ export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[
     return { completed, total: 5 };
   }, [prayers]);
 
-  return { prayers, cycleStatus, score, isSaving };
+  return { prayers, cycleStatus, score, isSaving, debounceKey };
 }
