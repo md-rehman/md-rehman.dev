@@ -11,5 +11,14 @@ export default async function HomePage() {
     redirect("/login");
   }
 
-  return <HomeClient />;
+  const { data: prayers, error: prayersError } = await supabase
+    .from("prayers")
+    .select("*")
+    .eq("user_id", data.user.id);
+
+  if (prayersError) {
+    console.error("Error fetching prayers:", prayersError);
+  }
+
+  return <HomeClient prayers={prayers || []} />;
 }

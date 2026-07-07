@@ -50,12 +50,25 @@ const DEFAULT_DAY: DailyPrayers = {
   isha: "untracked",
 };
 
-export function usePrayerTracker(selectedDate: string) {
+export function usePrayerTracker(selectedDate: string, initialPrayersData?: any[]) {
   // Local overrides: keyed by "YYYY-MM-DD", stores the full DailyPrayers
   const [overrides, setOverrides] = useState<Record<string, DailyPrayers>>({});
 
-  // Get the base data for the selected date from mock data
+  // Get the base data for the selected date from supabase data or fallback to mock data
   const baseData = useMemo((): DailyPrayers => {
+    if (initialPrayersData) {
+      const dayData = initialPrayersData.find((p: any) => p.date === selectedDate);
+      if (dayData) {
+        return {
+          fajr: normalizeStatus(dayData.fajr ?? "untracked"),
+          dhuhr: normalizeStatus(dayData.dhuhr ?? "untracked"),
+          asr: normalizeStatus(dayData.asr ?? "untracked"),
+          maghrib: normalizeStatus(dayData.maghrib ?? "untracked"),
+          isha: normalizeStatus(dayData.isha ?? "untracked"),
+        };
+      }
+    }
+
     const raw = (
       prayer_strict_group_by_date as Record<
         string,
@@ -70,7 +83,7 @@ export function usePrayerTracker(selectedDate: string) {
       maghrib: normalizeStatus(raw.maghrib ?? "untracked"),
       isha: normalizeStatus(raw.isha ?? "untracked"),
     };
-  }, [selectedDate]);
+  }, [selectedDate, initialPrayersData]);
 
   // Merge overrides on top of base data
   const prayers: DailyPrayers = useMemo(() => {

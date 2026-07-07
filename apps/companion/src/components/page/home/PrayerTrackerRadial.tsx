@@ -18,12 +18,14 @@ const PRAYER_DISPLAY: Record<PrayerName, { name: string; emoji: string }> = {
 
 interface PrayerTrackerRadialProps {
   selectedDate: string;
+  prayersData?: any[];
 }
 
 export function PrayerTrackerRadial({
   selectedDate,
+  prayersData,
 }: PrayerTrackerRadialProps) {
-  const { prayers, cycleStatus, score } = usePrayerTracker(selectedDate);
+  const { prayers, cycleStatus, score } = usePrayerTracker(selectedDate, prayersData);
 
   // Position 5 nodes evenly around a circle, starting from the top
   const radius = 120; // px from center

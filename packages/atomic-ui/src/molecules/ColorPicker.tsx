@@ -5,9 +5,9 @@ import styles from "./ColorPicker.module.css";
 
 const PREDEFINED_ACCENTS = [
   "#ff0080", "#00ffc8", "#ffea00", "#d500f9", "#00b8ff", "#39ff14",
-  "#ff3300ff", "#7000ffff", "#00ff66ff", "#ff00ffff", "#0044ffff", "#ff8c00ff", "#f80000ff", "#b2ff05ff"
+  "#ff3300", "#7000ff", "#00ff66", "#ff00ff", "#0044ff", "#ff8c00", "#f80000", "#b2ff05"
 ];
-const PREDEFINED_BGS = ["#0b0d1a", "#050505", "#1a1a2e", "#2e1a2cff", "#1a2e2cff", "#a7d3d3ff", "#fbd9eaff", "#e0f2feff", "#f5f5f6ff"];
+const PREDEFINED_BGS = ["#0b0d1a", "#050505", "#1a1a2e", "#2e1a2c", "#1a2e2c", "#a7d3d3", "#fbd9ea", "#e0f2fe", "#f5f5f6"];
 
 export function ColorPicker() {
   const [isOpen, setIsOpen] = useState(false);

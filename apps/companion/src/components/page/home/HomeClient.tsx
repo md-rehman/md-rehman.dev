@@ -4,16 +4,15 @@ import { useState } from "react";
 import { Navbar } from "@repo/atomic-ui/compounds";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
-import { PrayerTrackerHorizontal } from "@/components/page/home/PrayerTrackerHorizontal";
-import { PrayerTrackerVertical } from "@/components/page/home/PrayerTrackerVertical";
 import { AppTray } from "@/components/page/home/AppTray";
-import { AuthProvider } from "@/providers/Auth";
 import styles from "@/app/page.module.css";
 
-const COMPANION_LINKS = [
-  { href: "/", icon: "🏠", label: "Home" },
-  { href: "/companion/prayers", icon: "🕌", label: "Prayers" },
-  { href: "/companion/prayers_strict", icon: "📿", label: "Strict" },
+import { NavLink } from "@repo/atomic-ui/compounds";
+
+const COMPANION_LINKS: NavLink[] = [
+  { href: "/", icon: "🏠", label: "Home", size: "md" },
+  { href: "/companion/prayers", icon: "🕌", label: "Prayers", size: "md" },
+  { href: "/companion/prayers_strict", icon: "📿", label: "Strict", size: "md" },
 ];
 
 function getTodayStr(): string {
@@ -24,28 +23,30 @@ function getTodayStr(): string {
   return `${y}-${m}-${d}`;
 }
 
-export function HomeClient() {
+export function HomeClient({ prayers }: { prayers?: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayStr);
 
+  // TODO: remove it later
+  console.log("Fetched prayers data:", prayers);
+
+
   return (
-    <AuthProvider>
-      <div className={styles.homescreen}>
-        <Navbar links={COMPANION_LINKS} />
+    <div className={styles.homescreen}>
+      <Navbar links={COMPANION_LINKS} />
 
-        <div className={styles.dateSection}>
-          <DateRuler
-            onDateChange={setSelectedDate}
-            selectedDate={selectedDate}
-          // startDate="1-06-2026"
-          // endDate={"13-06-2026"}
-          />
-        </div>
-
-        <div className={styles.trackerSection}>
-          <PrayerTrackerRadial selectedDate={selectedDate} />
-        </div>
-        <AppTray />
+      <div className={styles.dateSection}>
+        <DateRuler
+          onDateChange={setSelectedDate}
+          selectedDate={selectedDate}
+        // startDate="1-06-2026"
+        // endDate={"13-06-2026"}
+        />
       </div>
-    </AuthProvider>
+
+      <div className={styles.trackerSection}>
+        <PrayerTrackerRadial selectedDate={selectedDate} prayersData={prayers} />
+      </div>
+      <AppTray />
+    </div>
   );
 }
