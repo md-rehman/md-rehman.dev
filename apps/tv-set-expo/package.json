@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "@babel/core": "^7.20.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
