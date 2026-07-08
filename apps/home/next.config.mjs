@@ -8,7 +8,7 @@ const subApps = [
   { name: "tv-set", port: 3011, domain: "md-rehman-dev-tv-set.vercel.app" },
   { name: "docs", port: 4001, domain: "md-rehman-dev-docs.vercel.app" },
   { name: "companion", port: 3012, domain: "md-rehman-dev-companion.vercel.app" },
-  { name: "planner", port: 3013, domain: "md-rehman-dev-planner.vercel.app" },
+  { name: "planner", port: 4002, domain: "md-rehman-dev-planner.vercel.app" },
 ];
 
 const isDev = process.env.NODE_ENV !== "production";
