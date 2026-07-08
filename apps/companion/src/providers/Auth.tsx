@@ -12,9 +12,8 @@ export const AuthContext = createContext<{ user: User | null }>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { NEXT_PUBLIC_MOCK_AUTH_USER } = process.env;
   const [data, setData] = useState<User | null>(
-    NEXT_PUBLIC_MOCK_AUTH_USER ? authenticated_user : null,
+    process.env.NEXT_PUBLIC_MOCK_AUTH_USER ? authenticated_user : null,
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AuthError | null>(null);
