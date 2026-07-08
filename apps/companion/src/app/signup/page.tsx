@@ -1,7 +1,7 @@
-import { login } from "./actions";
+import { signup } from "./actions";
 import Link from "next/link";
 import { Navbar } from "@repo/atomic-ui/compounds";
-import styles from "./page.module.css";
+import styles from "../login/page.module.css";
 
 import { NavLink } from "@repo/atomic-ui/compounds";
 import Image from "next/image";
@@ -13,7 +13,7 @@ const COMPANION_LINKS: NavLink[] = [
   { href: "/companion/prayers_strict", icon: "📿", label: "Strict", size: "md" },
 ];
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <>
       <Navbar links={[]} />
@@ -27,11 +27,11 @@ export default function LoginPage() {
               height={96}
               priority
               className={styles.brandIcon}
-              style={{ width: "auto", height: "auto", margin: "0 auto" }}
+              style={{ width: "auto", height: "auto", margin: "0 auto", borderRadius: "24px" }}
             />
           </div>
 
-          <h2 className={styles.title}>Welcome Back</h2>
+          <h2 className={styles.title}>Create Account</h2>
 
           <form className={styles.form}>
             <div className={styles.field}>
@@ -65,9 +65,9 @@ export default function LoginPage() {
             <div className={styles.actions}>
               <button
                 className={styles.btnPrimary}
-                formAction={login}
+                formAction={signup}
               >
-                Log in
+                Sign up
               </button>
 
               <div className={styles.divider}>
@@ -77,11 +77,11 @@ export default function LoginPage() {
               </div>
 
               <Link
-                href="/signup"
+                href="/login"
                 className={styles.btnSecondary}
                 style={{ display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}
               >
-                New here? Create an account
+                Already have an account? Log in
               </Link>
             </div>
           </form>

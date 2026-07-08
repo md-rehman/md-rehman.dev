@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@repo/auth/server";
 import { HomeClient } from "@/components/page/home/HomeClient";
+import { AuthProvider } from "@/providers/Auth";
 
 export default async function HomePage() {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
-  
+
   if (error || !data?.user) {
     redirect("/login");
   }
@@ -20,5 +21,9 @@ export default async function HomePage() {
     console.error("Error fetching prayers:", prayersError);
   }
 
-  return <HomeClient prayers={prayers || []} />;
+  return (
+    <AuthProvider>
+      <HomeClient prayers={prayers || []} />
+    </AuthProvider>
+  );
 }

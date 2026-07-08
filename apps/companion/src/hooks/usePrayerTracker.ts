@@ -145,20 +145,18 @@ export function usePrayerTracker(
       });
 
       if (result.data) {
-        setLocalPrayersData((prev) => {
-          const index = prev.findIndex((p) => p.date === date);
-          if (index !== -1) {
-            const newArr = [...prev];
-            newArr[index] = result.data;
-            
-            if (onPrayersUpdate) onPrayersUpdate(newArr);
-            return newArr;
-          } else {
-            const newArr = [...prev, result.data];
-            if (onPrayersUpdate) onPrayersUpdate(newArr);
-            return newArr;
-          }
-        });
+        const prev = localPrayersDataRef.current;
+        const index = prev.findIndex((p) => p.date === date);
+        let newArr;
+        if (index !== -1) {
+          newArr = [...prev];
+          newArr[index] = result.data;
+        } else {
+          newArr = [...prev, result.data];
+        }
+
+        setLocalPrayersData(newArr);
+        if (onPrayersUpdate) onPrayersUpdate(newArr);
 
         // Clear the override for this date since it's now synced with local data
         setOverrides((prev) => {
