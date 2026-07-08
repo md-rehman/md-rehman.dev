@@ -8,8 +8,8 @@ const SKILLS = [
   "Design Systems",
   "Micro-frontends",
   "Module Federation",
-  "Redux",
-  "Zustand",
+  // "Redux",
+  // "Zustand",
 ];
 
 const SOCIALS = [
