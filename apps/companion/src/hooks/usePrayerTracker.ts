@@ -78,7 +78,7 @@ export function usePrayerTracker(
 
   const [isSaving, setIsSaving] = useState(false);
   const [debounceKey, setDebounceKey] = useState<number>(0);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<{ date: string; data: DailyPrayers } | null>(null);
 
   // Get the base data for the selected date from supabase data or fallback to mock data
