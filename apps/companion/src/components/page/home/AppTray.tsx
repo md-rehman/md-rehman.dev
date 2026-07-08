@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { AppModal } from "./AppModal";
 import styles from "./AppTray.module.css";
 
@@ -21,7 +21,7 @@ const APPS: AppItem[] = [
   { id: "profile", icon: "👤", label: "Profile", accentColor: "#39ff14" },
 ];
 
-export function AppTray() {
+export const AppTray = React.memo(function AppTray() {
   const [activeApp, setActiveApp] = useState<AppItem | null>(null);
 
   return (
@@ -53,4 +53,4 @@ export function AppTray() {
       />
     </>
   );
-}
+});

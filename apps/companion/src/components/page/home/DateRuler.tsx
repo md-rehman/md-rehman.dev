@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import styles from "./DateRuler.module.css";
 
 const TICK_WIDTH = 12; // px per day
@@ -75,7 +75,7 @@ function getDaysList(): Date[] {
   return days;
 }
 
-export function DateRuler({
+export const DateRuler = React.memo(function DateRuler({
   onDateChange,
   selectedDate,
   startDate,
@@ -206,4 +206,4 @@ export function DateRuler({
       </div>
     </div>
   );
-}
+});

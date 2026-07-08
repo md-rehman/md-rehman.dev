@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@repo/atomic-ui/compounds";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
@@ -31,9 +31,6 @@ export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
   useEffect(() => {
     setPrayers(initialPrayers || []);
   }, [initialPrayers]);
-
-  // TODO: remove it later
-  console.log("Fetched prayers data:", prayers);
 
 
   return (

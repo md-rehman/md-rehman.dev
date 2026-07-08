@@ -1,3 +1,4 @@
+import React from "react";
 import { ThemeSwitcher } from "../molecules/ThemeSwitcher";
 import { ColorPicker } from "../molecules/ColorPicker";
 import styles from "./Navbar.module.css";
@@ -13,7 +14,7 @@ type NavbarProps = {
   links?: NavLink[];
 };
 
-export function Navbar({ links = [] }: NavbarProps) {
+export const Navbar = React.memo(function Navbar({ links = [] }: NavbarProps) {
   return (
     <nav className={styles.navbar}>
       <div className={styles.links}>
@@ -38,4 +39,4 @@ export function Navbar({ links = [] }: NavbarProps) {
       </div>
     </nav>
   );
-}
+});

@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 
 import {
   usePrayerTracker,
@@ -23,7 +23,7 @@ interface PrayerTrackerRadialProps {
   onPrayersUpdate?: (data: any[]) => void;
 }
 
-export function PrayerTrackerRadial({
+export const PrayerTrackerRadial = React.memo(function PrayerTrackerRadial({
   selectedDate,
   prayersData,
   onPrayersUpdate,
@@ -151,4 +151,4 @@ export function PrayerTrackerRadial({
       })}
     </div>
   );
-}
+});
