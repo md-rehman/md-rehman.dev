@@ -24,9 +24,12 @@
     "eslint": "^8.57.0",
     "path": "^0.12.7",
     "typescript": "^5.3.3",
-    "webpack": "*"
+    "webpack": "*",
+    "next": "*",
+    "react-dom": "*",
+    "@rspack/core": "*"
   },
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "*"
   }
 }
