@@ -2,11 +2,12 @@ import Link from "next/link";
 import { login } from "./actions";
 import styles from "./login.module.css";
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; message?: string }>;
 }) {
+  const { error, message } = await searchParams;
 
   return (
     <div className={styles.container}>
@@ -32,6 +33,9 @@ export default function LoginPage({
           <h1 className={styles.title}>Welcome back</h1>
           <p className={styles.subtitle}>Sign in to your Planner account</p>
         </div>
+
+        {error && <div className={styles.error}>{error}</div>}
+        {message && <div className={styles.message}>{message}</div>}
 
         <form className={styles.form}>
           <div className={styles.field}>

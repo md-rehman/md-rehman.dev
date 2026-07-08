@@ -2,7 +2,13 @@ import Link from "next/link";
 import { signup } from "./actions";
 import styles from "../login/login.module.css";
 
-export default function SignupPage() {
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; message?: string }>;
+}) {
+  const { error, message } = await searchParams;
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -27,6 +33,9 @@ export default function SignupPage() {
           <h1 className={styles.title}>Create account</h1>
           <p className={styles.subtitle}>Get started with Planner</p>
         </div>
+
+        {error && <div className={styles.error}>{error}</div>}
+        {message && <div className={styles.message}>{message}</div>}
 
         <form className={styles.form}>
           <div className={styles.field}>
