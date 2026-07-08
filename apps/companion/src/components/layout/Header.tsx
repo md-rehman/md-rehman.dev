@@ -1,13 +1,11 @@
+import { Navbar } from "@repo/atomic-ui/compounds";
+
+const COMPANION_LINKS = [
+  { href: "/", icon: "🏠", label: "Home" },
+  { href: "/companion/prayers", icon: "🕌", label: "Prayers" },
+  { href: "/companion/prayers_strict", icon: "📿", label: "Strict" },
+];
+
 export const Header = () => {
-  return (
-    <nav className="flex flex-row justify-between">
-      <div className="flex">
-        <div className="p-2">Companion</div>
-      </div>
-      <div className="flex">
-        <div className="p-2">Settings</div>
-        <div className="p-2">Profile</div>
-      </div>
-    </nav>
-  );
+  return <Navbar links={COMPANION_LINKS} />;
 };

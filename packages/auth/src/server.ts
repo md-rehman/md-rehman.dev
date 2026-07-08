@@ -10,11 +10,27 @@ import { isMockEnabled, createMockServerClient } from "./mock";
  * credentials (test@test.com / password123).
  */
 export async function createClient() {
-  if (isMockEnabled()) {
-    return createMockServerClient() as any;
-  }
-
   const cookieStore = await cookies();
+
+  if (isMockEnabled()) {
+    return createMockServerClient({
+      getSession: () => cookieStore.get('mock_session')?.value,
+      setSession: () => {
+        try {
+          cookieStore.set('mock_session', 'true', { path: '/' });
+        } catch {
+          // Ignored in Server Components
+        }
+      },
+      clearSession: () => {
+        try {
+          cookieStore.delete('mock_session');
+        } catch {
+          // Ignored in Server Components
+        }
+      }
+    }) as any;
+  }
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

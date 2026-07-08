@@ -9,6 +9,7 @@ import {
 	RandomWalker5,
 	MotionBasic,
 	BallShooter,
+	Hyperdrive,
 } from "@canvas";
 import { channelsMetadata } from "./channelsMetadata";
 
@@ -62,5 +63,9 @@ export const channels: Record<number, ChannelConfig> = {
 	9: {
 		...channelsMetadata[9],
 		component: InteractiveGlitchIntroduction,
+	},
+	10: {
+		...channelsMetadata[10],
+		component: Hyperdrive,
 	},
 };

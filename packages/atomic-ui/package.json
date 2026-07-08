@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./fermions": "./src/fermions.tsx",
-    "./atoms": "./src/atoms.tsx",
-    "./molecules": "./src/molecules.tsx",
-    "./compounds": "./src/compounds.tsx"
+    "./fermions": "./src/fermions/index.ts",
+    "./atoms": "./src/atoms/index.ts",
+    "./molecules": "./src/molecules/index.ts",
+    "./compounds": "./src/compounds/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

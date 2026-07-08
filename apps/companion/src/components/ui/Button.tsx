@@ -9,7 +9,8 @@ type IButtonExtension = ComponentProps<"button"> & {
   extraButtonExtensionStyle: string[];
 };
 
-export const Button: React.FC<IButton> = ({ children, status, onClick }) => {
+export const Button: React.FC<IButton> = ({ children, status = "untracked", onClick }) => {
+  console.log("onClick: ", onClick)
   const extraButtonStyle: string[] = [];
   const extraButtonExtensionStyle: string[] = [];
   const state = {

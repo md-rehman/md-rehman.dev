@@ -1,0 +1,178 @@
+.navbar {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: var(--nav-height, 2.4rem);
+  padding: 0 var(--nav-px, 0.6rem);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--fg-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px var(--shadow-color), 0 0 14px var(--card-hover-border);
+  pointer-events: auto;
+  text-decoration: none;
+  box-sizing: border-box;
+  margin-right: 2rem;
+}
+
+.navLink:hover {
+  gap: 0.5rem;
+  padding: 0 calc(var(--nav-px, 0.6rem) + 0.4rem);
+  border-color: var(--card-hover-border);
+  box-shadow: 0 4px 20px var(--shadow-color), 0 0 24px var(--card-hover-border);
+  transform: translateY(-1px);
+}
+
+.navLink:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.icon {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size, 1.2rem);
+  font-size: var(--icon-font, 1.1rem);
+}
+
+.size-xs {
+  --nav-height: 1.6rem;
+  --nav-px: 0.4rem;
+  --icon-size: 0.8rem;
+  --icon-font: 0.7rem;
+}
+
+.size-sm {
+  --nav-height: 2.0rem;
+  --nav-px: 0.5rem;
+  --icon-size: 1.0rem;
+  --icon-font: 0.9rem;
+}
+
+.size-md {
+  --nav-height: 2.4rem;
+  --nav-px: 0.6rem;
+  --icon-size: 1.2rem;
+  --icon-font: 1.1rem;
+}
+
+.size-lg {
+  --nav-height: 2.8rem;
+  --nav-px: 0.7rem;
+  --icon-size: 1.4rem;
+  --icon-font: 1.4rem;
+}
+
+.size-xl {
+  --nav-height: 3.6rem;
+  --nav-px: 0.9rem;
+  --icon-size: 1.8rem;
+  --icon-font: 1.8rem;
+}
+
+.size-2xl {
+  --nav-height: 4.4rem;
+  --nav-px: 1.1rem;
+  --icon-size: 2.2rem;
+  --icon-font: 2.2rem;
+}
+
+.size-3xl {
+  --nav-height: 5.6rem;
+  --nav-px: 1.4rem;
+  --icon-size: 2.8rem;
+  --icon-font: 2.8rem;
+}
+
+.size-4xl {
+  --nav-height: 7.2rem;
+  --nav-px: 1.8rem;
+  --icon-size: 3.6rem;
+  --icon-font: 3.6rem;
+}
+
+.size-5xl {
+  --nav-height: 9.6rem;
+  --nav-px: 2.4rem;
+  --icon-size: 4.8rem;
+  --icon-font: 4.8rem;
+}
+
+.size-6xl {
+  --nav-height: 12.0rem;
+  --nav-px: 3.0rem;
+  --icon-size: 6.0rem;
+  --icon-font: 6.0rem;
+}
+
+.size-7xl {
+  --nav-height: 14.4rem;
+  --nav-px: 3.6rem;
+  --icon-size: 7.2rem;
+  --icon-font: 7.2rem;
+}
+
+.label {
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s ease, opacity 0.2s ease;
+}
+
+.navLink:hover .label {
+  max-width: 80px;
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .links {
+    gap: 0.5rem;
+  }
+
+  .navLink {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}

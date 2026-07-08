@@ -1,26 +1,34 @@
-# MD-REHMAN.DEV
+# MD-REHMAN.DEV Monorepo
 
-It's is place where I keep all my projects under one Monorepo.
+## Description
+This is a Turborepo-powered monorepo where I keep all my frontend experiments, full-stack applications, and reusable packages. It serves as a centralized workspace for managing my portfolio, side projects, and shared UI libraries.
 
-## Apps
+## Tech Stack
+- **Monorepo Management:** Turborepo, Yarn Workspaces
+- **Core Frameworks:** Next.js, React
+- **Languages:** TypeScript, JavaScript
+- **Styling:** Tailwind CSS, Sass
+- **Tooling:** ESLint, Prettier
 
-### TVSet
+## Included Apps
+- **TVSet:** Portfolio app mimicking a retro TV experience (Port 3011).
+- **Home:** Main landing hub (Port 4000).
+- **Planner:** Trello clone for task management (Port 4002).
+- **Companion:** Personal assistant application (Port 3012).
+- **Empty / Web / Docs:** Various template and documentation projects.
 
-### P5 Playground
+## Included Packages
+- **@repo/atomic-ui:** Component library based on Atomic Design.
+- **@repo/auth:** Supabase authentication utilities.
+- **@repo/ui, @repo/channel, @repo/shell:** Other shared UI and utility packages.
 
-## Packages
-
-## Naming Guidelines
-
-### Local Deployment Ports
-
-# Local Deployment Ports and Naming Conventions
+## Naming Guidelines & Ports
 
 | **App Name**    | **Port** | **Notes**                                    |
 | --------------- | -------- | -------------------------------------------- |
 | `tv-set`        | `3011`   | Portfolio                                    |
 | `companion`     | `3001`   | -                                            |
-| `home`          | `4000`   | -                                            |
+| `home`          | `4000`   | Home page                                   |
 | `doc`           | `4001`   | -                                            |
 | `planner` | `4002`   | Trello clone                              |
 | `empty`         | `5000`   | Just an empty project to be used as template |
