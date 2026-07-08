@@ -25,6 +25,7 @@
     "@testing-library/dom": "^10.4.0",
     "@types/react": "~19.2.2",
     "@babel/core": "^7.20.0",
+    "@expo/dom-webview": "^56.0.5",
     "@expo/log-box": "^56.0.13",
     "@expo/metro-runtime": "^56.0.15",
     "@react-native/metro-config": "*",

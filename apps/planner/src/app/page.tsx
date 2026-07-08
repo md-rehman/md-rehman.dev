@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { createClient } from "@repo/auth/server";
 import { Board } from "@/components/Board";
 import { SignOutButton } from "@/components/SignOutButton";
@@ -7,7 +8,12 @@ export default async function PlannerPage() {
   const supabase = await createClient();
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    redirect("/login");
+  }
 
   return (
     <div className={styles.wrapper}>

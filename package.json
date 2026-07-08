@@ -12,7 +12,15 @@
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "2.9.18",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "next": "16.2.9",
+    "react": "^19.2.0",
+    "react-native": "^0.85.3",
+    "react-dom": "^19.2.0",
+    "@babel/core": "^7.20.0",
+    "@shopify/react-native-skia": "*",
+    "react-native-web": "*",
+    "eslint": "^8.57.0"
   },
   "engines": {
     "node": ">=18"
