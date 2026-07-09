@@ -1,5 +1,5 @@
 import React from "react";
-import { Instructions } from "../channels/instructions";
+import { DeathNoteLikeInstructions, Instructions } from "../channels/instructions";
 import { GlitchIntroduction, InteractiveGlitchIntroduction } from "../channels/introduction";
 import {
 	RandomWalker,
@@ -26,7 +26,7 @@ export interface ChannelConfig {
 export const channels: Record<number, ChannelConfig> = {
 	0: {
 		...channelsMetadata[0],
-		component: Instructions,
+		component: DeathNoteLikeInstructions,
 	},
 	1: {
 		...channelsMetadata[1],
@@ -34,11 +34,11 @@ export const channels: Record<number, ChannelConfig> = {
 	},
 	2: {
 		...channelsMetadata[2],
-		component: RandomWalker3,
+		component: BallShooter,
 	},
 	3: {
 		...channelsMetadata[3],
-		component: RandomWalker,
+		component: Hyperdrive,
 	},
 	4: {
 		...channelsMetadata[4],
@@ -58,14 +58,18 @@ export const channels: Record<number, ChannelConfig> = {
 	},
 	8: {
 		...channelsMetadata[8],
-		component: BallShooter,
+		component: RandomWalker3,
 	},
 	9: {
 		...channelsMetadata[9],
-		component: InteractiveGlitchIntroduction,
+		component: RandomWalker,
 	},
 	10: {
 		...channelsMetadata[10],
-		component: Hyperdrive,
+		component: InteractiveGlitchIntroduction,
+	},
+	999: {
+		...channelsMetadata[999],
+		component: Instructions,
 	},
 };

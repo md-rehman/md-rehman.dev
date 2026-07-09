@@ -39,28 +39,35 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
       "<h1>About Rehman</h1><p>I am a software engineer and web developer who loves crafting unique web experiences. I specialize in React, Next.js, React Native, TypeScript, and interactive canvas graphics. I like exploring generative art, traveling, and sharing my projects.</p>",
   },
   2: {
-    name: "Random Walker 3",
-    title: "Random Walker 3 - Generative Art Canvas Experiment",
+    name: "Ball Shooter",
+    title: "Ball Shooter - Interactive Canvas Physics Game",
     description:
-      "A generative art experiment based on a random walker algorithm that renders unique pathways in real-time.",
+      "A fun interactive canvas-based physics game where you aim and shoot balls in a gravity-simulated space.",
     keywords: [
-      "random walker",
-      "generative art",
-      "canvas rendering",
-      "interactive design",
-      "creative coding",
+      "canvas game",
+      "physics simulation",
+      "interactive play",
+      "web game",
+      "ball physics",
     ],
     contentHtml:
-      "<h1>Random Walker 3</h1><p>The random walker algorithm is a mathematical construct representing a path that consists of a succession of random steps. This version adds stylized coloring and tracing speed to render beautiful generative designs on the canvas.</p>",
+      "<h1>Ball Shooter Experiment</h1><p>Aim, shoot, and watch gravity take action! This experiment features classic particle physics with bounding boxes and vector-based collisions.</p>",
   },
   3: {
-    name: "Random Walker",
-    title: "Random Walker - Generative Canvas Simulation",
+    name: "Hyperdrive",
+    title: "Hyperdrive - Space Travel Simulation",
     description:
-      "A canvas simulation displaying a classic random walker pattern in motion.",
-    keywords: ["random walk", "simulation", "p5js", "canvas", "abstract art"],
+      "A p5.js generative art simulation of jumping to hyperdrive or moving through a starfield.",
+    keywords: [
+      "hyperdrive",
+      "starfield",
+      "p5js",
+      "canvas",
+      "creative coding",
+      "space",
+    ],
     contentHtml:
-      "<h1>Random Walker Simulation</h1><p>Observe the traditional random walker algorithm as it moves in four cardinal directions, carving out a randomized trace on the screen over time.</p>",
+      "<h1>Hyperdrive Simulation</h1><p>Travel through a starfield using this p5.js canvas sketch. Move your mouse along the X-axis to control the speed of the jump into hyperdrive!</p>",
   },
   4: {
     name: "Random Walker 4",
@@ -120,21 +127,30 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
       "<h1>Motion 101: Digital Physics</h1><p>This experiment simulates the basic laws of motion using vectors. It tracks position, velocity, and acceleration towards a target, demonstrating how objects accelerate towards the mouse pointer in a simulated space.</p>",
   },
   8: {
-    name: "Ball Shooter",
-    title: "Ball Shooter - Interactive Canvas Physics Game",
+    name: "Random Walker 3",
+    title: "Random Walker 3 - Generative Art Canvas Experiment",
     description:
-      "A fun interactive canvas-based physics game where you aim and shoot balls in a gravity-simulated space.",
+      "A generative art experiment based on a random walker algorithm that renders unique pathways in real-time.",
     keywords: [
-      "canvas game",
-      "physics simulation",
-      "interactive play",
-      "web game",
-      "ball physics",
+      "random walker",
+      "generative art",
+      "canvas rendering",
+      "interactive design",
+      "creative coding",
     ],
     contentHtml:
-      "<h1>Ball Shooter Experiment</h1><p>Aim, shoot, and watch gravity take action! This experiment features classic particle physics with bounding boxes and vector-based collisions.</p>",
+      "<h1>Random Walker 3</h1><p>The random walker algorithm is a mathematical construct representing a path that consists of a succession of random steps. This version adds stylized coloring and tracing speed to render beautiful generative designs on the canvas.</p>",
   },
   9: {
+    name: "Random Walker",
+    title: "Random Walker - Generative Canvas Simulation",
+    description:
+      "A canvas simulation displaying a classic random walker pattern in motion.",
+    keywords: ["random walk", "simulation", "p5js", "canvas", "abstract art"],
+    contentHtml:
+      "<h1>Random Walker Simulation</h1><p>Observe the traditional random walker algorithm as it moves in four cardinal directions, carving out a randomized trace on the screen over time.</p>",
+  },
+  10: {
     name: "InteractiveGlitchIntroduction",
     title: "Interactive Introduction - Rehman's Portfolio",
     description:
@@ -148,20 +164,11 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Interactive Introduction</h1><p>Click anywhere on the screen to trigger custom events such as changing the background color or navigating to other channels!</p>",
   },
-  10: {
-    name: "Hyperdrive",
-    title: "Hyperdrive - Space Travel Simulation",
-    description:
-      "A p5.js generative art simulation of jumping to hyperdrive or moving through a starfield.",
-    keywords: [
-      "hyperdrive",
-      "starfield",
-      "p5js",
-      "canvas",
-      "creative coding",
-      "space",
-    ],
-    contentHtml:
-      "<h1>Hyperdrive Simulation</h1><p>Travel through a starfield using this p5.js canvas sketch. Move your mouse along the X-axis to control the speed of the jump into hyperdrive!</p>",
+  999: {
+    name: "Old Instructions",
+    title: "Old TV Set Instructions",
+    description: "The original instructions page for the TV Set.",
+    keywords: ["instructions", "old", "tv set"],
+    contentHtml: "<h1>Old Instructions</h1><p>This is the classic instructions page for the TV Set.</p>",
   },
 };
