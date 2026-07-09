@@ -93,12 +93,16 @@ export const useTvChannelManager = (config: any, initialChannel: number) => {
   const nextChannel = () => {
     if (channelMeta.activeChannel < 999) {
       changeChannel(channelMeta.activeChannel + 1);
+    } else {
+      changeChannel(0);
     }
   };
 
   const prevChannel = () => {
     if (channelMeta.activeChannel > 0) {
       changeChannel(channelMeta.activeChannel - 1);
+    } else {
+      changeChannel(999);
     }
   };
 

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { FlowFieldEffect as CanvasScript } from "./canvasScript";
+import { FlowFieldEffect2 as CanvasScript } from "./canvasScript";
 import styles from "./FlowField.module.scss";
 
-export const FlowFieldEffect = () => {
+export const FlowFieldEffect2 = () => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
 	useEffect(() => {
@@ -48,7 +48,7 @@ export const FlowFieldEffect = () => {
 
 	return (
 		<canvas
-			id="FlowFieldEffect"
+			id="FlowFieldEffect2"
 			ref={canvasRef}
 			className={styles.flowFieldEffectCanvas}
 		/>

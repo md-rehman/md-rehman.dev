@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "@atoms";
-import { GlitchText } from "@molecules";
-// import { GlitchText } from "components/molecules";
+import { GlitchText } from "../glitchText";
 import styles from "./GlitchScreen.module.scss";
 
 export const GlitchScreen: React.FC<any> = ({

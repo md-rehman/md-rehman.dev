@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeInitializer } from "@repo/atomic-ui/atoms";
+import { AnalyticsWrapper } from "@repo/shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeInitializer />
-        {children}
+        <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>
     </html>
   );

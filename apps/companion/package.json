@@ -12,6 +12,7 @@
   "dependencies": {
     "@repo/atomic-ui": "*",
     "@repo/auth": "*",
+    "@repo/shell": "*",
     "@tailwindcss/postcss": "^4.1.11",
     "next": "16.2.9",
     "postcss": "^8.5.6",

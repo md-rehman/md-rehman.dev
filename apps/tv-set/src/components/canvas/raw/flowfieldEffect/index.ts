@@ -1,2 +1,1 @@
-export {};
-// export { FlowFieldEffect } from './FlowFieldEffect';
+export { FlowFieldEffect } from './FlowFieldEffect';

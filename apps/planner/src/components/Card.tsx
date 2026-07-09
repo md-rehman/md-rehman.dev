@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, type DragEvent } from "react";
-import type { CardData } from "./Board";
+import type { CardData } from "./types";
 import styles from "./Card.module.css";
 
 interface CardProps {

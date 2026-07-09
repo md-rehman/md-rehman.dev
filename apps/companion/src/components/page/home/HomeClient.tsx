@@ -7,21 +7,7 @@ import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial"
 import { AppTray } from "@/components/page/home/AppTray";
 import styles from "@/app/page.module.css";
 
-import { NavLink } from "@repo/atomic-ui/compounds";
-
-const COMPANION_LINKS: NavLink[] = [
-  { href: "/", icon: "🏠", label: "Home", size: "md" },
-  { href: "/companion/prayers", icon: "🕌", label: "Prayers", size: "md" },
-  { href: "/companion/prayers_strict", icon: "📿", label: "Strict", size: "md" },
-];
-
-function getTodayStr(): string {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, "0");
-  const d = String(now.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
+import { COMPANION_LINKS, getTodayStr } from "./constants";
 
 export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayStr);

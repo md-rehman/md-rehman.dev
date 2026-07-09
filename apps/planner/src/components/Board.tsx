@@ -2,27 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Column } from "./Column";
+import type { BoardData, CardData, ColumnData } from "./types";
 import styles from "./Board.module.css";
-
-// ── Types ──────────────────────────────────────────────────────────
-
-export interface CardData {
-  id: string;
-  title: string;
-  description: string;
-  color: string;
-  parentId?: string;
-}
-
-export interface ColumnData {
-  id: string;
-  title: string;
-  cards: CardData[];
-}
-
-export interface BoardData {
-  columns: ColumnData[];
-}
 
 // ── Constants ──────────────────────────────────────────────────────
 

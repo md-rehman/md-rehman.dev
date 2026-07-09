@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { P5Sketch } from "@atoms";
-import { tvStaticSetup, tvStaticDraw } from "@repo/channel";
+import { tvStaticSetup, tvStaticDraw } from "./tvStaticSketches";
 import styles from "./TvStatic.module.scss";
 
 interface ComponentProps {

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@repo/auth": "*",
+    "@repo/shell": "*",
     "@repo/ui": "*",
     "next": "16.2.9",
     "react": "^19.2.0",

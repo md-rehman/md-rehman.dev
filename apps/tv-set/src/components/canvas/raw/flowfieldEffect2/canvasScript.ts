@@ -7,7 +7,7 @@ if (typeof window !== "undefined") {
 	});
 }
 
-export class FlowFieldEffect {
+export class FlowFieldEffect2 {
 	#ctx: CanvasRenderingContext2D;
 	#width: number;
 	#height: number;
@@ -64,6 +64,7 @@ export class FlowFieldEffect {
 		const dy = mouse.y - positionY;
 		const distance = dx * dx + dy * dy;
 		const length = distance * 0.00001;
+
 		this.#ctx.beginPath();
 		this.#ctx.moveTo(x, y);
 		this.#ctx.lineTo(
@@ -79,7 +80,7 @@ export class FlowFieldEffect {
 		if (this.timer > this.interval) {
 			this.#ctx.clearRect(0, 0, this.#width, this.#height);
 			this.radius += this.vr;
-			if (this.radius > 5 || this.radius < -5) this.vr *= -1;
+			if (this.radius > 15 || this.radius < -15) this.vr *= -1;
 
 			for (let y = 0; y < this.#height; y += this.cellSize) {
 				for (let x = 0; x < this.#width; x += this.cellSize) {
@@ -93,7 +94,7 @@ export class FlowFieldEffect {
 		}
 		this.flowFieldAnimation = requestAnimationFrame(this.animate.bind(this));
 	}
-    
+
 	stop() {
 		if (this.flowFieldAnimation) {
 			cancelAnimationFrame(this.flowFieldAnimation);

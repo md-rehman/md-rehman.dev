@@ -1,9 +1,9 @@
-import { Navbar } from "@repo/atomic-ui/compounds";
+import { Navbar, type NavLink } from "@repo/atomic-ui/compounds";
 
-const COMPANION_LINKS = [
-  { href: "/", icon: "🏠", label: "Home" },
-  { href: "/companion/prayers", icon: "🕌", label: "Prayers" },
-  { href: "/companion/prayers_strict", icon: "📿", label: "Strict" },
+const COMPANION_LINKS: NavLink[] = [
+  { href: "/", icon: "🏠", label: "Home", size: "md" },
+  // { href: "/tv-set", icon: "📺", label: "TV-Set", size: "md" },
+  // { href: "/planner", icon: "📋", label: "Planner", size: "md" },
 ];
 
 export const Header = () => {

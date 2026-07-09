@@ -8,9 +8,9 @@ import Image from "next/image";
 import companionImg from "../../../public/images/Companion.png";
 
 const COMPANION_LINKS: NavLink[] = [
-  { href: "/", icon: "🏠", label: "Home", size: "2xl" },
-  { href: "/companion/prayers", icon: "🕌", label: "Prayers", size: "md" },
-  { href: "/companion/prayers_strict", icon: "📿", label: "Strict", size: "md" },
+  { href: "/", icon: "🏠", label: "Home", size: "md" },
+  // { href: "/tv-set", icon: "📺", label: "TV-Set", size: "md" },
+  // { href: "/planner", icon: "📋", label: "Planner", size: "md" },
 ];
 
 export default function LoginPage() {

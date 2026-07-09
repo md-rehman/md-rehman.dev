@@ -1,5 +1,6 @@
 // raw canvas components
 export * from "./raw/flowfieldEffect";
+export * from "./raw/flowfieldEffect2";
 export * from "./raw/whiteBoard";
 export * from "./raw/tvSetNoise";
 
