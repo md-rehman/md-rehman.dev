@@ -2,8 +2,8 @@ import { NavLink } from "@repo/atomic-ui/compounds";
 
 export const COMPANION_LINKS: NavLink[] = [
   { href: "/", icon: "🏠", label: "Home", size: "md" },
-  { href: "/companion/prayers", icon: "🕌", label: "Prayers", size: "md" },
-  { href: "/companion/prayers_strict", icon: "📿", label: "Strict", size: "md" },
+  // { href: "/tv-set", icon: "📺", label: "TV-Set", size: "md" },
+  // { href: "/planner", icon: "📋", label: "Planner", size: "md" },
 ];
 
 export function getTodayStr(): string {
