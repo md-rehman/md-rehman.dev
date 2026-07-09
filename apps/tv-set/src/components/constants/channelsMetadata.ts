@@ -70,6 +70,20 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
       "<h1>Hyperdrive Simulation</h1><p>Travel through a starfield using this p5.js canvas sketch. Move your mouse along the X-axis to control the speed of the jump into hyperdrive!</p>",
   },
   4: {
+    name: "Flow Field Effect",
+    title: "Flow Field Effect - Interactive Canvas",
+    description:
+      "A flow field animation where particles move dynamically in a generated vector field.",
+    keywords: [
+      "flow field",
+      "vector field",
+      "particle animation",
+      "interactive canvas",
+    ],
+    contentHtml:
+      "<h1>Flow Field Effect</h1><p>Explore this dynamic flow field where thousands of lines trace the contours of a mathematical vector field, creating beautiful, organic-looking patterns that react to noise over time.</p>",
+  },
+  12: {
     name: "Random Walker 4",
     title: "Random Walker 4 - Multi-directional Tracing",
     description:
@@ -83,7 +97,7 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Random Walker 4</h1><p>This experiment runs multiple simultaneous walkers drawing lines on the screen. It builds dynamic textures and shapes through pure random steps.</p>",
   },
-  5: {
+  13: {
     name: "Random Walker 2",
     title: "Random Walker 2 - Vector-based Tracing",
     description:
@@ -97,7 +111,7 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Random Walker 2</h1><p>A variation of the random walker experiment that utilizes vector physics (position, velocity, and random acceleration) to create smooth, natural-looking pathways instead of pixelated grids.</p>",
   },
-  6: {
+  14: {
     name: "Random Walker 5",
     title: "Random Walker 5 - Abstract Texture Generation",
     description:

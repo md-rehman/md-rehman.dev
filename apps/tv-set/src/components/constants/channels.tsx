@@ -10,6 +10,8 @@ import {
 	MotionBasic,
 	BallShooter,
 	Hyperdrive,
+	FlowFieldEffect,
+	FlowFieldEffect2,
 } from "@canvas";
 import { channelsMetadata } from "./channelsMetadata";
 
@@ -42,14 +44,18 @@ export const channels: Record<number, ChannelConfig> = {
 	},
 	4: {
 		...channelsMetadata[4],
+		component: FlowFieldEffect,
+	},
+	12: {
+		...channelsMetadata[12],
 		component: RandomWalker4,
 	},
-	5: {
-		...channelsMetadata[5],
+	13: {
+		...channelsMetadata[13],
 		component: RandomWalker2,
 	},
-	6: {
-		...channelsMetadata[6],
+	14: {
+		...channelsMetadata[14],
 		component: RandomWalker5,
 	},
 	7: {
@@ -70,6 +76,6 @@ export const channels: Record<number, ChannelConfig> = {
 	},
 	999: {
 		...channelsMetadata[999],
-		component: Instructions,
+		component: FlowFieldEffect2,
 	},
 };

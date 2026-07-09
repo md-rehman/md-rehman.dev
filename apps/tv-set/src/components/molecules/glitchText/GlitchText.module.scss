@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Here's the meat and potatoes.
 
 /* Our mixin positions a copy of our text
@@ -72,9 +74,9 @@ skew to change the 'thickness' of the glitch.*/
 @keyframes glitch-anim {
   $steps: 20;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
-      transform: skew((random(100) / 100) + deg);
+    #{math.percentage(math.div($i, $steps))} {
+      clip: rect(math.random(100) + px, 9999px, math.random(100) + px, 0);
+      transform: skew(math.div(math.random(100), 100) + deg);
     }
   }
 }
@@ -83,9 +85,9 @@ skew to change the 'thickness' of the glitch.*/
 @keyframes glitch-anim2 {
   $steps: 20;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
-      transform: skew((random(100) / 100) + deg);
+    #{math.percentage(math.div($i, $steps))} {
+      clip: rect(math.random(100) + px, 9999px, math.random(100) + px, 0);
+      transform: skew(math.div(math.random(100), 100) + deg);
     }
   }
 }
@@ -94,8 +96,8 @@ skew to change the 'thickness' of the glitch.*/
 @keyframes glitch-skew {
   $steps: 10;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      transform: skew((random(10) - 5) + deg);
+    #{math.percentage(math.div($i, $steps))} {
+      transform: skew((math.random(10) - 5) + deg);
     }
   }
 }
@@ -104,8 +106,8 @@ skew to change the 'thickness' of the glitch.*/
 @keyframes glitch-opacity {
   $steps: 15;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      opacity: random(100) % 8;
+    #{math.percentage(math.div($i, $steps))} {
+      opacity: math.random(100) % 8;
     }
   }
 }

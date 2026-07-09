@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .wavePattern {
   background-color: #00282f;
   opacity: 1;
@@ -132,7 +134,7 @@
 @keyframes glitch-opacity {
   $steps: 15;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
+    #{math.percentage(math.div($i, $steps))} {
       opacity: $i % 8;
     }
   }
