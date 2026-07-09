@@ -2,30 +2,28 @@
 
 import React from "react";
 import { Text } from "@atoms";
-import { useMediaQuery } from "@react-hook/media-query";
-
 import Image from "next/image";
 import InstructionsLogo from './InstructionsLogo.jpg';
 import FrameCorner from './FrameCorner.jpg';
 
 
 export const DeathNoteLikeInstructions: React.FC = () => {
-  const probablyTouchScreen = useMediaQuery(
-    "only screen and (pointer: coarse)",
-  );
-
   const rules: Array<string> = [
-    "Use left and right arrow to change channels.",
-    "Swipe left and right on touch screen to change channel.",
-    "Touch on bottom right botton to disable global touches (default enabled) to itetact with the page.",
-    'Use "Ctrl + <number>" for quick jumping to that channel.',
+    "The mortal who presses the left or right arrows shall alter the current channel.",
+    "The mortal with a touch screen need only swipe left or right to command the channels.",
+    "Beware the global touch. It governs all. To touch the page directly, one must first disable the global touch by pressing the bottom right icon.",
+    "The mortal who holds the 'Ctrl' key will possess the ability to transport to any channel by entering the channel number.",
+    "This domain is known as the TV SET. Within it lie countless experiments. Each channel shall manifest something extraordinary.",
+    "The mortal who stays on a channel for too long shall inevitably become captivated.",
+    "A channel's manifestation is not absolute. Some shall reveal alternate forms each time they are observed.",
+    "There exist concealed experiments, buried deep within the abyss of the TV SET domain."
   ];
 
   return (
-    <div className="bg-black text-white h-[100dvh] w-full flex flex-col items-center p-4 sm:p-10 overflow-hidden">
+    <div className="bg-black text-white h-[100dvh] w-full flex flex-col items-center p-4 sm:p-10 overflow-y-auto">
       {/* Outer border mimicking a page frame */}
       <div
-        className="w-full max-w-4xl h-full relative flex flex-col items-center mt-10 sm:mt-12"
+        className="w-full max-w-4xl flex-1 relative flex flex-col items-center mt-10 sm:mt-12 mb-10 min-h-max"
         style={{
           borderStyle: "solid",
           borderWidth: "2px 1px 3px 2px",
@@ -86,8 +84,8 @@ export const DeathNoteLikeInstructions: React.FC = () => {
           />
         </div>
 
-        {/* Scrollable Inner Content */}
-        <div className="flex-1 w-full overflow-y-auto p-6 pt-16 sm:p-12 sm:pt-20 flex flex-col items-center">
+        {/* Inner Content */}
+        <div className="flex-1 w-full p-6 pt-16 sm:p-12 sm:pt-20 flex flex-col items-center">
           {/* Title */}
           <Text className="font-death_note_2 text-5xl sm:text-8xl tracking-widest text-center mt-4 sm:mt-8">
             TV SET
@@ -100,9 +98,9 @@ export const DeathNoteLikeInstructions: React.FC = () => {
           {/* Rules */}
           <ul className="text-left font-serif max-w-3xl w-full flex flex-col gap-6 sm:gap-10 tracking-wide leading-relaxed mt-6 sm:mt-8 mb-8">
             {rules.map((rule, i) => (
-              <li key={i} className="flex items-end">
+              <li key={i} className="flex items-start">
                 <span className="font-death_note_2 text-xl sm:text-2xl pr-4 sm:pr-6 mt-1 opacity-90">O</span>
-                <span className="text-base sm:text-xl">{rule}</span>
+                <span className="text-base sm:text-xl mt-1.5">{rule}</span>
               </li>
             ))}
           </ul>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ThemeInitializer } from "@repo/atomic-ui/atoms";
+import { AnalyticsWrapper } from "@repo/shell";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -28,7 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <ThemeInitializer />
+        <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>
     </html>
   );
