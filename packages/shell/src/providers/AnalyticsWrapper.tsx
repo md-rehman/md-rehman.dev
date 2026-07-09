@@ -4,7 +4,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export const AnalyticsWrapper: React.FC<Props> = ({ children }) => {
+export const AnalyticsWrapper = ({ children }: Props) => {
   return (
     <>
       {children}
