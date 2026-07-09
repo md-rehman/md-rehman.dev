@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, type DragEvent } from "react";
-import type { ColumnData, CardData } from "./Board";
+import type { ColumnData, CardData } from "./types";
 import { Card } from "./Card";
 import { AddCardForm } from "./AddCardForm";
 import styles from "./Column.module.css";
