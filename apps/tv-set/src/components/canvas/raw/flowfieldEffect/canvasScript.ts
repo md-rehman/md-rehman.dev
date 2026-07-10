@@ -1,12 +1,3 @@
-const mouse = { x: 0, y: 0 };
-
-if (typeof window !== "undefined") {
-	window.addEventListener("mousemove", (e) => {
-		mouse.x = e.clientX;
-		mouse.y = e.clientY;
-	});
-}
-
 export class FlowFieldEffect {
 	#ctx: CanvasRenderingContext2D;
 	#width: number;
@@ -19,6 +10,8 @@ export class FlowFieldEffect {
 	radius: number;
 	vr: number;
 	flowFieldAnimation: number | undefined;
+	mouse: { x: number; y: number };
+	#mouseMoveHandler: (e: MouseEvent) => void;
 
 	constructor(
 		ctx: CanvasRenderingContext2D,
@@ -26,7 +19,6 @@ export class FlowFieldEffect {
 		{ width, height }: { width: number; height: number },
 	) {
 		this.#ctx = ctx;
-		this.#ctx.lineWidth = 1;
 		this.#width = width;
 		this.#height = height;
 		this.flowFieldAnimation = flowFieldAnimation ?? undefined;
@@ -34,15 +26,24 @@ export class FlowFieldEffect {
 		this.interval = 17;
 		this.timer = 0;
 		this.cellSize = 10;
-		this.#createGradient();
-		if (this.gradient) {
-			this.#ctx.strokeStyle = this.gradient;
-		}
 		this.radius = 0;
 		this.vr = 0.03;
+		
+		this.mouse = { x: 0, y: 0 };
+		this.#mouseMoveHandler = (e: MouseEvent) => {
+			this.mouse.x = e.clientX;
+			this.mouse.y = e.clientY;
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("mousemove", this.#mouseMoveHandler);
+		}
+
+		this.#initContext();
 	}
 
-	#createGradient() {
+	#initContext() {
+		this.#ctx.lineWidth = 1;
 		this.gradient = this.#ctx.createLinearGradient(
 			0,
 			0,
@@ -55,22 +56,13 @@ export class FlowFieldEffect {
 		this.gradient.addColorStop(0.6, "#b3ffff");
 		this.gradient.addColorStop(0.8, "#80ff80");
 		this.gradient.addColorStop(0.9, "#ffff33");
+		this.#ctx.strokeStyle = this.gradient;
 	}
 
-	#drawLine(angle: number, x: number, y: number) {
-		const positionX = x;
-		const positionY = y;
-		const dx = mouse.x - positionX;
-		const dy = mouse.y - positionY;
-		const distance = dx * dx + dy * dy;
-		const length = distance * 0.00001;
-		this.#ctx.beginPath();
-		this.#ctx.moveTo(x, y);
-		this.#ctx.lineTo(
-			x + Math.cos(angle) * length,
-			y + Math.sin(angle) * length,
-		);
-		this.#ctx.stroke();
+	resize(width: number, height: number) {
+		this.#width = width;
+		this.#height = height;
+		this.#initContext();
 	}
 
 	animate(timeStamp: number = 0) {
@@ -81,12 +73,25 @@ export class FlowFieldEffect {
 			this.radius += this.vr;
 			if (this.radius > 5 || this.radius < -5) this.vr *= -1;
 
+			this.#ctx.beginPath();
 			for (let y = 0; y < this.#height; y += this.cellSize) {
 				for (let x = 0; x < this.#width; x += this.cellSize) {
 					const angle = (Math.cos(x * 0.01) + Math.sin(y * 0.01)) * this.radius;
-					this.#drawLine(angle, x, y);
+					
+					const dx = this.mouse.x - x;
+					const dy = this.mouse.y - y;
+					const distance = dx * dx + dy * dy;
+					const length = distance * 0.00001;
+
+					this.#ctx.moveTo(x, y);
+					this.#ctx.lineTo(
+						x + Math.cos(angle) * length,
+						y + Math.sin(angle) * length,
+					);
 				}
 			}
+			this.#ctx.stroke();
+
 			this.timer = 0;
 		} else {
 			this.timer += deltaTime;
@@ -97,6 +102,9 @@ export class FlowFieldEffect {
 	stop() {
 		if (this.flowFieldAnimation) {
 			cancelAnimationFrame(this.flowFieldAnimation);
+		}
+		if (typeof window !== "undefined") {
+			window.removeEventListener("mousemove", this.#mouseMoveHandler);
 		}
 	}
 }

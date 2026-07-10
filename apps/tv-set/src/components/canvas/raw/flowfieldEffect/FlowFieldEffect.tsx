@@ -11,38 +11,33 @@ export const FlowFieldEffect = () => {
 
 		const context = canvas.getContext("2d");
 		if (!context) return;
+
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
 		
-		let flowField: CanvasScript | null = null;
+		const flowField = new CanvasScript(context, null, {
+			width: canvas.width,
+			height: canvas.height,
+		});
+		
+		flowField.animate();
 
-		const initAndAnimate = () => {
-			if (flowField) {
-				flowField.stop();
-			}
-
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
-			
-			// Initialize the external canvas script with the new dimensions
-			flowField = new CanvasScript(context, null, {
-				width: canvas.width,
-				height: canvas.height,
-			});
-			
-			flowField.animate();
+		let resizeTimeout: ReturnType<typeof setTimeout>;
+		const handleResize = () => {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(() => {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				flowField.resize(canvas.width, canvas.height);
+			}, 100);
 		};
 
-		// 1. Run it once when the component mounts
-		initAndAnimate();
+		window.addEventListener("resize", handleResize);
 
-		// 2. Re-run it whenever the window resizes
-		window.addEventListener("resize", initAndAnimate);
-
-		// 3. Cleanup: Remove the listener and stop animation when the component is destroyed
 		return () => {
-			window.removeEventListener("resize", initAndAnimate);
-			if (flowField) {
-				flowField.stop();
-			}
+			window.removeEventListener("resize", handleResize);
+			clearTimeout(resizeTimeout);
+			flowField.stop();
 		};
 	}, []); // Empty dependency array ensures this effect only runs on mount
 
