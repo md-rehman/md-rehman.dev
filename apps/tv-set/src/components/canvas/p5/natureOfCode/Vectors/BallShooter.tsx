@@ -65,13 +65,14 @@ class Ball {
   }
   update() {
     if (this.force && this.resistance) {
-      if (this.force.magSq() <= this.resistance.magSq()) {
+      const timeScale = (this.p5.deltaTime || 16.666) / 16.666;
+      if (this.force.magSq() <= this.resistance.magSq() * timeScale) {
         this.force.set(0, 0);
         this.resistance.set(0, 0);
       } else {
-        this.force.add(this.resistance);
+        this.force.add(this.resistance.copy().mult(timeScale));
       }
-      this.pos.add(this.force);
+      this.pos.add(this.force.copy().mult(timeScale));
 
       const r = 10;
       if (this.pos.x > this.p5.width - r) {
@@ -129,25 +130,34 @@ class Ball {
   }
 }
 
-let string: Ball;
-
 export const BallShooter: React.FC = () => {
+  const ballRef = useRef<Ball | null>(null);
+
   const mousePressed = (p5: p5Types) => {
+    if (!ballRef.current) return;
     if (p5.mouseButton === p5.RIGHT) {
-      string.changeColor();
+      ballRef.current.changeColor();
       return;
     }
-    string.create();
+    ballRef.current.create();
   };
   const mouseDragged = (e: p5Types) => {
-    string.stretch();
+    if (!ballRef.current) return;
+    ballRef.current.stretch();
   };
   const mouseReleased = (e: p5Types) => {
-    string.release();
+    if (!ballRef.current) return;
+    ballRef.current.release();
   };
-  // const touchStarted = (e) => {};
-  // const touchMoved = (e) => {};
-  // const touchEnded = (e) => {};
+
+  const windowResized = (p5: p5Types) => {
+    p5.resizeCanvas(window.innerWidth, window.innerHeight);
+    if (ballRef.current) {
+      const newBuffer = p5.createGraphics(window.innerWidth, window.innerHeight);
+      newBuffer.image(ballRef.current.trailBuffer, 0, 0);
+      ballRef.current.trailBuffer = newBuffer;
+    }
+  };
 
   function setup(p5: p5Types, canvasParentRef: Element): void {
     p5.createCanvas(window.innerWidth, window.innerHeight).parent(
@@ -155,12 +165,13 @@ export const BallShooter: React.FC = () => {
     );
     p5.background(17, 24, 39);
     p5.noStroke();
-    string = new Ball(p5);
+    ballRef.current = new Ball(p5);
   }
 
   const draw = (p5: p5Types) => {
-    string.update();
-    string.render();
+    if (!ballRef.current) return;
+    ballRef.current.update();
+    ballRef.current.render();
   };
 
   return (
@@ -170,9 +181,7 @@ export const BallShooter: React.FC = () => {
       mousePressed={mousePressed}
       mouseDragged={mouseDragged}
       mouseReleased={mouseReleased}
-    // touchStarted={touchStarted}
-    // touchMoved={touchMoved}
-    // touchEnded={touchEnded}
+      windowResized={windowResized}
     />
   );
 };
