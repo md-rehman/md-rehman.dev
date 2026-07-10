@@ -4,7 +4,7 @@ import { updateSession } from "@repo/auth/middleware";
 export async function proxy(request: NextRequest) {
   return await updateSession(request as any, {
     loginPath: "/login",
-    allowedPaths: ["/login", "/auth"],
+    allowedPaths: ["/login", "/auth", "/signup"],
   });
 }
 
