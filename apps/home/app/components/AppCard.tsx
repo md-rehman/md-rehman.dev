@@ -10,6 +10,8 @@ interface AppCardProps {
   techStack: string[];
   href: string;
   imageSrc: string;
+  imageBgColor?: string;
+  priority?: boolean;
 }
 
 export function AppCard({
@@ -18,6 +20,8 @@ export function AppCard({
   techStack,
   href,
   imageSrc,
+  imageBgColor,
+  priority,
 }: AppCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -27,13 +31,17 @@ export function AppCard({
       className={styles.card}
       id={`app-card-${name.toLowerCase().replace(/\s+/g, "-")}`}
     >
-      <div className={styles.imageWrapper}>
+      <div 
+        className={styles.imageWrapper}
+        style={imageBgColor ? { backgroundColor: imageBgColor } : undefined}
+      >
         <Image
           src={imageSrc}
           alt={`${name} app preview`}
           width={400}
           height={400}
           className={styles.image}
+          priority={priority}
         />
         <div className={styles.imageOverlay} />
       </div>
