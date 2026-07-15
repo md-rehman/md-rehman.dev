@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '../context/ThemeContext';
+import { getLocalYYYYMMDD } from '../utils/date';
 
 const TICK_WIDTH = 12;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -36,28 +37,29 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
   // Position is negative since swiping left means moving into the future (positive days)
   const translateX = useSharedValue(-initialOffsetDays * TICK_WIDTH);
   const contextX = useSharedValue(0);
+  const previousIndex = useSharedValue(-initialOffsetDays);
 
   const [displayDateStr, setDisplayDateStr] = useState(selectedDate);
 
   const updateDisplayDate = (index: number) => {
     const d = new Date(todayTime + index * MS_PER_DAY);
-    setDisplayDateStr(d.toISOString().split('T')[0]);
+    setDisplayDateStr(getLocalYYYYMMDD(d));
   };
 
   const handleSelectDate = (index: number) => {
     const d = new Date(todayTime + index * MS_PER_DAY);
-    onSelectDate(d.toISOString().split('T')[0]);
+    onSelectDate(getLocalYYYYMMDD(d));
   };
 
   useAnimatedReaction(
-    () => translateX.value,
-    (currentX) => {
-      const index = Math.round(-currentX / TICK_WIDTH);
-      if (index >= -DAY_RANGE && index <= DAY_RANGE) {
+    () => Math.round(-translateX.value / TICK_WIDTH),
+    (index) => {
+      if (index !== previousIndex.value && index >= -DAY_RANGE && index <= DAY_RANGE) {
+        previousIndex.value = index;
         runOnJS(updateDisplayDate)(index);
       }
     },
-    [todayTime] // Actually todayTime is not needed in worklet anymore, but leaving it is harmless
+    [todayTime]
   );
 
   const pan = Gesture.Pan()
@@ -73,14 +75,18 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
           velocity: event.velocityX,
           deceleration: 0.99,
         },
-        () => {
-          // Snap to nearest tick
-          const snappedIndex = Math.round(translateX.value / TICK_WIDTH);
-          const snappedX = snappedIndex * TICK_WIDTH;
-          translateX.value = withTiming(snappedX, { duration: 150 }, () => {
-            const index = Math.round(-snappedX / TICK_WIDTH);
-            runOnJS(handleSelectDate)(index);
-          });
+        (finished) => {
+          if (finished) {
+            // Snap to nearest tick
+            const snappedIndex = Math.round(translateX.value / TICK_WIDTH);
+            const snappedX = snappedIndex * TICK_WIDTH;
+            translateX.value = withTiming(snappedX, { duration: 150 }, (finishedTiming) => {
+              if (finishedTiming) {
+                const index = Math.round(-snappedX / TICK_WIDTH);
+                runOnJS(handleSelectDate)(index);
+              }
+            });
+          }
         }
       );
     });

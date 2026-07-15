@@ -111,11 +111,18 @@ export function PrayerTrackerRadial({ selectedDate }: { selectedDate: string }) 
             {debounceKey !== 0 && (
               <View style={StyleSheet.absoluteFill}>
                 <Svg width={72} height={72} viewBox="0 0 72 72">
+                  <Defs>
+                    <LinearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <Stop offset="0%" stopColor={colors.accent1} />
+                      <Stop offset="50%" stopColor={colors.accent2} />
+                      <Stop offset="100%" stopColor={colors.accent1} />
+                    </LinearGradient>
+                  </Defs>
                   <AnimatedCircle
                     cx="36"
                     cy="36"
                     r="34"
-                    stroke="url(#progressGradient)"
+                    stroke="url(#timerGradient)"
                     strokeWidth="2"
                     fill="none"
                     strokeLinecap="round"

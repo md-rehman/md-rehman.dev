@@ -4,14 +4,11 @@ import { DateRuler } from '../../components/DateRuler';
 import { PrayerTrackerRadial } from '../../components/PrayerTrackerRadial';
 import { useTheme } from '../../context/ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getLocalYYYYMMDD } from '../../utils/date';
 
 export default function HomeScreen() {
   const { colors } = useTheme();
-  const [selectedDate, setSelectedDate] = useState(() => {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    return d.toISOString().split('T')[0];
-  });
+  const [selectedDate, setSelectedDate] = useState(() => getLocalYYYYMMDD());
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]} edges={['top']}>

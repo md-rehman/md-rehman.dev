@@ -21,7 +21,7 @@ export const PRAYER_NAMES: PrayerName[] = [
   "isha",
 ];
 
-export const DEBOUNCE_DELAY_MS = 10000;
+export const DEBOUNCE_DELAY_MS = 3000;
 
 export const STATUS_META: Record<
   PrayerStatus,
