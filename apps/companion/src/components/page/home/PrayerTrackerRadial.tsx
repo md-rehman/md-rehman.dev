@@ -35,7 +35,7 @@ export const PrayerTrackerRadial = React.memo(function PrayerTrackerRadial({
   );
 
   // Position 5 nodes evenly around a circle, starting from the top
-  const radius = 120; // px from center
+  const radius = 112.5; // px from center
   const nodePositions = PRAYER_NAMES.map((_, i) => {
     const angle = (i * 360) / 5 - 90; // Start from top (-90°)
     const rad = (angle * Math.PI) / 180;

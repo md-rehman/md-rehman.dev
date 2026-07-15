@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { useTheme } from '../../context/ThemeContext';
 import { THEME_PRESETS, ThemeKey } from '../../constants/theme';
-import { useAuth } from '../../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function SettingsScreen() {
+export default function ThemingScreen() {
   const { themeKey, colors, setTheme, setCustomColors } = useTheme();
-  const { signOut } = useAuth();
 
   const [customBg, setCustomBg] = useState(colors.bgPrimary);
   const [customAccent, setCustomAccent] = useState(colors.accentPrimary);
@@ -21,7 +19,7 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={[styles.title, { color: colors.fgPrimary }]}>Settings</Text>
+        <Text style={[styles.title, { color: colors.fgPrimary }]}>Theming App</Text>
         
         <View style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.cardBorder }]}>
           <Text style={[styles.sectionTitle, { color: colors.fgPrimary }]}>Theme Preset</Text>
@@ -99,13 +97,6 @@ export default function SettingsScreen() {
             </View>
           </View>
         </View>
-
-        <TouchableOpacity 
-          style={[styles.signOutButton, { backgroundColor: colors.badgeBg, borderColor: colors.badgeBorder }]}
-          onPress={signOut}
-        >
-          <Text style={[styles.signOutText, { color: colors.accentPrimary }]}>Sign Out</Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -170,18 +161,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  signOutButton: {
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    marginTop: 10,
-  },
-  signOutText: {
     fontWeight: 'bold',
     fontSize: 16,
   }
