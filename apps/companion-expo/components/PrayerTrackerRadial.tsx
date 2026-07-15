@@ -25,7 +25,7 @@ export function PrayerTrackerRadial({ selectedDate }: { selectedDate: string }) 
   const { prayers, cycleStatus, score, isSaving, debounceKey } = usePrayerTracker(selectedDate);
   const { colors } = useTheme();
 
-  const radius = 120;
+  const radius = 90;
   const nodePositions = PRAYER_NAMES.map((_, i) => {
     const angle = (i * 360) / 5 - 90;
     const rad = (angle * Math.PI) / 180;
@@ -140,34 +140,32 @@ export function PrayerTrackerRadial({ selectedDate }: { selectedDate: string }) 
         )}
       </View>
 
-      <View style={styles.nodesContainer}>
-        {PRAYER_NAMES.map((name, i) => {
-          const pos = nodePositions[i];
-          const status = prayers[name];
-          const meta = STATUS_META[status];
-          const display = PRAYER_DISPLAY[name];
-          
-          return (
-            <TouchableOpacity
-              key={name}
-              style={[
-                styles.node,
-                {
-                  transform: [{ translateX: pos.x }, { translateY: pos.y }],
-                  borderColor: meta.color,
-                  backgroundColor: colors.cardBg,
-                  shadowColor: meta.color,
-                }
-              ]}
-              onPress={() => cycleStatus(name)}
-              disabled={isSaving}
-            >
-              <Text style={styles.nodeIcon}>{meta.icon}</Text>
-              <Text style={[styles.nodeName, { color: colors.fgPrimary }]}>{display.name}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+      {PRAYER_NAMES.map((name, i) => {
+        const pos = nodePositions[i];
+        const status = prayers[name];
+        const meta = STATUS_META[status];
+        const display = PRAYER_DISPLAY[name];
+        
+        return (
+          <TouchableOpacity
+            key={name}
+            style={[
+              styles.node,
+              {
+                transform: [{ translateX: pos.x }, { translateY: pos.y }],
+                borderColor: meta.color,
+                backgroundColor: colors.cardBg,
+                shadowColor: meta.color,
+              }
+            ]}
+            onPress={() => cycleStatus(name)}
+            disabled={isSaving}
+          >
+            <Text style={styles.nodeIcon}>{meta.icon}</Text>
+            <Text style={[styles.nodeName, { color: colors.fgPrimary }]}>{display.name}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
@@ -194,13 +192,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  nodesContainer: {
-    position: 'absolute',
-    width: 0,
-    height: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   node: {
     position: 'absolute',
     width: 56,
@@ -213,8 +204,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 8,
     elevation: 5,
-    marginTop: -28,
-    marginLeft: -28,
   },
   nodeIcon: {
     fontSize: 16,
