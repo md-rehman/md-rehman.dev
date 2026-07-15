@@ -12,10 +12,10 @@ This is a Turborepo-powered monorepo where I keep all my experiments, full-stack
 
 ## Included Apps
 - **TVSet:** Portfolio app mimicking a retro TV experience (Port 3011).
-- **Home:** Main landing hub (Port 4000).
+- **Home:** Main landing hub (Port 4000). It will serve as the landing page for all the other apps.
 - **Planner:** Trello clone for task management (Port 4002).
-- **Companion:** Personal assistant application (Port 3012).
-- **Companion Expo:** Mobile app version of the personal assistant (Expo / React Native).
+- **Companion:** Personal assistant application (Port 3012). It's prayers traker and more.
+- **Companion Expo:** Mobile app version of the Companion app (Expo / React Native). It will use the same backend as the Companion app.
 - **Empty / Web / Docs:** Various template and documentation projects.
 
 ## Included Packages
