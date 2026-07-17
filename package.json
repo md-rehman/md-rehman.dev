@@ -7,7 +7,8 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
     "generate:app": "node scripts/generate-app.mjs",
-    "generate:package": "node scripts/generate-package.mjs"
+    "generate:package": "node scripts/generate-package.mjs",
+    "preinstall": "npx only-allow yarn"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -23,7 +24,8 @@
     "eslint": "^8.57.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18",
+    "yarn": ">=1.22.0"
   },
   "packageManager": "yarn@1.22.22",
   "workspaces": [
