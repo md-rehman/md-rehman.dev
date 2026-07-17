@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import p5Types, { Vector } from "p5"; //Import this for typechecking and intellisense
 import { P5Sketch } from "@atoms";
 import { VIBRANT_COLORS } from "../../../../constants/colors";
-
-class Mover {
+class MoverAvoidance {
   pos: Vector;
   vel: Vector;
   acc: Vector;
@@ -20,26 +19,33 @@ class Mover {
     this.acc.set(p5.mouseX - this.pos.x, p5.mouseY - this.pos.y);
     let distance = this.acc.mag();
     
-    // Constrain distance so things don't get out of hand
-    distance = p5.constrain(distance, 5, 25);
-    
-    this.acc.normalize();
-    
-    // Calculate gravitational strength (G * m1 * m2 / d^2)
-    let G = 150;
-    let strength = G / (distance * distance);
-    this.acc.mult(strength);
+    let repulsionThreshold = 50;
+
+    if (distance < repulsionThreshold) {
+      // Repel strongly to avoid touch
+      this.acc.normalize();
+      let d = p5.constrain(distance, 5, repulsionThreshold);
+      let strength = -2500 / (d * d); // Strong negative force to push away instantly
+      this.acc.mult(strength);
+    } else {
+      // Normal gravitational orbit
+      // Constrain distance so things don't get out of hand
+      distance = p5.constrain(distance, 5, 25);
+      
+      this.acc.normalize();
+      
+      // Calculate gravitational strength (G * m1 * m2 / d^2)
+      let G = 150;
+      let strength = G / (distance * distance);
+      this.acc.mult(strength);
+    }
     
     // Apply acceleration to velocity, and velocity to position
     this.vel.add(this.acc);
     this.vel.limit(10); // Prevent the planet from flying off too fast
     this.pos.add(this.vel);
   }
-  renderRect(p5: p5Types, size: number) {
-    p5.rect(this.pos.x, this.pos.y, size, size);
-  }
   renderCircle(p5: p5Types, size: number) {
-    // p5.background("rgba(17,24,39,0.1)");
     p5.background(17, 24, 39, 160);
     p5.noStroke();
     p5.fill(this.color);
@@ -47,10 +53,9 @@ class Mover {
   }
 }
 
-let mover: Mover;
+let mover: MoverAvoidance;
 
-export const MotionBasic: React.FC = () => {
-  // const [mover, setMover] = useState<Mover | null>();
+export const MotionBasicAvoidance: React.FC = () => {
   const [isSSR, setIsSSR] = useState<boolean>(true);
   useEffect(() => {
     setIsSSR(false);
@@ -61,15 +66,11 @@ export const MotionBasic: React.FC = () => {
     p5.createCanvas(window.innerWidth, window.innerHeight).parent(
       canvasParentRef,
     );
-    mover = new Mover(p5, p5.width / 2, p5.height / 2);
-    // let temp = new Mover(p5, p5.width / 2, p5.height / 2);
-    // setMover(temp);
+    mover = new MoverAvoidance(p5, p5.width / 2, p5.height / 2);
   };
 
   const draw = (p5: p5Types) => {
     mover.update(p5);
-    // mover.render(p5);
-    // mover.renderRect(p5, 8);
     mover.renderCircle(p5, 8);
   };
 

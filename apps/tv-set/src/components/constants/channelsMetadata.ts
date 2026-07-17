@@ -83,6 +83,21 @@ export const channelsMetadata: Record<number, ChannelMetadata> = {
     contentHtml:
       "<h1>Flow Field Effect</h1><p>Explore this dynamic flow field where thousands of lines trace the contours of a mathematical vector field, creating beautiful, organic-looking patterns that react to noise over time.</p>",
   },
+  5: {
+    name: "Motion Avoidance",
+    title: "Motion Avoidance - Orbital Physics with Repulsion",
+    description:
+      "An interactive canvas simulation showcasing an orbiting planet that repels the sun (pointer) when it gets too close.",
+    keywords: [
+      "motion simulation",
+      "canvas physics",
+      "vectors",
+      "repulsion",
+      "newtonian motion",
+    ],
+    contentHtml:
+      "<h1>Motion Avoidance</h1><p>This experiment simulates orbital mechanics. The planet normally orbits the pointer, but if the pointer gets too close, a strong repulsive force pushes the planet away, preventing them from touching.</p>",
+  },
   12: {
     name: "Random Walker 4",
     title: "Random Walker 4 - Multi-directional Tracing",
