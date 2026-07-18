@@ -1,19 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import p5Types, { Vector } from "p5";
 import { P5Sketch } from "@atoms";
-
-export const VIBRANT_COLORS = [
-  "#db2777",
-  "#ef4444",
-  "#5eead4",
-  "#34d399",
-  "#a3e635",
-  "#38bdf8",
-  "#818cf8",
-  "#67e8f9",
-  "#e879f9",
-  "#fb923c",
-] as const;
+import { VIBRANT_COLORS } from "../../../../constants/colors";
 
 export const TRACK_ALPHA = 0.1;
 

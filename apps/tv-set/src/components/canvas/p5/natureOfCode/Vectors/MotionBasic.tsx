@@ -1,35 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
 import p5Types, { Vector } from "p5"; //Import this for typechecking and intellisense
 import { P5Sketch } from "@atoms";
-import { VIBRANT_COLORS } from "@constants";
+import { VIBRANT_COLORS } from "../../../../constants/colors";
 
 class Mover {
   pos: Vector;
   vel: Vector;
   acc: Vector;
-  theta: number;
+  color: string;
   constructor(p5: p5Types, x: number, y: number) {
     this.pos = p5.createVector(x, y);
-    // this.vel = window.p5.Vector.random2D().mult(0.1);
-    this.vel = window.p5.Vector.random2D().normalize().mult(0.1);
-    // this.pos = p5.createVector(x, y);
-    // this.vel = p5.createVector(x + 1, y).mult(0.1);
-    // this.vel = window.p5.Vector.random2D().normalize();
-    this.acc = window.p5.Vector.random2D().normalize();
-    this.theta = p5.random(-p5.HALF_PI / 4, p5.HALF_PI / 4);
+    // Give initial velocity so it orbits instead of falling straight in
+    this.vel = p5.createVector(0, 5);
+    this.acc = p5.createVector(0, 0);
+    this.color = VIBRANT_COLORS[Math.floor(Math.random() * VIBRANT_COLORS.length)] || "#ffffff";
   }
   update(p5: p5Types) {
-    let mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.acc = window.p5.Vector.sub(mouse, this.pos);
-    const accPer = p5.createVector(this.acc.y, -this.acc.x);
-    this.acc.mult(0.3).limit(3);
-    accPer.mult(0.1).limit(15);
-    // const angle = this.acc.angleBetween(accPer);
-    accPer.rotate(this.theta);
-
-    this.acc.add(accPer);
-
-    this.pos.add(this.acc);
+    // Re-use `this.acc` instead of allocating new vectors every frame to reduce GC pressure
+    this.acc.set(p5.mouseX - this.pos.x, p5.mouseY - this.pos.y);
+    let distance = this.acc.mag();
+    
+    // Constrain distance so things don't get out of hand
+    distance = p5.constrain(distance, 5, 25);
+    
+    this.acc.normalize();
+    
+    // Calculate gravitational strength (G * m1 * m2 / d^2)
+    let G = 150;
+    let strength = G / (distance * distance);
+    this.acc.mult(strength);
+    
+    // Apply acceleration to velocity, and velocity to position
+    this.vel.add(this.acc);
+    this.vel.limit(10); // Prevent the planet from flying off too fast
+    this.pos.add(this.vel);
   }
   renderRect(p5: p5Types, size: number) {
     p5.rect(this.pos.x, this.pos.y, size, size);
@@ -38,6 +42,7 @@ class Mover {
     // p5.background("rgba(17,24,39,0.1)");
     p5.background(17, 24, 39, 160);
     p5.noStroke();
+    p5.fill(this.color);
     p5.circle(this.pos.x, this.pos.y, size);
   }
 }
@@ -49,7 +54,7 @@ export const MotionBasic: React.FC = () => {
   const [isSSR, setIsSSR] = useState<boolean>(true);
   useEffect(() => {
     setIsSSR(false);
-  });
+  }, []);
   if (isSSR) return null;
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {

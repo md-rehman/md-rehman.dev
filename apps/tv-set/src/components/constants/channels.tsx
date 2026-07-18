@@ -12,6 +12,7 @@ import {
 	Hyperdrive,
 	FlowFieldEffect,
 	FlowFieldEffect2,
+	MotionBasicAvoidance,
 } from "@canvas";
 import { channelsMetadata } from "./channelsMetadata";
 
@@ -45,6 +46,10 @@ export const channels: Record<number, ChannelConfig> = {
 	4: {
 		...channelsMetadata[4],
 		component: FlowFieldEffect,
+	},
+	5: {
+		...channelsMetadata[5],
+		component: MotionBasicAvoidance,
 	},
 	12: {
 		...channelsMetadata[12],

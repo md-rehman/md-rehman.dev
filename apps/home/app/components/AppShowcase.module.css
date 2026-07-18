@@ -24,14 +24,19 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
 }
 
+.grid > * {
+  width: calc(33.3333% - 1.3333rem);
+}
+
 @media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .grid > * {
+    width: calc(50% - 1rem);
   }
 }
 
@@ -41,8 +46,11 @@
   }
 
   .grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .grid > * {
+    width: 100%;
   }
 
   .sectionSubtitle {

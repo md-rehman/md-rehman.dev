@@ -1,7 +1,7 @@
 # MD-REHMAN.DEV Monorepo
 
 ## Description
-This is a Turborepo-powered monorepo where I keep all my frontend experiments, full-stack applications, and reusable packages. It serves as a centralized workspace for managing my portfolio, side projects, and shared UI libraries.
+This is a Turborepo-powered monorepo where I keep all my experiments, full-stack applications, and reusable packages. It serves as a centralized workspace for managing my portfolio, side projects, and shared UI libraries.
 
 ## Tech Stack
 - **Monorepo Management:** Turborepo, Yarn Workspaces
@@ -12,9 +12,10 @@ This is a Turborepo-powered monorepo where I keep all my frontend experiments, f
 
 ## Included Apps
 - **TVSet:** Portfolio app mimicking a retro TV experience (Port 3011).
-- **Home:** Main landing hub (Port 4000).
+- **Home:** Main landing hub (Port 4000). It will serve as the landing page for all the other apps.
 - **Planner:** Trello clone for task management (Port 4002).
-- **Companion:** Personal assistant application (Port 3012).
+- **Companion:** Personal assistant application (Port 3012). It's prayers traker and more.
+- **Companion Expo:** Mobile app version of the Companion app (Expo / React Native). It will use the same backend as the Companion app.
 - **Empty / Web / Docs:** Various template and documentation projects.
 
 ## Included Packages
@@ -24,14 +25,15 @@ This is a Turborepo-powered monorepo where I keep all my frontend experiments, f
 
 ## Naming Guidelines & Ports
 
-| **App Name**    | **Port** | **Notes**                                    |
-| --------------- | -------- | -------------------------------------------- |
-| `tv-set`        | `3011`   | Portfolio                                    |
-| `companion`     | `3001`   | -                                            |
-| `home`          | `4000`   | Home page                                   |
-| `doc`           | `4001`   | -                                            |
-| `planner` | `4002`   | Trello clone                              |
-| `empty`         | `5000`   | Just an empty project to be used as template |
-| `web`           | `5001`   | -                                            |
+| **App Name**     | **Port** | **Notes**                                    |
+| ---------------- | -------- | -------------------------------------------- |
+| `tv-set`         | `3011`   | Portfolio                                    |
+| `companion`      | `3001`   | -                                            |
+| `companion-expo` | `8081`   | Mobile App (Expo default port)               |
+| `home`           | `4000`   | Home page                                    |
+| `doc`            | `4001`   | -                                            |
+| `planner`        | `4002`   | Trello clone                                 |
+| `empty`          | `5000`   | Just an empty project to be used as template |
+| `web`            | `5001`   | -                                            |
 
 _NOTE: Deployed (stable projects) app will use `3***` ports, experimental (unfinished or underdeveloped) apps will `4***` ports and randoms for testing will use `5***` ports._

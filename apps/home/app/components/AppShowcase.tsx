@@ -26,6 +26,24 @@ const APPS = [
     href: "/planner",
     imageSrc: "/images/planner.png",
   },
+  {
+    name: "NativeBase",
+    description:
+      "An accessible, utility-first component library that helps you build consistent UI across Android, iOS and Web. Highly themeable and responsive, inspired by Styled System.",
+    techStack: ["React Native", "React", "TypeScript"],
+    href: "https://nativebase.io/",
+    imageSrc: "/images/nativebase.png",
+    imageBgColor: "#0f172a",
+  },
+  {
+    name: "NativeBase Kitchen Sink",
+    description:
+      "A comprehensive showcase of nearly 40 components provided by NativeBase, including action sheets, menus, spinners, popovers, and breadcrumbs, demonstrating universal components for React and React Native.",
+    techStack: ["React Native", "NativeBase", "Expo"],
+    href: "https://docs.nativebase.io/kitchen-sink",
+    imageSrc: "/images/nativebase-kitchen-sink.png",
+    imageBgColor: "#0f172a",
+  },
 ];
 
 export function AppShowcase() {
@@ -41,7 +59,7 @@ export function AppShowcase() {
 
         <div className={styles.grid}>
           {APPS.map((app) => (
-            <AppCard key={app.name} {...app} />
+            <AppCard key={app.name} {...app} priority={true} />
           ))}
         </div>
       </div>
