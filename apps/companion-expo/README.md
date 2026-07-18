@@ -1,56 +1,88 @@
-# Welcome to your Expo app 👋
+# Companion Expo App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a companion mobile application built with [Expo](https://expo.dev/) and React Native.
 
-## Get started
+## 🚀 Getting Started
 
-1. Install dependencies
+### Prerequisites
+- [Node.js](https://nodejs.org/en/) (LTS recommended)
+- [Yarn](https://yarnpkg.com/) or npm
+- An [Expo account](https://expo.dev/) for cloud builds
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### 1. Install Dependencies
 ```bash
-npm run reset-project
+yarn install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Environment Variables Setup
+This project uses Supabase. To run the app successfully, you must configure your environment variables.
 
-### Other setup steps
+Create a `.env.local` or `.env` file in the root of this app (`apps/companion-expo`):
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 3. Start Development Server
+```bash
+yarn start
+```
+From here, you can press:
+- `a` to open on an Android Emulator
+- `i` to open on an iOS Simulator
+- `w` to open in a web browser
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🏗️ Cloud Builds with EAS (Expo Application Services)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+We use EAS to build the standalone iOS and Android applications.
 
-## Join the community
+### ⚠️ IMPORTANT: EAS Environment Variables
+EAS does **not** read your local `.env` files. If you do not configure your environment variables in EAS, the app will crash on launch because Supabase cannot initialize.
 
-Join our community of developers creating universal apps.
+**You must do ONE of the following before running an EAS build:**
+1. **Option A (Recommended):** Add `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as Secrets in your [Expo Dashboard](https://expo.dev) under your project settings.
+2. **Option B:** Add an `env` block to your `eas.json` profiles with the required keys.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 🛠️ Build Commands
+
+Ensure you have the EAS CLI installed globally:
+```bash
+npm install -g eas-cli
+```
+
+#### Android Builds
+To build a preview APK for Android:
+```bash
+npx eas-cli build --platform android --profile preview
+```
+To build a production AAB for the Google Play Store:
+```bash
+npx eas-cli build --platform android --profile production
+```
+
+#### iOS Builds
+To build a preview app for iOS (requires Apple Developer Account):
+```bash
+npx eas-cli build --platform ios --profile preview
+```
+To build a production IPA for the App Store:
+```bash
+npx eas-cli build --platform ios --profile production
+```
+
+#### Local Release Build Testing
+To test a release build locally on a simulator (bypassing EAS cloud):
+```bash
+npx expo run:ios --configuration Release
+# or
+npx expo run:android --variant release
+```
+
+---
+
+## 📚 Learn More
+- [Expo Documentation](https://docs.expo.dev/)
+- [EAS Build Documentation](https://docs.expo.dev/build/introduction/)
+- [Supabase React Native Guide](https://supabase.com/docs/guides/getting-started/tutorials/with-expo)

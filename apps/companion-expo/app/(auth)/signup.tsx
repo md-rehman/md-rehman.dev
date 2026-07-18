@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { Link } from 'expo-router';
 import { supabase } from '../../lib/supabase';
 import { useTheme } from '../../context/ThemeContext';
@@ -30,6 +30,7 @@ export default function SignupScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]}>
       <View style={styles.content}>
         <View style={styles.header}>
+          <Image source={require('../../assets/images/icon.png')} style={styles.logo} />
           <Text style={[styles.title, { color: colors.fgPrimary }]}>Create Account</Text>
           <Text style={[styles.subtitle, { color: colors.fgSecondary }]}>Join Nebula Companion</Text>
         </View>
@@ -100,6 +101,12 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 40,
     alignItems: 'center',
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 16,
+    borderRadius: 16,
   },
   title: {
     fontSize: 28,
