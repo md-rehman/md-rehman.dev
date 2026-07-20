@@ -27,6 +27,14 @@ const APPS = [
     imageSrc: "/images/planner.png",
   },
   {
+    name: "Companion Expo",
+    description:
+      "A mobile app version of Companion built with Expo and React Native. Includes prayer tracking and seamless synchronization.",
+    techStack: ["React Native", "Expo", "TypeScript"],
+    href: "/companion-expo",
+    imageSrc: "/images/companion.png",
+  },
+  {
     name: "NativeBase",
     description:
       "An accessible, utility-first component library that helps you build consistent UI across Android, iOS and Web. Highly themeable and responsive, inspired by Styled System.",
