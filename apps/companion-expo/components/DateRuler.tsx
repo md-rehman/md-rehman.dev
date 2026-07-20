@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -12,16 +13,34 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '../context/ThemeContext';
 import { getLocalYYYYMMDD } from '../utils/date';
 
-const TICK_WIDTH = 12;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const { width } = Dimensions.get('window');
 
 // Number of ticks generated around today
 const DAY_RANGE = 365;
+const UPDATE_DEBOUNCE_MS = 100;
 
-export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string; onSelectDate: (d: string) => void }) {
+export interface DateRulerProps {
+  selectedDate: string;
+  onSelectDate: (d: string) => void;
+  tickSpacing?: number;
+  tickHeight?: number;
+  tickTallHeight?: number;
+  tickThickness?: number;
+  showResetToToday?: boolean;
+}
+
+export function DateRuler({
+  selectedDate,
+  onSelectDate,
+  tickSpacing = 24,
+  tickHeight = 12,
+  tickTallHeight = 24,
+  tickThickness = 4,
+  showResetToToday = false,
+}: DateRulerProps) {
   const { colors } = useTheme();
-  
+
   const todayTime = (() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -35,15 +54,24 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
   })();
 
   // Position is negative since swiping left means moving into the future (positive days)
-  const translateX = useSharedValue(-initialOffsetDays * TICK_WIDTH);
+  const translateX = useSharedValue(-initialOffsetDays * tickSpacing);
   const contextX = useSharedValue(0);
   const previousIndex = useSharedValue(-initialOffsetDays);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [displayDateStr, setDisplayDateStr] = useState(selectedDate);
 
   const updateDisplayDate = (index: number) => {
     const d = new Date(todayTime + index * MS_PER_DAY);
-    setDisplayDateStr(getLocalYYYYMMDD(d));
+    const dateStr = getLocalYYYYMMDD(d);
+    setDisplayDateStr(dateStr);
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      onSelectDate(dateStr);
+    }, UPDATE_DEBOUNCE_MS);
   };
 
   const handleSelectDate = (index: number) => {
@@ -52,14 +80,15 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
   };
 
   useAnimatedReaction(
-    () => Math.round(-translateX.value / TICK_WIDTH),
+    () => Math.round(-translateX.value / tickSpacing),
     (index) => {
       if (index !== previousIndex.value && index >= -DAY_RANGE && index <= DAY_RANGE) {
         previousIndex.value = index;
+        runOnJS(Haptics.selectionAsync)();
         runOnJS(updateDisplayDate)(index);
       }
     },
-    [todayTime]
+    [todayTime, tickSpacing]
   );
 
   const pan = Gesture.Pan()
@@ -78,11 +107,11 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
         (finished) => {
           if (finished) {
             // Snap to nearest tick
-            const snappedIndex = Math.round(translateX.value / TICK_WIDTH);
-            const snappedX = snappedIndex * TICK_WIDTH;
+            const snappedIndex = Math.round(translateX.value / tickSpacing);
+            const snappedX = snappedIndex * tickSpacing;
             translateX.value = withTiming(snappedX, { duration: 150 }, (finishedTiming) => {
               if (finishedTiming) {
-                const index = Math.round(-snappedX / TICK_WIDTH);
+                const index = Math.round(-snappedX / tickSpacing);
                 runOnJS(handleSelectDate)(index);
               }
             });
@@ -105,14 +134,39 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
 
   const ticks = Array.from({ length: DAY_RANGE * 2 + 1 }, (_, i) => i - DAY_RANGE);
 
+  const displayYear = new Date(displayDateStr).getFullYear();
+  const currentYear = new Date().getFullYear();
+  const showYear = displayYear !== currentYear;
+  const isTodaySelected = displayDateStr === getLocalYYYYMMDD(new Date(todayTime));
+
+  const handleResetToToday = () => {
+    translateX.value = withTiming(0, { duration: 300 });
+    const todayStr = getLocalYYYYMMDD(new Date(todayTime));
+    setDisplayDateStr(todayStr);
+    onSelectDate(todayStr);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={[styles.dateText, { color: colors.fgPrimary }]}>{displayFormat}</Text>
-      
+      <View style={styles.headerContainer}>
+        <View style={styles.dateHeader}>
+          {showYear && (
+            <Text style={[styles.yearText, { color: colors.fgSecondary }]}>{displayYear}</Text>
+          )}
+          <Text style={[styles.dateText, { color: colors.fgPrimary }]}>{displayFormat}</Text>
+        </View>
+
+        {showResetToToday && !isTodaySelected && (
+          <TouchableOpacity onPress={handleResetToToday} style={styles.resetBtn}>
+            <Text style={[styles.resetText, { color: colors.accentPrimary }]}>Today</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
       <GestureDetector gesture={pan}>
         <View style={styles.rulerContainer}>
           <View style={[styles.centerIndicator, { backgroundColor: colors.accentPrimary }]} />
-          
+
           <Animated.View style={[styles.ticksWrapper, animatedStyle]}>
             {ticks.map((offset) => {
               const d = new Date(todayTime + offset * MS_PER_DAY);
@@ -121,19 +175,23 @@ export function DateRuler({ selectedDate, onSelectDate }: { selectedDate: string
               const dateStr = d.getDate().toString();
 
               return (
-                <View key={offset} style={[styles.tickContainer, { width: TICK_WIDTH }]}>
+                <View key={offset} style={[styles.tickContainer, { width: tickSpacing }]}>
                   {isFriday && (
                     <Text style={[styles.tickLabel, { color: colors.fgSecondary }]}>{dateStr}</Text>
                   )}
                   {isToday && (
                     <View style={[styles.todayDot, { backgroundColor: colors.accentPrimary }]} />
                   )}
-                  <View 
+                  <View
                     style={[
-                      styles.tick, 
-                      { backgroundColor: colors.cardBorder },
-                      isFriday && styles.tickTall
-                    ]} 
+                      styles.tick,
+                      {
+                        backgroundColor: colors.cardBorder,
+                        width: tickThickness,
+                        height: isFriday ? tickTallHeight : tickHeight,
+                        borderRadius: tickThickness / 2
+                      }
+                    ]}
                   />
                 </View>
               );
@@ -152,10 +210,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    height: 40,
+  },
+  dateHeader: {
+    alignItems: 'center',
+  },
+  yearText: {
+    fontSize: 12,
+    fontWeight: '500',
+    marginBottom: 2,
+  },
   dateText: {
     fontSize: 18,
     fontWeight: '600',
-    marginBottom: 20,
+  },
+  resetBtn: {
+    position: 'absolute',
+    right: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  resetText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   rulerContainer: {
     height: 60,
@@ -184,12 +270,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tick: {
-    width: 2,
-    height: 12,
-    borderRadius: 1,
-  },
-  tickTall: {
-    height: 24,
+    // dynamically sized via props
   },
   tickLabel: {
     fontSize: 10,

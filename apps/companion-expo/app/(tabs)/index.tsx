@@ -12,7 +12,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]} edges={['top']}>
-      <DateRuler selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+      <DateRuler selectedDate={selectedDate} onSelectDate={setSelectedDate} showResetToToday={true} />
       
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.trackerContainer}>

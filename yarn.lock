@@ -3059,7 +3059,7 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/minimatch@*", "@types/minimatch@^6.0.0":
+"@types/minimatch@*":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-6.0.0.tgz#4d207b1cc941367bdcd195a3a781a7e4fc3b1e03"
   integrity sha512-zmPitbQ8+6zNutpwgcQuLcsEpn/Cj54Kbn7L5pX0Os5kdWplB7xPgEh/g+SWOB/qmows2gpuCaPyduq8ZZRnxA==
@@ -5842,6 +5842,11 @@ expo-glass-effect@^57.0.1, expo-glass-effect@~57.0.0:
   version "57.0.1"
   resolved "https://registry.yarnpkg.com/expo-glass-effect/-/expo-glass-effect-57.0.1.tgz#8829b8f3f801589266bd1c75fdfed4a6d73cf9d8"
   integrity sha512-m/n8maxqNcHk6ZDhuqXBfD5Kt1Iz3M8xykVgdB0iSCIXvF70IqWXmQhX8Psswhrp8eZ+3r0mAD0Jh/2gFA3QaA==
+
+expo-haptics@~57.0.1:
+  version "57.0.1"
+  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-57.0.1.tgz#0f30d6b54da4126d552eb53672e8612818ae62b0"
+  integrity sha512-8VhbnxlIrfXjP0syZr1JT197nafYicQu9119adOJnX62osU9Cw+PdDnAx/6LxuKJRzQdwxOMq7b7eWjhNL5zAQ==
 
 expo-image@~57.0.0:
   version "57.0.1"
