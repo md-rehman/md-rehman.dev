@@ -229,17 +229,18 @@ export function DateRulerV3({
     [todayTime, onSelectDate, startContinuousHaptic, stopContinuousHaptic, fireDiscreteHaptic],
   );
 
-  /** Called when the animation fully stops — always clean up */
+  /** Called when the animation fully stops — always clean up and fire alignment haptic */
   const onAnimationSettled = useCallback(
     (index: number) => {
       stopContinuousHaptic();
+      fireDiscreteHaptic();
       const d = new Date(todayTime + index * MS_PER_DAY);
       const dateStr = getLocalYYYYMMDD(d);
       setDisplayDateStr(dateStr);
       setWindowCenter(index);
       onSelectDate(dateStr);
     },
-    [todayTime, onSelectDate, stopContinuousHaptic],
+    [todayTime, onSelectDate, stopContinuousHaptic, fireDiscreteHaptic],
   );
 
   // ── Animated reaction — fires on the UI thread every frame ─────────────
@@ -289,7 +290,9 @@ export function DateRulerV3({
         },
         (finished) => {
           if (finished) {
-            const snappedIndex = Math.round(translateX.value / tickSpacing);
+            const maxOffset = DAY_RANGE * tickSpacing;
+            const clampedX = Math.min(Math.max(translateX.value, -maxOffset), maxOffset);
+            const snappedIndex = Math.round(clampedX / tickSpacing);
             const snappedX = snappedIndex * tickSpacing;
             translateX.value = withTiming(snappedX, { duration: 150 }, (done) => {
               if (done) {
