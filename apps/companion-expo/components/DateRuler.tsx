@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Animated, {
   useSharedValue,
@@ -84,7 +84,11 @@ export function DateRuler({
     (index) => {
       if (index !== previousIndex.value && index >= -DAY_RANGE && index <= DAY_RANGE) {
         previousIndex.value = index;
-        runOnJS(Haptics.selectionAsync)();
+        if (Platform.OS === 'android') {
+          runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Light);
+        } else {
+          runOnJS(Haptics.selectionAsync)();
+        }
         runOnJS(updateDisplayDate)(index);
       }
     },
