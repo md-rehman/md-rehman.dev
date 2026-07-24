@@ -334,11 +334,9 @@ export function DateRulerV3({
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.dateHeader}>
-          {showYear && (
-            <Text style={[styles.yearText, { color: colors.fgSecondary }]}>
-              {displayYear}
-            </Text>
-          )}
+          <Text style={[styles.yearText, { color: colors.fgSecondary }]}>
+            {showYear && displayYear}
+          </Text>
           <Text style={[styles.dateText, { color: colors.fgPrimary }]}>
             {displayFormat}
           </Text>
