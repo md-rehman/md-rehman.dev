@@ -16,10 +16,12 @@ This is a Turborepo-powered monorepo where I keep all my experiments, full-stack
 - **Planner:** Trello clone for task management (Port 4002).
 - **Companion:** Personal assistant application (Port 3012). It's prayers traker and more.
 - **Companion Expo:** Mobile app version of the Companion app (Expo / React Native). It will use the same backend as the Companion app.
+- **Docs:** NativeBase-inspired documentation hub for apps, packages, and AI agents (Port 4003).
 
 ## Included Packages
 - **@repo/atomic-ui:** Component library based on Atomic Design.
 - **@repo/auth:** Supabase authentication utilities.
+- **@repo/docs-core:** MDX & Markdown documentation engine.
 - **@repo/ui, @repo/channel, @repo/shell:** Other shared UI and utility packages.
 
 ## Naming Guidelines & Ports
@@ -27,9 +29,11 @@ This is a Turborepo-powered monorepo where I keep all my experiments, full-stack
 | **App Name**     | **Port** | **Notes**                                    |
 | ---------------- | -------- | -------------------------------------------- |
 | `tv-set`         | `3011`   | Portfolio                                    |
-| `companion`      | `3001`   | -                                            |
+| `companion`      | `3012`   | Companion Web                                |
 | `companion-expo` | `8081`   | Mobile App (Expo default port)               |
 | `home`           | `4000`   | Home page                                    |
 | `planner`        | `4002`   | Trello clone                                 |
+| `docs`           | `4003`   | Documentation Hub                            |
+
 
 _NOTE: Deployed (stable projects) app will use `3***` ports, experimental (unfinished or underdeveloped) apps will `4***` ports and randoms for testing will use `5***` ports._
