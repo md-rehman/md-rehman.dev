@@ -12,11 +12,11 @@ export default function Home() {
 
       <div className={styles.divider} />
 
-      <ExperienceTimeline />
+      <AppShowcase />
 
       <div className={styles.divider} />
 
-      <AppShowcase />
+      <ExperienceTimeline />
 
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
