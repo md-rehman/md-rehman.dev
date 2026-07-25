@@ -12,6 +12,7 @@ interface AppCardProps {
   imageSrc: string;
   imageBgColor?: string;
   priority?: boolean;
+  badge?: string;
 }
 
 export function AppCard({
@@ -22,6 +23,7 @@ export function AppCard({
   imageSrc,
   imageBgColor,
   priority,
+  badge,
 }: AppCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -35,6 +37,7 @@ export function AppCard({
         className={styles.imageWrapper}
         style={imageBgColor ? { backgroundColor: imageBgColor } : undefined}
       >
+        {badge && <span className={styles.categoryBadge}>{badge}</span>}
         <Image
           src={imageSrc}
           alt={`${name} app preview`}

@@ -62,7 +62,7 @@ export function AppShowcase() {
           <span className="gradient-text">Projects</span>
         </h2>
         <p className={styles.sectionSubtitle}>
-          Apps built within this monorepo — each a self-contained experience
+          A collection of personal projects crafted with care, alongside open-source systems I&apos;ve helped shape 💡
         </p>
 
         <div className={styles.grid}>
