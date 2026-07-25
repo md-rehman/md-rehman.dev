@@ -14,7 +14,7 @@ export function extractHeadings(markdown: string): TocHeading[] {
   
   return headingLines.map((line) => {
     const match = line.match(/^(#{1,4})\s+(.+)$/);
-    if (!match) return { id: "", text: "", level: 1 };
+    if (!match || !match[1] || !match[2]) return { id: "", text: "", level: 1 };
     
     const level = match[1].length;
     // Clean text by stripping bold/italic inline markdown and custom IDs if any

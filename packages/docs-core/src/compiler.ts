@@ -15,6 +15,7 @@ export function compileMarkdownToHtml(markdown: string): string {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (line === undefined) continue;
 
     // Handle Code Blocks
     if (line.trim().startsWith("```")) {
@@ -27,11 +28,11 @@ export function compileMarkdownToHtml(markdown: string): string {
         const codeContent = escapeHtml(codeBuffer.join("\n"));
         htmlLines.push(
           `<div class="docs-code-block" data-language="${escapeHtml(codeLanguage)}">` +
-            `<div class="docs-code-header">` +
-              `<span class="docs-code-lang">${escapeHtml(codeLanguage || "text")}</span>` +
-              `<button class="docs-copy-btn" onclick="navigator.clipboard.writeText(this.parentNode.nextElementSibling.innerText)">Copy</button>` +
-            `</div>` +
-            `<pre><code class="language-${escapeHtml(codeLanguage)}">${codeContent}</code></pre>` +
+          `<div class="docs-code-header">` +
+          `<span class="docs-code-lang">${escapeHtml(codeLanguage || "text")}</span>` +
+          `<button class="docs-copy-btn" onclick="navigator.clipboard.writeText(this.parentNode.nextElementSibling.innerText)">Copy</button>` +
+          `</div>` +
+          `<pre><code class="language-${escapeHtml(codeLanguage)}">${codeContent}</code></pre>` +
           `</div>`
         );
       }
@@ -46,14 +47,16 @@ export function compileMarkdownToHtml(markdown: string): string {
     // Handle GitHub-style Alerts / Callouts
     if (line.trim().startsWith("> [!")) {
       const alertMatch = line.trim().match(/^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)$/i);
-      if (alertMatch) {
+      if (alertMatch && alertMatch[1]) {
         const type = alertMatch[1].toUpperCase();
         let body = alertMatch[2] ? processInlineMarkdown(alertMatch[2]) : "";
-        
+
         // Collect following quote lines
         let j = i + 1;
-        while (j < lines.length && lines[j].trim().startsWith(">")) {
-          const content = lines[j].trim().replace(/^>\s*/, "");
+        while (j < lines.length) {
+          const nextLine = lines[j];
+          if (!nextLine || !nextLine.trim().startsWith(">")) break;
+          const content = nextLine.trim().replace(/^>\s*/, "");
           body += (body ? "<br/>" : "") + processInlineMarkdown(content);
           j++;
         }
@@ -61,8 +64,8 @@ export function compileMarkdownToHtml(markdown: string): string {
 
         htmlLines.push(
           `<div class="docs-callout docs-callout-${type.toLowerCase()}">` +
-            `<div class="docs-callout-title">${getCalloutIcon(type)} <span>${type}</span></div>` +
-            `<div class="docs-callout-content">${body}</div>` +
+          `<div class="docs-callout-title">${getCalloutIcon(type)} <span>${type}</span></div>` +
+          `<div class="docs-callout-content">${body}</div>` +
           `</div>`
         );
         continue;
@@ -71,7 +74,7 @@ export function compileMarkdownToHtml(markdown: string): string {
 
     // Handle Headings (H1 to H4)
     const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
-    if (headingMatch) {
+    if (headingMatch && headingMatch[1] && headingMatch[2]) {
       const level = headingMatch[1].length;
       const rawText = headingMatch[2];
       const inlineText = processInlineMarkdown(rawText);
@@ -80,8 +83,8 @@ export function compileMarkdownToHtml(markdown: string): string {
 
       htmlLines.push(
         `<h${level} id="${id}" class="docs-heading docs-h${level}">` +
-          `<a href="#${id}" class="docs-heading-anchor">#</a>` +
-          `<span>${inlineText}</span>` +
+        `<a href="#${id}" class="docs-heading-anchor">#</a>` +
+        `<span>${inlineText}</span>` +
         `</h${level}>`
       );
       continue;
@@ -123,7 +126,7 @@ export function compileMarkdownToHtml(markdown: string): string {
 
     // Handle Unordered Lists
     const listMatch = line.match(/^(\s*)[-*+]\s+(.+)$/);
-    if (listMatch) {
+    if (listMatch && listMatch[2]) {
       const text = processInlineMarkdown(listMatch[2]);
       htmlLines.push(`<li class="docs-list-item">${text}</li>`);
       continue;

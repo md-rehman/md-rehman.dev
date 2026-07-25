@@ -77,9 +77,8 @@ export function getAllDocs(contentDir: string): DocItem[] {
   for (const filePath of allFiles) {
     const relativePath = path.relative(contentDir, filePath);
     const parts = relativePath.split(path.sep);
-    if (parts.length < 2) continue;
-
     const category = parts[0];
+    if (!category) continue;
     const fileName = parts.slice(1).join("/");
     const slug = fileName.replace(/\.mdx?$/, "");
 
