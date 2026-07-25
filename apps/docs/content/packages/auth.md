@@ -4,6 +4,7 @@ description: "Supabase SSR authentication helpers and server clients"
 category: "packages"
 order: 2
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

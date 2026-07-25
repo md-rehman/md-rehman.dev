@@ -4,6 +4,7 @@ description: "High-level summary of monorepo architecture, god nodes, and memory
 category: "agents"
 order: 1
 pinned: true
+localOnly: true
 author: "Antigravity AI"
 updatedAt: "2026-07-24"
 ---

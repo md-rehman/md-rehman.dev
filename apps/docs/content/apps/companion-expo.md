@@ -4,6 +4,7 @@ description: "React Native and Expo implementation of Companion mobile app"
 category: "apps"
 order: 5
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

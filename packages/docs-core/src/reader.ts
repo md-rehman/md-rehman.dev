@@ -6,6 +6,13 @@ import { extractHeadings } from "./toc";
 
 export interface ReadDocsOptions {
   contentDir: string;
+  includeLocalOnly?: boolean;
+}
+
+export function isProductionEnvironment(): boolean {
+  if (process.env.DOCS_ENV === "local") return false;
+  if (process.env.DOCS_ENV === "production" || process.env.DOCS_ENV === "prod") return true;
+  return process.env.NODE_ENV === "production";
 }
 
 export function calculateReadingTime(text: string): number {
@@ -30,7 +37,12 @@ export function getAllDocFiles(dirPath: string): string[] {
   return results;
 }
 
-export function getDocBySlug(contentDir: string, category: string, slug: string): DocItem | null {
+export function getDocBySlug(
+  contentDir: string,
+  category: string,
+  slug: string,
+  options?: { includeLocalOnly?: boolean }
+): DocItem | null {
   const fileNameCandidate = `${slug}.md`;
   const mdxFileNameCandidate = `${slug}.mdx`;
   
@@ -52,9 +64,15 @@ export function getDocBySlug(contentDir: string, category: string, slug: string)
     order: typeof data.order === "number" ? data.order : 99,
     tags: data.tags || [],
     pinned: Boolean(data.pinned),
+    localOnly: Boolean(data.localOnly),
     author: data.author,
     updatedAt: data.updatedAt,
   };
+
+  const includeLocalOnly = options?.includeLocalOnly ?? !isProductionEnvironment();
+  if (frontmatter.localOnly && !includeLocalOnly) {
+    return null;
+  }
 
   const headings = extractHeadings(content);
   const readingTimeMinutes = calculateReadingTime(content);
@@ -70,9 +88,13 @@ export function getDocBySlug(contentDir: string, category: string, slug: string)
   };
 }
 
-export function getAllDocs(contentDir: string): DocItem[] {
+export function getAllDocs(
+  contentDir: string,
+  options?: { includeLocalOnly?: boolean }
+): DocItem[] {
   const allFiles = getAllDocFiles(contentDir);
   const docs: DocItem[] = [];
+  const includeLocalOnly = options?.includeLocalOnly ?? !isProductionEnvironment();
 
   for (const filePath of allFiles) {
     const relativePath = path.relative(contentDir, filePath);
@@ -93,9 +115,14 @@ export function getAllDocs(contentDir: string): DocItem[] {
       order: typeof data.order === "number" ? data.order : 99,
       tags: data.tags || [],
       pinned: Boolean(data.pinned),
+      localOnly: Boolean(data.localOnly),
       author: data.author,
       updatedAt: data.updatedAt,
     };
+
+    if (frontmatter.localOnly && !includeLocalOnly) {
+      continue;
+    }
 
     const headings = extractHeadings(content);
     const readingTimeMinutes = calculateReadingTime(content);
@@ -114,8 +141,11 @@ export function getAllDocs(contentDir: string): DocItem[] {
   return docs.sort((a, b) => (a.frontmatter.order ?? 99) - (b.frontmatter.order ?? 99));
 }
 
-export function getSidebarCategories(contentDir: string): SidebarCategory[] {
-  const docs = getAllDocs(contentDir);
+export function getSidebarCategories(
+  contentDir: string,
+  options?: { includeLocalOnly?: boolean }
+): SidebarCategory[] {
+  const docs = getAllDocs(contentDir, options);
   const categoriesMap = new Map<string, SidebarCategory>();
 
   const categoryLabels: Record<string, string> = {
@@ -141,6 +171,7 @@ export function getSidebarCategories(contentDir: string): SidebarCategory[] {
       title: doc.frontmatter.title,
       description: doc.frontmatter.description,
       pinned: doc.frontmatter.pinned,
+      localOnly: doc.frontmatter.localOnly,
       order: doc.frontmatter.order,
     });
   }
@@ -155,13 +186,17 @@ export function getSidebarCategories(contentDir: string): SidebarCategory[] {
     });
   }
 
-  return Array.from(categoriesMap.values());
+  return Array.from(categoriesMap.values()).filter((cat) => cat.items.length > 0);
 }
 
-export function searchDocs(contentDir: string, query: string): SearchDocResult[] {
+export function searchDocs(
+  contentDir: string,
+  query: string,
+  options?: { includeLocalOnly?: boolean }
+): SearchDocResult[] {
   if (!query || query.trim().length === 0) return [];
   const q = query.toLowerCase().trim();
-  const docs = getAllDocs(contentDir);
+  const docs = getAllDocs(contentDir, options);
   const results: SearchDocResult[] = [];
 
   for (const doc of docs) {

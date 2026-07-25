@@ -4,6 +4,7 @@ description: "Repository-specific agent directives from AGENTS.md and customizat
 category: "agents"
 order: 3
 pinned: false
+localOnly: true
 author: "Antigravity AI"
 updatedAt: "2026-07-24"
 ---

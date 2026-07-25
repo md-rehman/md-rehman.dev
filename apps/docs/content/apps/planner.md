@@ -4,6 +4,7 @@ description: "Trello-like Kanban board and task management system"
 category: "apps"
 order: 2
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

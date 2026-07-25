@@ -4,6 +4,7 @@ description: "NativeBase-inspired Documentation app built with Next.js 16 and @r
 category: "apps"
 order: 6
 pinned: true
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

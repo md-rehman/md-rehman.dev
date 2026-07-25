@@ -4,6 +4,7 @@ description: "All required CLI commands for running, updating, querying, and vis
 category: "agents"
 order: 5
 pinned: true
+localOnly: true
 author: "Antigravity AI"
 updatedAt: "2026-07-25"
 ---

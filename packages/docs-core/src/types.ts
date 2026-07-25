@@ -6,6 +6,7 @@ export interface DocFrontmatter {
   order?: number;
   tags?: string[];
   pinned?: boolean;
+  localOnly?: boolean;
   author?: string;
   updatedAt?: string;
 }
@@ -35,6 +36,7 @@ export interface SidebarCategory {
     title: string;
     description?: string;
     pinned?: boolean;
+    localOnly?: boolean;
     order?: number;
   }[];
 }

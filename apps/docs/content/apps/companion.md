@@ -4,6 +4,7 @@ description: "Personal AI companion, prayer tracker, and daily planner web app"
 category: "apps"
 order: 1
 pinned: true
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

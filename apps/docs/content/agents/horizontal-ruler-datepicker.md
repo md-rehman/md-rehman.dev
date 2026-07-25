@@ -4,6 +4,7 @@ description: "Market research, architecture comparison (DateRulerV3 vs FlashList
 category: "agents"
 order: 4
 pinned: true
+localOnly: true
 author: "Antigravity AI"
 updatedAt: "2026-07-25"
 ---

@@ -4,6 +4,7 @@ description: "Interactive portfolio experience mimicking retro TV channels and g
 category: "apps"
 order: 3
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

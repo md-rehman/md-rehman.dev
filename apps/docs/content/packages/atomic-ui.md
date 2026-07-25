@@ -4,6 +4,7 @@ description: "Component library following Atomic Design principles"
 category: "packages"
 order: 1
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---

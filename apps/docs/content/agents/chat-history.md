@@ -4,6 +4,7 @@ description: "Recorded AI agent task histories, session transcripts, and problem
 category: "agents"
 order: 2
 pinned: true
+localOnly: true
 author: "Antigravity AI"
 updatedAt: "2026-07-24"
 ---

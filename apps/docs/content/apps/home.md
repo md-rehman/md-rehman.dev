@@ -4,6 +4,7 @@ description: "Central landing portal and Vercel rewrite gateway for all apps"
 category: "apps"
 order: 4
 pinned: false
+localOnly: true
 author: "md-rehman"
 updatedAt: "2026-07-24"
 ---
