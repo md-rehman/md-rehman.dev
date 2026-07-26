@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import * as Location from "expo-location";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type PrayerKey = "fajr" | "dhuhr" | "asr" | "maghrib" | "isha";
 
@@ -20,6 +21,7 @@ export interface NextPrayerInfo {
   date: Date;
   remainingSeconds: number;
   formattedCountdown: string;
+  shortCountdown: string; // e.g. "1h 24m"
   progressPercent: number; // 0 to 100 elapsed between prev and next prayer
 }
 
@@ -55,6 +57,20 @@ const ALADHAN_MAP: Record<string, PrayerKey> = {
   Isha: "isha",
 };
 
+// In-memory static cache to avoid duplicate reads & network calls across components
+let inMemoryCache: {
+  dateStr: string; // YYYY-MM-DD
+  rawTimings: Record<string, string>;
+  tomorrowFajrRaw: string | null;
+} | null = null;
+
+function formatTodayStr(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 function format12Hour(time24: string): string {
   const [hStr, mStr] = time24.split(":");
   let h = parseInt(hStr, 10);
@@ -80,16 +96,37 @@ function formatCountdown(totalSeconds: number): string {
   return `${mStr}:${sStr}`;
 }
 
+function formatShortCountdown(totalSeconds: number): string {
+  if (totalSeconds <= 0) return "0m";
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  }
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`;
+  }
+  return `${seconds}s`;
+}
+
 export function usePrayerTimings(selectedDateStr?: string) {
   const [coords, setCoords] = useState<LocationCoords>(DEFAULT_LOCATION);
-  const [rawTimings, setRawTimings] = useState<Record<string, string> | null>(null);
-  const [tomorrowFajrRaw, setTomorrowFajrRaw] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [rawTimings, setRawTimings] = useState<Record<string, string> | null>(
+    inMemoryCache?.rawTimings ?? null
+  );
+  const [tomorrowFajrRaw, setTomorrowFajrRaw] = useState<string | null>(
+    inMemoryCache?.tomorrowFajrRaw ?? null
+  );
+  const [loading, setLoading] = useState<boolean>(!inMemoryCache);
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState<Date>(new Date());
   const [locationPermission, setLocationPermission] = useState<"idle" | "granted" | "denied">("idle");
 
-  // Geolocation request via expo-location
+  const todayStr = useMemo(() => formatTodayStr(now), [now]);
+
+  // Geolocation request via expo-location (only once on mount)
   useEffect(() => {
     let isMounted = true;
     (async () => {
@@ -125,86 +162,108 @@ export function usePrayerTimings(selectedDateStr?: string) {
     };
   }, []);
 
-  // Format YYYY-MM-DD to DD-MM-YYYY for Aladhan API
-  const dateForApi = useMemo(() => {
-    if (!selectedDateStr) {
-      const today = new Date();
-      const d = String(today.getDate()).padStart(2, "0");
-      const m = String(today.getMonth() + 1).padStart(2, "0");
-      const y = today.getFullYear();
-      return `${d}-${m}-${y}`;
-    }
-    const parts = selectedDateStr.split("-");
-    if (parts.length === 3) {
-      const [y, m, d] = parts;
-      return `${d.padStart(2, "0")}-${m.padStart(2, "0")}-${y}`;
-    }
-    return selectedDateStr;
-  }, [selectedDateStr]);
-
-  // Fetch timings for current selected date
+  // Fetch or Load Timings for Current Date (Max 1 API Call Per Day)
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
-    setError(null);
+    const cacheKey = `@prayer_timings_v1_${todayStr}`;
 
-    const url = `https://api.aladhan.com/v1/timings/${dateForApi}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=2`;
-
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Aladhan API HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
+    async function loadTimings() {
+      // 1. Check in-memory cache first
+      if (inMemoryCache && inMemoryCache.dateStr === todayStr) {
         if (isMounted) {
-          if (data && data.data && data.data.timings) {
-            setRawTimings(data.data.timings);
-          } else {
-            setError("Invalid timing data format");
+          setRawTimings(inMemoryCache.rawTimings);
+          setTomorrowFajrRaw(inMemoryCache.tomorrowFajrRaw);
+          setLoading(false);
+        }
+        return;
+      }
+
+      // 2. Check AsyncStorage cache
+      try {
+        const stored = await AsyncStorage.getItem(cacheKey);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.rawTimings) {
+            inMemoryCache = {
+              dateStr: todayStr,
+              rawTimings: parsed.rawTimings,
+              tomorrowFajrRaw: parsed.tomorrowFajrRaw ?? null,
+            };
+            if (isMounted) {
+              setRawTimings(parsed.rawTimings);
+              setTomorrowFajrRaw(parsed.tomorrowFajrRaw ?? null);
+              setLoading(false);
+            }
+            return;
           }
         }
-      })
-      .catch((err) => {
-        if (isMounted) {
-          setError(err.message || "Failed to fetch prayer timings");
+      } catch (err) {
+        console.warn("AsyncStorage read error:", err);
+      }
+
+      // 3. Always use CURRENT DATE (DD-MM-YYYY) for Aladhan API endpoint
+      try {
+        if (isMounted) setLoading(true);
+        const currentDate = new Date();
+        const d = String(currentDate.getDate()).padStart(2, "0");
+        const m = String(currentDate.getMonth() + 1).padStart(2, "0");
+        const y = currentDate.getFullYear();
+        const currentDateForApi = `${d}-${m}-${y}`;
+
+        const url = `https://api.aladhan.com/v1/timings/${currentDateForApi}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=2`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Aladhan API HTTP ${res.status}`);
+        const data = await res.json();
+
+        let tFajrRaw: string | null = null;
+        try {
+          const tomorrow = new Date(currentDate);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const tD = String(tomorrow.getDate()).padStart(2, "0");
+          const tM = String(tomorrow.getMonth() + 1).padStart(2, "0");
+          const tY = tomorrow.getFullYear();
+          const tomUrl = `https://api.aladhan.com/v1/timings/${tD}-${tM}-${tY}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=2`;
+          const tomRes = await fetch(tomUrl);
+          const tomData = await tomRes.json();
+          if (tomData?.data?.timings?.Fajr) {
+            tFajrRaw = tomData.data.timings.Fajr.split(" ")[0];
+          }
+        } catch {
+          // silent fallback
         }
-      })
-      .finally(() => {
+
+        if (data && data.data && data.data.timings) {
+          const fetchedTimings = data.data.timings;
+          inMemoryCache = {
+            dateStr: todayStr,
+            rawTimings: fetchedTimings,
+            tomorrowFajrRaw: tFajrRaw,
+          };
+          await AsyncStorage.setItem(
+            cacheKey,
+            JSON.stringify({ rawTimings: fetchedTimings, tomorrowFajrRaw: tFajrRaw })
+          );
+          if (isMounted) {
+            setRawTimings(fetchedTimings);
+            setTomorrowFajrRaw(tFajrRaw);
+            setError(null);
+          }
+        } else {
+          if (isMounted) setError("Invalid timing data format");
+        }
+      } catch (err: any) {
+        if (isMounted) setError(err.message || "Failed to fetch prayer timings");
+      } finally {
         if (isMounted) setLoading(false);
-      });
+      }
+    }
+
+    loadTimings();
 
     return () => {
       isMounted = false;
     };
-  }, [dateForApi, coords]);
-
-  // Fetch tomorrow's Fajr for wrap-around countdown
-  useEffect(() => {
-    let isMounted = true;
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const d = String(tomorrow.getDate()).padStart(2, "0");
-    const m = String(tomorrow.getMonth() + 1).padStart(2, "0");
-    const y = tomorrow.getFullYear();
-    const tomorrowDateStr = `${d}-${m}-${y}`;
-
-    const url = `https://api.aladhan.com/v1/timings/${tomorrowDateStr}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=2`;
-
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data?.data?.timings?.Fajr) {
-          setTomorrowFajrRaw(data.data.timings.Fajr.split(" ")[0]);
-        }
-      })
-      .catch(() => {
-        // silent fallback
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [coords]);
+  }, [todayStr, coords]);
 
   // Live timer tick every 1 sec
   useEffect(() => {
@@ -226,7 +285,8 @@ export function usePrayerTimings(selectedDateStr?: string) {
       };
     }
 
-    const baseDate = selectedDateStr ? new Date(`${selectedDateStr}T00:00:00`) : new Date();
+    // Base date for live countdown calculation is ALWAYS current date (today)
+    const baseDate = new Date();
     const cleanTimings: Record<PrayerKey, { raw: string; date: Date }> = {} as any;
 
     for (const [key, prayerKey] of Object.entries(ALADHAN_MAP)) {
@@ -294,6 +354,7 @@ export function usePrayerTimings(selectedDateStr?: string) {
       date: upcomingDate,
       remainingSeconds: diffSec,
       formattedCountdown: formatCountdown(diffSec),
+      shortCountdown: formatShortCountdown(diffSec),
       progressPercent: Math.round(progressPercent),
     } : null;
 
@@ -321,7 +382,7 @@ export function usePrayerTimings(selectedDateStr?: string) {
       nextPrayer: nextInfo,
       currentPrayerKey: currKey,
     };
-  }, [rawTimings, now, selectedDateStr, tomorrowFajrRaw]);
+  }, [rawTimings, now, tomorrowFajrRaw]);
 
   return {
     loading,

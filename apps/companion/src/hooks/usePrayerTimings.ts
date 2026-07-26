@@ -21,6 +21,7 @@ export interface NextPrayerInfo {
   date: Date;
   remainingSeconds: number;
   formattedCountdown: string;
+  shortCountdown: string; // e.g. "1h 24m"
   progressPercent: number; // 0 to 100 elapsed between prev and next prayer
 }
 
@@ -81,6 +82,21 @@ function formatCountdown(totalSeconds: number): string {
   return `${mStr}:${sStr}`;
 }
 
+function formatShortCountdown(totalSeconds: number): string {
+  if (totalSeconds <= 0) return "0m";
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  }
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`;
+  }
+  return `${seconds}s`;
+}
+
 export function usePrayerTimings(selectedDateStr?: string) {
   const [coords, setCoords] = useState<LocationCoords>(DEFAULT_LOCATION);
   const [rawTimings, setRawTimings] = useState<Record<string, string> | null>(null);
@@ -111,24 +127,16 @@ export function usePrayerTimings(selectedDateStr?: string) {
     }
   }, []);
 
-  // Format YYYY-MM-DD to DD-MM-YYYY for Aladhan API
+  // Always build current date (DD-MM-YYYY) for Aladhan API
   const dateForApi = useMemo(() => {
-    if (!selectedDateStr) {
-      const today = new Date();
-      const d = String(today.getDate()).padStart(2, "0");
-      const m = String(today.getMonth() + 1).padStart(2, "0");
-      const y = today.getFullYear();
-      return `${d}-${m}-${y}`;
-    }
-    const parts = selectedDateStr.split("-");
-    if (parts.length === 3) {
-      const [y, m, d] = parts;
-      return `${d.padStart(2, "0")}-${m.padStart(2, "0")}-${y}`;
-    }
-    return selectedDateStr;
-  }, [selectedDateStr]);
+    const today = new Date();
+    const d = String(today.getDate()).padStart(2, "0");
+    const m = String(today.getMonth() + 1).padStart(2, "0");
+    const y = today.getFullYear();
+    return `${d}-${m}-${y}`;
+  }, []);
 
-  // Fetch timings for current selected date
+  // Fetch timings for current date
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -212,7 +220,8 @@ export function usePrayerTimings(selectedDateStr?: string) {
       };
     }
 
-    const baseDate = selectedDateStr ? new Date(`${selectedDateStr}T00:00:00`) : new Date();
+    // Base date is ALWAYS current date (today) for live timer
+    const baseDate = new Date();
     const cleanTimings: Record<PrayerKey, { raw: string; date: Date }> = {} as any;
 
     for (const [key, prayerKey] of Object.entries(ALADHAN_MAP)) {
@@ -280,6 +289,7 @@ export function usePrayerTimings(selectedDateStr?: string) {
       date: upcomingDate,
       remainingSeconds: diffSec,
       formattedCountdown: formatCountdown(diffSec),
+      shortCountdown: formatShortCountdown(diffSec),
       progressPercent: Math.round(progressPercent),
     } : null;
 
@@ -307,7 +317,7 @@ export function usePrayerTimings(selectedDateStr?: string) {
       nextPrayer: nextInfo,
       currentPrayerKey: currKey,
     };
-  }, [rawTimings, now, selectedDateStr, tomorrowFajrRaw]);
+  }, [rawTimings, now, tomorrowFajrRaw]);
 
   return {
     loading,

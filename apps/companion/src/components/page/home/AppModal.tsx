@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./AppModal.module.css";
 import { ProfileBody } from "./modal-bodies/ProfileBody";
+import { PrayerBody } from "./modal-bodies/PrayerBody";
 
 type AppBodyProps = {
   accentColor?: string;
@@ -8,6 +9,7 @@ type AppBodyProps = {
 
 const APP_BODY_REGISTRY: Record<string, React.ComponentType<AppBodyProps>> = {
   profile: ProfileBody,
+  prayers: PrayerBody,
 };
 
 type AppModalProps = {

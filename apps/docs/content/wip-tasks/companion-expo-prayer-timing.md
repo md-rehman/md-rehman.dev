@@ -1,6 +1,6 @@
 ---
 title: "Companion Expo: Prayer Timing Feature"
-description: "Implementation specification and mobile guide for Aladhan API integration, countdown timer, and local notifications in companion-expo"
+description: "Implementation specification and mobile guide for Aladhan API integration, caching, countdown timer, and local notifications in companion-expo"
 category: "wip-tasks"
 order: 2
 pinned: true
@@ -18,19 +18,24 @@ This document details the specification, architecture, and step-by-step implemen
 ## 🎯 Mobile Feature Requirements
 
 1. **Aladhan API & Device Location**: Fetch daily prayer times using `expo-location` (with Mecca fallback).
-2. **React Native Countdown Timer Widget**: Display a hero card with Next Prayer title, live countdown timer (`HH:MM:SS`), start time, and progress bar.
-3. **Local Expo Notifications (`expo-notifications`)**: Request permissions and schedule local alerts when a prayer time starts.
-4. **Mobile Prayer Tracker Alignment**: Update existing `PrayerTrackerRadial` and date ruler to sync with prayer timings.
+2. **Single Daily Call Caching**: Cache Aladhan API responses in `AsyncStorage` and in-memory cache so the network request runs **at most once per day** (not on date changes or re-renders).
+3. **Compact Timer Pill & ActionSheet**: Display inline `<Prayer Name> in <Time Left>` pill on Home screen. Pressing opens a native bottom ActionSheet modal.
+4. **Local Expo Notifications (`expo-notifications`)**: Request permissions and schedule local alerts when a prayer time starts.
 
 ---
 
-## 🏗️ Technical Architecture & Modules
+## 🏗️ Technical Architecture & Persistence Caching
 
-### Required Expo Modules
+### API Request & Persistence Strategy
+- **Cache Key**: `@prayer_timings_v1_{YYYY-MM-DD}` via `@react-native-async-storage/async-storage`.
+- **In-Memory Cache**: Prevents duplicate reads and API hits on app re-renders.
+- **Date Changes**: Changing the selected date on the Home screen does NOT re-trigger Aladhan API network calls. Timings are calculated against the cached daily data and live local clock.
 
-Ensure the following packages are configured in `apps/companion-expo/package.json`:
-- `expo-location`: Device GPS coordinates for accurate local prayer calculation.
-- `expo-notifications`: Scheduling and triggering local push alerts on iOS and Android.
+```typescript
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Check memory cache -> Check AsyncStorage -> Fetch API once per day if missing
+```
 
 ---
 
@@ -61,10 +66,11 @@ Ensure the following packages are configured in `apps/companion-expo/package.jso
 
 ### 2. Next Prayer & Wrap-around
 - Compare current local time against prayer start times.
-- If current time > today's `Isha`, fetch tomorrow's `Fajr` timing to calculate remaining countdown seconds.
+- If current time > today's `Isha`, fetch/use tomorrow's `Fajr` timing to calculate remaining countdown seconds.
 
 ### 3. Countdown & Progress Percentage
 - `remainingSeconds = Math.max(0, Math.floor((nextPrayerDate.getTime() - Date.now()) / 1000))`
+- `shortCountdown`: Formatted as `1h 24m` or `24m 15s`.
 - Progress percentage: Elapsed interval between previous prayer time and next prayer time.
 
 ---
@@ -87,18 +93,6 @@ await Notifications.scheduleNotificationAsync({
   trigger: { date: prayerDate },
 });
 ```
-
----
-
-## 🎨 UI Component Structure
-
-### `NextPrayerTimer` Component (`components/NextPrayerTimer.tsx`)
-- **Header**: `View` with location indicator badge & notification alert toggle switch.
-- **Hero Card**:
-  - Emoji & Prayer Name (`🌅 Fajr`, `☀️ Dhuhr`, `🌤️ Asr`, `hb Maghrib`, `🌙 Isha`).
-  - Monospace Countdown text (`01:24:15`).
-  - Styled `View` progress bar with `width: `${progressPercent}%``.
-- **Timings Row**: Horizontal ScrollView or Flex row displaying 5 prayer timing pills with active next prayer highlighting.
 
 ---
 

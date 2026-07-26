@@ -5,7 +5,7 @@ import { Navbar } from "@repo/atomic-ui/compounds";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
 import { NextPrayerTimer } from "@/components/page/home/NextPrayerTimer";
-import { AppTray } from "@/components/page/home/AppTray";
+import { AppTray, APPS, AppItem } from "@/components/page/home/AppTray";
 import styles from "@/app/page.module.css";
 
 import { COMPANION_LINKS, getTodayStr } from "./constants";
@@ -13,12 +13,17 @@ import { COMPANION_LINKS, getTodayStr } from "./constants";
 export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>(getTodayStr);
   const [prayers, setPrayers] = useState<any[]>(initialPrayers || []);
+  const [activeApp, setActiveApp] = useState<AppItem | null>(null);
 
   // Sync state if server prop changes
   useEffect(() => {
     setPrayers(initialPrayers || []);
   }, [initialPrayers]);
 
+  const handleOpenPrayersApp = () => {
+    const prayersApp = APPS.find((a) => a.id === "prayers") || null;
+    setActiveApp(prayersApp);
+  };
 
   return (
     <div className={styles.homescreen}>
@@ -31,8 +36,11 @@ export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
         />
       </div>
 
-      <div style={{ width: "100%", padding: "0 1rem", zIndex: 1 }}>
-        <NextPrayerTimer selectedDate={selectedDate} />
+      <div style={{ width: "100%", padding: "0.5rem 1rem", zIndex: 1 }}>
+        <NextPrayerTimer
+          selectedDate={selectedDate}
+          onOpenPrayersApp={handleOpenPrayersApp}
+        />
       </div>
 
       <div className={styles.trackerSection}>
@@ -42,7 +50,8 @@ export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
           onPrayersUpdate={setPrayers}
         />
       </div>
-      <AppTray />
+
+      <AppTray activeApp={activeApp} onSelectApp={setActiveApp} />
     </div>
   );
 }
