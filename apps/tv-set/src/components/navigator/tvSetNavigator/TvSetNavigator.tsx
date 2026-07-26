@@ -15,6 +15,7 @@ import { useTvKeyHandlers } from "./hooks/useTvKeyHandlers";
 import { TouchToggle } from "./components/TouchToggle";
 import { OffOverlay } from "./components/OffOverlay";
 import { InfoOverlay } from "./components/InfoOverlay";
+import { TvRemoteControl } from "./components/TvRemoteControl";
 
 const AUDIO_VOL = 0.1;
 const START_CHANNEL = 0;
@@ -49,13 +50,62 @@ export const TvSetNavigator: React.FC<any> = ({
     useTvSwipeHandlers(nextChannel, prevChannel, globalTouchDetection);
 
   // 3. Remote/Key Interceptors Hook
-  const { channelNumber, keyDownHandler, keyUpHandler } = useTvKeyHandlers(
+  const {
+    channelNumber,
+    appendDigit,
+    commitChannelInput,
+    cancelDigitInput,
+    keyDownHandler,
+    keyUpHandler,
+  } = useTvKeyHandlers(
     nextChannel,
     prevChannel,
     changeChannel,
     setChannelMeta,
     buttonAudioRef,
   );
+
+  const togglePower = () => {
+    if (channelMeta.overlay === "off") {
+      setChannelMeta((prevState: any) => ({
+        ...prevState,
+        overlay: "noise",
+        infoOverlay: true,
+      }));
+      setTimeout(() => {
+        setChannelMeta((prevState: any) => ({
+          ...prevState,
+          overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+          infoOverlay: true,
+        }));
+      }, 600);
+      setTimeout(() => {
+        setChannelMeta((prevState: any) => ({
+          ...prevState,
+          infoOverlay: false,
+        }));
+      }, 2600);
+    } else {
+      setChannelMeta((prevState: any) => ({
+        ...prevState,
+        overlay: "off",
+        infoOverlay: false,
+      }));
+    }
+  };
+
+  const showInfoOverlay = () => {
+    setChannelMeta((prevState: any) => ({
+      ...prevState,
+      infoOverlay: true,
+    }));
+    setTimeout(() => {
+      setChannelMeta((prevState: any) => ({
+        ...prevState,
+        infoOverlay: false,
+      }));
+    }, 2600);
+  };
 
   // Focus the main element on mount
   useEffect(() => {
@@ -72,6 +122,13 @@ export const TvSetNavigator: React.FC<any> = ({
         changeChannel,
         nextChannel,
         prevChannel,
+        overlay: channelMeta.overlay,
+        togglePower,
+        showInfoOverlay,
+        appendDigit,
+        commitChannelInput,
+        cancelDigitInput,
+        pendingChannelNumber: channelNumber,
       }}
     >
       <main
@@ -126,6 +183,7 @@ export const TvSetNavigator: React.FC<any> = ({
             channelNumber={channelNumber}
           />
         )}
+        <TvRemoteControl />
         {probablyTouchScreen ? (
           <TouchToggle
             globalTouchDetection={globalTouchDetection}
