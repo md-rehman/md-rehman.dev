@@ -152,6 +152,7 @@ export function getSidebarCategories(
     apps: "Apps & Projects",
     packages: "Packages & Libraries",
     agents: "AI Agents & Transcripts",
+    "wip-tasks": "WIP Tasks",
   };
 
   for (const doc of docs) {
