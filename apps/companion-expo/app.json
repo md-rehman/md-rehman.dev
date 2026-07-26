@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "dev.rehman.companionexpo"
+      "bundleIdentifier": "dev.rehman.companionexpo",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow companion-expo to use your location to calculate accurate prayer timings.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow companion-expo to use your location to calculate accurate prayer timings."
+      }
     },
     "android": {
       "package": "dev.rehman.companionexpo",
@@ -27,6 +31,14 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow companion-expo to use your location to calculate accurate prayer timings.",
+          "locationAlwaysAndWhenInUsePermission": "Allow companion-expo to use your location to calculate accurate prayer timings."
+        }
+      ],
+      "expo-notifications",
       [
         "expo-splash-screen",
         {

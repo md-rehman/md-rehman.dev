@@ -4,6 +4,7 @@ import { DateRuler } from '../../components/DateRuler';
 import { DateRulerV2 } from '../../components/DateRulerV2';
 import { DateRulerV3 } from '../../components/DateRulerV3';
 import { PrayerTrackerRadial } from '../../components/PrayerTrackerRadial';
+import { NextPrayerTimer } from '../../components/NextPrayerTimer';
 import { useTheme } from '../../context/ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getLocalYYYYMMDD } from '../../utils/date';
@@ -29,6 +30,7 @@ export default function HomeScreen() {
       <DateRulerV3 selectedDate={selectedDate} onSelectDate={setSelectedDate} showResetToToday={true} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <NextPrayerTimer selectedDate={selectedDate} />
         <View style={styles.trackerContainer}>
           <PrayerTrackerRadial selectedDate={selectedDate} />
         </View>
