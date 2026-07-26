@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@repo/atomic-ui/compounds";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
+import { NextPrayerTimer } from "@/components/page/home/NextPrayerTimer";
 import { AppTray } from "@/components/page/home/AppTray";
 import styles from "@/app/page.module.css";
 
@@ -27,15 +28,17 @@ export function HomeClient({ prayers: initialPrayers }: { prayers?: any[] }) {
         <DateRuler
           onDateChange={setSelectedDate}
           selectedDate={selectedDate}
-        // startDate="1-06-2026"
-        // endDate="13-06-2026"
         />
       </div>
 
+      <div style={{ width: "100%", padding: "0 1rem", zIndex: 1 }}>
+        <NextPrayerTimer selectedDate={selectedDate} />
+      </div>
+
       <div className={styles.trackerSection}>
-        <PrayerTrackerRadial 
-          selectedDate={selectedDate} 
-          prayersData={prayers} 
+        <PrayerTrackerRadial
+          selectedDate={selectedDate}
+          prayersData={prayers}
           onPrayersUpdate={setPrayers}
         />
       </div>

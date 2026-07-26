@@ -7,6 +7,7 @@ import {
   DEBOUNCE_DELAY_MS,
   type PrayerName,
 } from "@/hooks/usePrayerTracker";
+import { usePrayerTimings } from "@/hooks/usePrayerTimings";
 import styles from "./PrayerTrackerRadial.module.css";
 
 const PRAYER_DISPLAY: Record<PrayerName, { name: string; emoji: string }> = {
@@ -33,6 +34,8 @@ export const PrayerTrackerRadial = React.memo(function PrayerTrackerRadial({
     prayersData,
     onPrayersUpdate
   );
+
+  const { timingsMap, nextPrayer } = usePrayerTimings(selectedDate);
 
   // Position 5 nodes evenly around a circle, starting from the top
   const radius = 112.5; // px from center
@@ -129,20 +132,23 @@ export const PrayerTrackerRadial = React.memo(function PrayerTrackerRadial({
         const status = prayers[name];
         const meta = STATUS_META[status];
         const display = PRAYER_DISPLAY[name];
+        const timingStr = timingsMap[name];
+        const isNext = nextPrayer?.key === name;
+
         return (
           <button
             key={name}
-            className={styles.node}
+            className={`${styles.node} ${isNext ? "ring-2 ring-emerald-400" : ""}`}
             onClick={() => cycleStatus(name)}
             disabled={isSaving}
             style={
               {
                 "--node-x": `${pos.x}px`,
                 "--node-y": `${pos.y}px`,
-                "--node-color": meta.color,
+                "--node-color": isNext ? "#00e5a0" : meta.color,
               } as React.CSSProperties
             }
-            title={`${display.name}: ${meta.label}`}
+            title={`${display.name} (${timingStr || "loading..."}): ${meta.label}`}
           >
             <span className={styles.nodeIcon}>{meta.icon}</span>
             <span className={styles.nodeName}>{display.name}</span>
