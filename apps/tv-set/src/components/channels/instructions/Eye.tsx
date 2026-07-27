@@ -108,7 +108,7 @@ export const Eye: React.FC<{ isSimplified: boolean; isEyeClosed: boolean }> = ({
                         <path fillRule="evenodd" clipRule="evenodd" d="M341.38 167.304L345.633 173.018L355.054 179.199L348.189 171.508L341.38 167.304Z" fill="white" />
                         <path fillRule="evenodd" clipRule="evenodd" d="M276.442 163.54L270.079 167.886L263.288 175.79L271.841 169.176L276.442 163.54Z" fill="white" />
                         <path fillRule="evenodd" clipRule="evenodd" d="M272.973 157.118L265.205 159.847L256.999 167.156L267.414 162.449L272.973 157.118Z" fill="white" />
-                        <path fillRule="evenodd" clip-rule="evenodd" d="M273.521 138.752L266.127 135.526L254.279 133.18L265.15 137.249L273.521 138.752Z" fill="white" />
+                        <path fillRule="evenodd" clipRule="evenodd" d="M273.521 138.752L266.127 135.526L254.279 133.18L265.15 137.249L273.521 138.752Z" fill="white" />
                         <path fillRule="evenodd" clipRule="evenodd" d="M278.112 129.359L272.553 124.369L261.791 119.676L270.399 126.226L278.112 129.359Z" fill="white" />
                         <path fillRule="evenodd" clipRule="evenodd" d="M270.445 154.24L261.928 154.155L250.198 155.941L262.266 155.615L270.445 154.24Z" fill="white" />
 

@@ -75,11 +75,10 @@ export const TvRemoteControl: React.FC = () => {
 
   return (
     <div
-      className={`fixed bottom-0 right-6 z-50 transition-transform duration-300 ease-in-out select-none ${
-        isExpanded
+      className={`fixed bottom-0 right-6 z-50 transition-transform duration-300 ease-in-out select-none ${isExpanded
           ? "translate-y-0"
           : "translate-y-[calc(100%-54px)] hover:translate-y-0"
-      }`}
+        }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
@@ -104,11 +103,10 @@ export const TvRemoteControl: React.FC = () => {
             <button
               onClick={handlePower}
               title={isPowerOff ? "Turn TV On" : "Turn TV Off"}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 active:scale-90 ${
-                isPowerOff
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 active:scale-90 ${isPowerOff
                   ? "bg-red-950/80 border-red-600 text-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"
                   : "bg-white border-neutral-300 text-neutral-900 hover:bg-neutral-100 shadow-md"
-              }`}
+                }`}
             >
               <svg
                 className="w-4 h-4"
@@ -133,13 +131,12 @@ export const TvRemoteControl: React.FC = () => {
                   : `CH ${currentChannel}`}
               </span>
               <span
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  isPowerOff
+                className={`w-2 h-2 rounded-full transition-colors ${isPowerOff
                     ? "bg-red-500 animate-pulse"
                     : pendingChannelNumber !== null && pendingChannelNumber !== undefined
-                    ? "bg-amber-400 animate-ping shadow-[0_0_8px_#f59e0b]"
-                    : "bg-lime-400 shadow-[0_0_8px_#84cc16]"
-                }`}
+                      ? "bg-amber-400 animate-ping shadow-[0_0_8px_#f59e0b]"
+                      : "bg-lime-400 shadow-[0_0_8px_#84cc16]"
+                  }`}
               />
             </div>
           </div>
@@ -225,8 +222,8 @@ export const TvRemoteControl: React.FC = () => {
           </button>
         </div>
 
-        {/* Bottom Pill Buttons */}
-        <div className="w-full flex items-center justify-between gap-2 px-1 mb-1">
+        {/* Bottom Pill Buttons : Commenting out for now. Because of the D-Pad */}
+        {/* <div className="w-full flex items-center justify-between gap-2 px-1 mb-1">
           <button
             onClick={handlePrev}
             className="flex-1 h-7 bg-neutral-200 hover:bg-white text-neutral-900 font-bold text-[10px] uppercase rounded-full shadow-sm active:scale-95 transition-all flex items-center justify-center gap-0.5"
@@ -239,7 +236,7 @@ export const TvRemoteControl: React.FC = () => {
           >
             CH +
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
