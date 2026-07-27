@@ -9,6 +9,8 @@ export const useTvKeyHandlers = (
   changeChannel: (channel: number) => void,
   setChannelMeta: React.Dispatch<React.SetStateAction<any>>,
   buttonAudioRef: RefObject<HTMLAudioElement | null>,
+  increaseVolume?: () => void,
+  decreaseVolume?: () => void,
 ) => {
   const [channelNumber, setChannelNumber] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -87,6 +89,14 @@ export const useTvKeyHandlers = (
     }
 
     switch (e.key) {
+      case "ArrowUp":
+        cancelDigitInput();
+        if (increaseVolume) increaseVolume();
+        break;
+      case "ArrowDown":
+        cancelDigitInput();
+        if (decreaseVolume) decreaseVolume();
+        break;
       case "ArrowRight":
         cancelDigitInput();
         setTimeout(

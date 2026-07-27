@@ -16,6 +16,8 @@ export const TvRemoteControl: React.FC = () => {
     commitChannelInput,
     cancelDigitInput,
     pendingChannelNumber,
+    increaseVolume,
+    decreaseVolume,
   } = useTvNavigator();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,6 +62,20 @@ export const TvRemoteControl: React.FC = () => {
     if (cancelDigitInput) cancelDigitInput();
     playClickSound();
     prevChannel();
+  };
+
+  const handleVolumeUp = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cancelDigitInput) cancelDigitInput();
+    playClickSound();
+    if (increaseVolume) increaseVolume();
+  };
+
+  const handleVolumeDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cancelDigitInput) cancelDigitInput();
+    playClickSound();
+    if (decreaseVolume) decreaseVolume();
   };
 
   const handleOK = (e: React.MouseEvent) => {
@@ -170,8 +186,8 @@ export const TvRemoteControl: React.FC = () => {
 
           {/* Up Button */}
           <button
-            onClick={handleNext}
-            title="Next Channel"
+            onClick={handleVolumeUp}
+            title="Volume Up"
             className="absolute top-0 inset-x-0 h-9 flex items-start justify-center pt-1 hover:text-lime-400 text-neutral-300 active:scale-95 transition-all"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -181,8 +197,8 @@ export const TvRemoteControl: React.FC = () => {
 
           {/* Down Button */}
           <button
-            onClick={handlePrev}
-            title="Previous Channel"
+            onClick={handleVolumeDown}
+            title="Volume Down"
             className="absolute bottom-0 inset-x-0 h-9 flex items-end justify-center pb-1 hover:text-lime-400 text-neutral-300 active:scale-95 transition-all"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

@@ -15,6 +15,10 @@ export interface NavigationRouteContextType {
   commitChannelInput?: () => boolean;
   cancelDigitInput?: () => void;
   pendingChannelNumber?: number | null;
+  volume?: number;
+  increaseVolume?: () => void;
+  decreaseVolume?: () => void;
+  isVolumeOverlayVisible?: boolean;
 }
 
 /**

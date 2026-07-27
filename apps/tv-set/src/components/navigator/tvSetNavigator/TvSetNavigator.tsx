@@ -10,11 +10,13 @@ import { channels } from "@constants";
 import { useTvChannelManager } from "./hooks/useTvChannelManager";
 import { useTvSwipeHandlers } from "./hooks/useTvSwipeHandlers";
 import { useTvKeyHandlers } from "./hooks/useTvKeyHandlers";
+import { useTvVolumeManager } from "./hooks/useTvVolumeManager";
 
 // Components
 import { TouchToggle } from "./components/TouchToggle";
 import { OffOverlay } from "./components/OffOverlay";
 import { InfoOverlay } from "./components/InfoOverlay";
+import { VolumeOverlay } from "./components/VolumeOverlay";
 import { TvRemoteControl } from "./components/TvRemoteControl";
 
 const AUDIO_VOL = 0.1;
@@ -49,7 +51,11 @@ export const TvSetNavigator: React.FC<any> = ({
   const { blur, touchStartHandler, touchMoveHandler, touchEndHandler } =
     useTvSwipeHandlers(nextChannel, prevChannel, globalTouchDetection);
 
-  // 3. Remote/Key Interceptors Hook
+  // 3. Volume State Manager
+  const { volume, isVolumeOverlayVisible, increaseVolume, decreaseVolume } =
+    useTvVolumeManager();
+
+  // 4. Remote/Key Interceptors Hook
   const {
     channelNumber,
     appendDigit,
@@ -63,6 +69,8 @@ export const TvSetNavigator: React.FC<any> = ({
     changeChannel,
     setChannelMeta,
     buttonAudioRef,
+    increaseVolume,
+    decreaseVolume,
   );
 
   const turnOnRef = useRef<(() => void) | null>(null);
@@ -141,6 +149,10 @@ export const TvSetNavigator: React.FC<any> = ({
         commitChannelInput,
         cancelDigitInput,
         pendingChannelNumber: channelNumber,
+        volume,
+        increaseVolume,
+        decreaseVolume,
+        isVolumeOverlayVisible,
       }}
     >
       <main
@@ -172,7 +184,7 @@ export const TvSetNavigator: React.FC<any> = ({
           <div
             style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
           >
-            <TvStatic volume={AUDIO_VOL} />
+            <TvStatic volume={AUDIO_VOL * (volume / 100)} />
           </div>
         )}
         {channelMeta.overlay === "blueScreen" && (
@@ -197,6 +209,7 @@ export const TvSetNavigator: React.FC<any> = ({
             channelNumber={channelNumber}
           />
         )}
+        <VolumeOverlay volume={volume} isVisible={isVolumeOverlayVisible} />
         <TvRemoteControl />
         {probablyTouchScreen ? (
           <TouchToggle
