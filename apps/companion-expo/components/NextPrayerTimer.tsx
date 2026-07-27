@@ -6,13 +6,12 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   ScrollView,
-  Modal,
   Platform,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { usePrayerTimings, PrayerKey } from "../hooks/usePrayerTimings";
 import { usePrayerNotifications } from "../hooks/usePrayerNotifications";
 import { useTheme } from "../context/ThemeContext";
+import { ActionSheet } from "./ui/ActionSheet";
 
 const PRAYER_EMOJIS: Record<PrayerKey, string> = {
   fajr: "🌅",
@@ -88,189 +87,169 @@ export function NextPrayerTimer({ selectedDate }: NextPrayerTimerProps) {
       </TouchableOpacity>
 
       {/* ActionSheet Bottom Sheet Modal */}
-      <Modal
+      <ActionSheet
         visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}
+        onClose={() => setModalVisible(false)}
+        backgroundColor={colors.bgPrimary || "#141419"}
+        borderColor={colors.cardBorder}
+        handleColor={colors.cardBorder}
       >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View style={styles.modalOverlay}>
-            <TouchableWithoutFeedback>
-              <View
-                style={[
-                  styles.sheetContainer,
-                  {
-                    backgroundColor: colors.bgPrimary || "#141419",
-                    borderColor: colors.cardBorder,
-                  },
-                ]}
-              >
-                {/* Drag Handle Bar */}
-                <View style={styles.dragHandleBar}>
-                  <View style={[styles.dragHandle, { backgroundColor: colors.cardBorder }]} />
-                </View>
+        {/* Header Row: Title & Close Button (Separated from Subheader) */}
+        <View style={styles.sheetHeaderRow}>
+          <Text style={[styles.sheetTitle, { color: colors.fgPrimary }]}>Prayer Schedule</Text>
+          <TouchableOpacity
+            style={[styles.closeButton, { backgroundColor: colors.badgeBg }]}
+            onPress={() => setModalVisible(false)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Text style={[styles.closeButtonText, { color: colors.fgSecondary }]}>✕</Text>
+          </TouchableOpacity>
+        </View>
 
-                {/* Header Row: Title & Close Button (Separated from Subheader) */}
-                <View style={styles.sheetHeaderRow}>
-                  <Text style={[styles.sheetTitle, { color: colors.fgPrimary }]}>Prayer Schedule</Text>
-                  <TouchableOpacity
-                    style={[styles.closeButton, { backgroundColor: colors.badgeBg }]}
-                    onPress={() => setModalVisible(false)}
-                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                  >
-                    <Text style={[styles.closeButtonText, { color: colors.fgSecondary }]}>✕</Text>
-                  </TouchableOpacity>
-                </View>
-
-                {/* Subheader Bar (Location + Notification Toggle) */}
-                <View style={styles.subHeader}>
-                  <View style={[styles.locationBadge, { backgroundColor: colors.badgeBg, borderColor: colors.badgeBorder }]}>
-                    <Text style={styles.badgeEmoji}>📍</Text>
-                    <Text style={[styles.badgeText, { color: colors.fgPrimary }]}>
-                      {coords.locationName || "Mecca (Default)"}
-                    </Text>
-                  </View>
-
-                  <TouchableOpacity
-                    style={[
-                      styles.notifButton,
-                      {
-                        backgroundColor: notifEnabled ? colors.badgeBg : colors.bgSecondary,
-                        borderColor: notifEnabled ? colors.accentPrimary : colors.cardBorder,
-                      },
-                    ]}
-                    onPress={toggleNotifications}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.notifEmoji}>{notifEnabled ? "🔔" : "🔕"}</Text>
-                    <Text
-                      style={[
-                        styles.notifText,
-                        { color: notifEnabled ? colors.accentPrimary : colors.fgSecondary },
-                      ]}
-                    >
-                      {notifEnabled ? "Alerts On" : "Enable Alerts"}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                {/* Main Scrollable Content (Hero Timer + Prayer Times List) */}
-                <ScrollView
-                  showsVerticalScrollIndicator={true}
-                  contentContainerStyle={styles.sheetScrollContent}
-                  bounces={true}
-                >
-                  {/* Hero Timer Display */}
-                  {nextPrayer ? (
-                    <View style={styles.hero}>
-                      <Text style={[styles.nextLabel, { color: colors.fgMuted }]}>
-                        UPCOMING PRAYER
-                      </Text>
-
-                      <View style={styles.prayerTitleRow}>
-                        <Text style={styles.prayerEmoji}>{PRAYER_EMOJIS[nextPrayer.key]}</Text>
-                        <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
-                          {nextPrayer.name}
-                        </Text>
-                      </View>
-
-                      <Text style={[styles.timerDisplay, { color: colors.accentPrimary }]}>
-                        {nextPrayer.formattedCountdown}
-                      </Text>
-
-                      <Text style={[styles.startTimeText, { color: colors.fgSecondary }]}>
-                        Starts today at{" "}
-                        <Text style={{ color: colors.fgPrimary, fontWeight: "700" }}>
-                          {nextPrayer.timeStr}
-                        </Text>
-                      </Text>
-
-                      {/* Progress bar */}
-                      <View style={[styles.progressTrack, { backgroundColor: colors.bgSecondary }]}>
-                        <View
-                          style={[
-                            styles.progressBar,
-                            {
-                              backgroundColor: colors.accentPrimary,
-                              width: `${nextPrayer.progressPercent}%`,
-                            },
-                          ]}
-                        />
-                      </View>
-                    </View>
-                  ) : (
-                    <View style={styles.hero}>
-                      <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
-                        All Prayers Complete Today
-                      </Text>
-                    </View>
-                  )}
-
-                  {/* Section Divider Header */}
-                  <View style={styles.sectionHeader}>
-                    <Text style={[styles.sectionTitle, { color: colors.fgMuted }]}>
-                      TODAY'S TIMINGS
-                    </Text>
-                  </View>
-
-                  {/* Vertically Scrollable Prayer Times List */}
-                  <View style={styles.timingsListContainer}>
-                    {timingsList.map((item) => {
-                      const isNext = item.isNext;
-                      const isCurrent = item.isCurrent;
-
-                      return (
-                        <View
-                          key={item.key}
-                          style={[
-                            styles.timingRow,
-                            {
-                              backgroundColor: isNext
-                                ? colors.badgeBg
-                                : isCurrent
-                                ? colors.bgTertiary
-                                : colors.bgSecondary,
-                              borderColor: isNext
-                                ? colors.accentPrimary
-                                : isCurrent
-                                ? colors.cardHoverBorder
-                                : colors.cardBorder,
-                              borderWidth: isNext ? 1.5 : 1,
-                            },
-                          ]}
-                        >
-                          <View style={styles.timingRowLeft}>
-                            <Text style={styles.timingRowEmoji}>{PRAYER_EMOJIS[item.key]}</Text>
-                            <Text style={[styles.timingRowName, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
-                              {item.name}
-                            </Text>
-                          </View>
-
-                          <View style={styles.timingRowRight}>
-                            <Text style={[styles.timingRowTime, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
-                              {item.timeStr}
-                            </Text>
-                            {isNext ? (
-                              <View style={[styles.statusBadge, { backgroundColor: colors.accentPrimary }]}>
-                                <Text style={styles.statusBadgeText}>NEXT</Text>
-                              </View>
-                            ) : isCurrent ? (
-                              <View style={[styles.statusBadge, { backgroundColor: colors.cardHoverBorder }]}>
-                                <Text style={styles.statusBadgeText}>NOW</Text>
-                              </View>
-                            ) : null}
-                          </View>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </ScrollView>
-              </View>
-            </TouchableWithoutFeedback>
+        {/* Subheader Bar (Location + Notification Toggle) */}
+        <View style={styles.subHeader}>
+          <View style={[styles.locationBadge, { backgroundColor: colors.badgeBg, borderColor: colors.badgeBorder }]}>
+            <Text style={styles.badgeEmoji}>📍</Text>
+            <Text style={[styles.badgeText, { color: colors.fgPrimary }]}>
+              {coords.locationName || "Mecca (Default)"}
+            </Text>
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+
+          <TouchableOpacity
+            style={[
+              styles.notifButton,
+              {
+                backgroundColor: notifEnabled ? colors.badgeBg : colors.bgSecondary,
+                borderColor: notifEnabled ? colors.accentPrimary : colors.cardBorder,
+              },
+            ]}
+            onPress={toggleNotifications}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.notifEmoji}>{notifEnabled ? "🔔" : "🔕"}</Text>
+            <Text
+              style={[
+                styles.notifText,
+                { color: notifEnabled ? colors.accentPrimary : colors.fgSecondary },
+              ]}
+            >
+              {notifEnabled ? "Alerts On" : "Enable Alerts"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Main Scrollable Content (Hero Timer + Prayer Times List) */}
+        <ScrollView
+          showsVerticalScrollIndicator={true}
+          contentContainerStyle={styles.sheetScrollContent}
+          bounces={true}
+        >
+          {/* Hero Timer Display */}
+          {nextPrayer ? (
+            <View style={styles.hero}>
+              <Text style={[styles.nextLabel, { color: colors.fgMuted }]}>
+                UPCOMING PRAYER
+              </Text>
+
+              <View style={styles.prayerTitleRow}>
+                <Text style={styles.prayerEmoji}>{PRAYER_EMOJIS[nextPrayer.key]}</Text>
+                <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
+                  {nextPrayer.name}
+                </Text>
+              </View>
+
+              <Text style={[styles.timerDisplay, { color: colors.accentPrimary }]}>
+                {nextPrayer.formattedCountdown}
+              </Text>
+
+              <Text style={[styles.startTimeText, { color: colors.fgSecondary }]}>
+                Starts today at{" "}
+                <Text style={{ color: colors.fgPrimary, fontWeight: "700" }}>
+                  {nextPrayer.timeStr}
+                </Text>
+              </Text>
+
+              {/* Progress bar */}
+              <View style={[styles.progressTrack, { backgroundColor: colors.bgSecondary }]}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    {
+                      backgroundColor: colors.accentPrimary,
+                      width: `${nextPrayer.progressPercent}%`,
+                    },
+                  ]}
+                />
+              </View>
+            </View>
+          ) : (
+            <View style={styles.hero}>
+              <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
+                All Prayers Complete Today
+              </Text>
+            </View>
+          )}
+
+          {/* Section Divider Header */}
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: colors.fgMuted }]}>
+              TODAY'S TIMINGS
+            </Text>
+          </View>
+
+          {/* Vertically Scrollable Prayer Times List */}
+          <View style={styles.timingsListContainer}>
+            {timingsList.map((item) => {
+              const isNext = item.isNext;
+              const isCurrent = item.isCurrent;
+
+              return (
+                <View
+                  key={item.key}
+                  style={[
+                    styles.timingRow,
+                    {
+                      backgroundColor: isNext
+                        ? colors.badgeBg
+                        : isCurrent
+                        ? colors.bgTertiary
+                        : colors.bgSecondary,
+                      borderColor: isNext
+                        ? colors.accentPrimary
+                        : isCurrent
+                        ? colors.cardHoverBorder
+                        : colors.cardBorder,
+                      borderWidth: isNext ? 1.5 : 1,
+                    },
+                  ]}
+                >
+                  <View style={styles.timingRowLeft}>
+                    <Text style={styles.timingRowEmoji}>{PRAYER_EMOJIS[item.key]}</Text>
+                    <Text style={[styles.timingRowName, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
+                      {item.name}
+                    </Text>
+                  </View>
+
+                  <View style={styles.timingRowRight}>
+                    <Text style={[styles.timingRowTime, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
+                      {item.timeStr}
+                    </Text>
+                    {isNext ? (
+                      <View style={[styles.statusBadge, { backgroundColor: colors.accentPrimary }]}>
+                        <Text style={styles.statusBadgeText}>NEXT</Text>
+                      </View>
+                    ) : isCurrent ? (
+                      <View style={[styles.statusBadge, { backgroundColor: colors.cardHoverBorder }]}>
+                        <Text style={styles.statusBadgeText}>NOW</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </ActionSheet>
     </View>
   );
 }
