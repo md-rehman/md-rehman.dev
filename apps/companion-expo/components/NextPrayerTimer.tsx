@@ -106,9 +106,14 @@ export function NextPrayerTimer({ selectedDate }: NextPrayerTimerProps) {
                   },
                 ]}
               >
-                {/* Drag Handle & Close Button */}
-                <View style={styles.sheetHeader}>
+                {/* Drag Handle Bar */}
+                <View style={styles.dragHandleBar}>
                   <View style={[styles.dragHandle, { backgroundColor: colors.cardBorder }]} />
+                </View>
+
+                {/* Header Row: Title & Close Button (Separated from Subheader) */}
+                <View style={styles.sheetHeaderRow}>
+                  <Text style={[styles.sheetTitle, { color: colors.fgPrimary }]}>Prayer Schedule</Text>
                   <TouchableOpacity
                     style={[styles.closeButton, { backgroundColor: colors.badgeBg }]}
                     onPress={() => setModalVisible(false)}
@@ -150,91 +155,116 @@ export function NextPrayerTimer({ selectedDate }: NextPrayerTimerProps) {
                   </TouchableOpacity>
                 </View>
 
-                {/* Hero Timer Display */}
-                {nextPrayer ? (
-                  <View style={styles.hero}>
-                    <Text style={[styles.nextLabel, { color: colors.fgMuted }]}>
-                      UPCOMING PRAYER
-                    </Text>
-
-                    <View style={styles.prayerTitleRow}>
-                      <Text style={styles.prayerEmoji}>{PRAYER_EMOJIS[nextPrayer.key]}</Text>
-                      <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
-                        {nextPrayer.name}
-                      </Text>
-                    </View>
-
-                    <Text style={[styles.timerDisplay, { color: colors.accentPrimary }]}>
-                      {nextPrayer.formattedCountdown}
-                    </Text>
-
-                    <Text style={[styles.startTimeText, { color: colors.fgSecondary }]}>
-                      Starts today at{" "}
-                      <Text style={{ color: colors.fgPrimary, fontWeight: "700" }}>
-                        {nextPrayer.timeStr}
-                      </Text>
-                    </Text>
-
-                    {/* Progress bar */}
-                    <View style={[styles.progressTrack, { backgroundColor: colors.bgSecondary }]}>
-                      <View
-                        style={[
-                          styles.progressBar,
-                          {
-                            backgroundColor: colors.accentPrimary,
-                            width: `${nextPrayer.progressPercent}%`,
-                          },
-                        ]}
-                      />
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.hero}>
-                    <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
-                      All Prayers Complete Today
-                    </Text>
-                  </View>
-                )}
-
-                {/* Timings Horizontal Schedule Bar */}
+                {/* Main Scrollable Content (Hero Timer + Prayer Times List) */}
                 <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.timingsRowContainer}
+                  showsVerticalScrollIndicator={true}
+                  contentContainerStyle={styles.sheetScrollContent}
+                  bounces={true}
                 >
-                  {timingsList.map((item) => {
-                    const isNext = item.isNext;
-                    const isCurrent = item.isCurrent;
+                  {/* Hero Timer Display */}
+                  {nextPrayer ? (
+                    <View style={styles.hero}>
+                      <Text style={[styles.nextLabel, { color: colors.fgMuted }]}>
+                        UPCOMING PRAYER
+                      </Text>
 
-                    return (
-                      <View
-                        key={item.key}
-                        style={[
-                          styles.timingPill,
-                          {
-                            backgroundColor: isNext
-                              ? colors.badgeBg
-                              : isCurrent
-                              ? colors.bgTertiary
-                              : colors.bgSecondary,
-                            borderColor: isNext
-                              ? colors.accentPrimary
-                              : isCurrent
-                              ? colors.cardHoverBorder
-                              : colors.cardBorder,
-                            borderWidth: isNext ? 1.5 : 1,
-                          },
-                        ]}
-                      >
-                        <Text style={[styles.pillName, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
-                          {PRAYER_EMOJIS[item.key]} {item.name}
-                        </Text>
-                        <Text style={[styles.pillTime, { color: isNext ? colors.fgPrimary : colors.fgSecondary }]}>
-                          {item.timeStr}
+                      <View style={styles.prayerTitleRow}>
+                        <Text style={styles.prayerEmoji}>{PRAYER_EMOJIS[nextPrayer.key]}</Text>
+                        <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
+                          {nextPrayer.name}
                         </Text>
                       </View>
-                    );
-                  })}
+
+                      <Text style={[styles.timerDisplay, { color: colors.accentPrimary }]}>
+                        {nextPrayer.formattedCountdown}
+                      </Text>
+
+                      <Text style={[styles.startTimeText, { color: colors.fgSecondary }]}>
+                        Starts today at{" "}
+                        <Text style={{ color: colors.fgPrimary, fontWeight: "700" }}>
+                          {nextPrayer.timeStr}
+                        </Text>
+                      </Text>
+
+                      {/* Progress bar */}
+                      <View style={[styles.progressTrack, { backgroundColor: colors.bgSecondary }]}>
+                        <View
+                          style={[
+                            styles.progressBar,
+                            {
+                              backgroundColor: colors.accentPrimary,
+                              width: `${nextPrayer.progressPercent}%`,
+                            },
+                          ]}
+                        />
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={styles.hero}>
+                      <Text style={[styles.prayerTitle, { color: colors.fgPrimary }]}>
+                        All Prayers Complete Today
+                      </Text>
+                    </View>
+                  )}
+
+                  {/* Section Divider Header */}
+                  <View style={styles.sectionHeader}>
+                    <Text style={[styles.sectionTitle, { color: colors.fgMuted }]}>
+                      TODAY'S TIMINGS
+                    </Text>
+                  </View>
+
+                  {/* Vertically Scrollable Prayer Times List */}
+                  <View style={styles.timingsListContainer}>
+                    {timingsList.map((item) => {
+                      const isNext = item.isNext;
+                      const isCurrent = item.isCurrent;
+
+                      return (
+                        <View
+                          key={item.key}
+                          style={[
+                            styles.timingRow,
+                            {
+                              backgroundColor: isNext
+                                ? colors.badgeBg
+                                : isCurrent
+                                ? colors.bgTertiary
+                                : colors.bgSecondary,
+                              borderColor: isNext
+                                ? colors.accentPrimary
+                                : isCurrent
+                                ? colors.cardHoverBorder
+                                : colors.cardBorder,
+                              borderWidth: isNext ? 1.5 : 1,
+                            },
+                          ]}
+                        >
+                          <View style={styles.timingRowLeft}>
+                            <Text style={styles.timingRowEmoji}>{PRAYER_EMOJIS[item.key]}</Text>
+                            <Text style={[styles.timingRowName, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
+                              {item.name}
+                            </Text>
+                          </View>
+
+                          <View style={styles.timingRowRight}>
+                            <Text style={[styles.timingRowTime, { color: isNext ? colors.accentPrimary : colors.fgPrimary }]}>
+                              {item.timeStr}
+                            </Text>
+                            {isNext ? (
+                              <View style={[styles.statusBadge, { backgroundColor: colors.accentPrimary }]}>
+                                <Text style={styles.statusBadgeText}>NEXT</Text>
+                              </View>
+                            ) : isCurrent ? (
+                              <View style={[styles.statusBadge, { backgroundColor: colors.cardHoverBorder }]}>
+                                <Text style={styles.statusBadgeText}>NOW</Text>
+                              </View>
+                            ) : null}
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </View>
                 </ScrollView>
               </View>
             </TouchableWithoutFeedback>
@@ -291,27 +321,36 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     borderWidth: 1,
     borderBottomWidth: 0,
-    padding: 20,
-    paddingBottom: 36,
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 24,
+    maxHeight: "85%",
   },
-  sheetHeader: {
+  dragHandleBar: {
     alignItems: "center",
     justifyContent: "center",
-    position: "relative",
-    marginBottom: 12,
+    paddingVertical: 10,
+    width: "100%",
   },
   dragHandle: {
-    width: 36,
-    height: 4,
-    borderRadius: 2,
+    width: 40,
+    height: 5,
+    borderRadius: 3,
+  },
+  sheetHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: "700",
   },
   closeButton: {
-    position: "absolute",
-    right: 0,
-    top: -4,
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -356,6 +395,9 @@ const styles = StyleSheet.create({
   notifText: {
     fontSize: 12,
     fontWeight: "600",
+  },
+  sheetScrollContent: {
+    paddingBottom: 16,
   },
   hero: {
     alignItems: "center",
@@ -403,27 +445,56 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 3,
   },
-  timingsRowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 4,
+  sectionHeader: {
+    marginTop: 8,
+    marginBottom: 10,
   },
-  timingPill: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
-    marginRight: 8,
-    alignItems: "center",
-    minWidth: 70,
-  },
-  pillName: {
+  sectionTitle: {
     fontSize: 11,
     fontWeight: "700",
-    marginBottom: 2,
+    letterSpacing: 1.2,
   },
-  pillTime: {
+  timingsListContainer: {
+    gap: 8,
+  },
+  timingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 14,
+  },
+  timingRowLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  timingRowEmoji: {
+    fontSize: 18,
+    marginRight: 10,
+  },
+  timingRowName: {
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  timingRowRight: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  timingRowTime: {
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  statusBadge: {
+    marginLeft: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  statusBadgeText: {
+    color: "#FFFFFF",
     fontSize: 10,
-    fontWeight: "500",
+    fontWeight: "800",
   },
 });
+
