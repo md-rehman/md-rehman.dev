@@ -101,6 +101,7 @@ export const TvSetNavigator: React.FC<any> = ({
         ...prevState,
         overlay: "off",
         infoOverlay: false,
+        isTurningOff: true,
       }));
     }
   };
@@ -185,6 +186,7 @@ export const TvSetNavigator: React.FC<any> = ({
             probablyTouchScreen={probablyTouchScreen}
             setChannelMeta={setChannelMeta}
             onRegisterTurnOn={handleRegisterTurnOn}
+            isTurningOff={channelMeta.isTurningOff}
           />
         )}
         {channelMeta.infoOverlay && (

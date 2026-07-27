@@ -9,6 +9,7 @@ export type ChannelMeta = {
   overlay: "noise" | "blueScreen" | "off" | "none";
   infoOverlay: boolean;
   channelNumber: "setting" | "fixed";
+  isTurningOff?: boolean;
 };
 
 export const useTvChannelManager = (config: any, initialChannel: number) => {

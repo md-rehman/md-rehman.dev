@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Text } from "@atoms";
 import styles from "../TvSetNavigator.module.scss";
 
@@ -7,63 +7,69 @@ interface OffOverlayProps {
   setChannelMeta: React.Dispatch<React.SetStateAction<any>>;
   probablyTouchScreen?: boolean;
   onRegisterTurnOn?: (fn: () => void) => void;
+  isTurningOff?: boolean;
 }
 
 export const OffOverlay: React.FC<OffOverlayProps> = ({
   config,
   setChannelMeta,
   onRegisterTurnOn,
+  isTurningOff = false,
 }) => {
-  const [offAnimation, setOffAnimation] = useState<boolean>(false);
+  const [animState, setAnimState] = useState<
+    "idle" | "turningOn" | "turningOff"
+  >(isTurningOff ? "turningOff" : "idle");
+  const animStateRef = useRef<"idle" | "turningOn" | "turningOff">(
+    isTurningOff ? "turningOff" : "idle",
+  );
   const audioRef = useRef<HTMLAudioElement>(null);
-  const audioRef2 = useRef<HTMLAudioElement>(null);
 
-  const handleTurnOn = () => {
-    if (offAnimation) return;
-    setOffAnimation(true);
+  const updateAnimState = useCallback(
+    (nextState: "idle" | "turningOn" | "turningOff") => {
+      animStateRef.current = nextState;
+      setAnimState(nextState);
+    },
+    [],
+  );
 
-    // Play remote turn-on sound
+  useEffect(() => {
+    if (isTurningOff) {
+      updateAnimState("turningOff");
+      const timer = setTimeout(() => {
+        updateAnimState("idle");
+        setChannelMeta((prev: any) => ({ ...prev, isTurningOff: false }));
+      }, 1500);
+      return () => clearTimeout(timer);
+    } else {
+      updateAnimState("idle");
+    }
+  }, [isTurningOff, setChannelMeta, updateAnimState]);
+
+  const handleTurnOn = useCallback(() => {
+    if (animStateRef.current === "turningOn") return;
+    updateAnimState("turningOn");
+
     if (audioRef.current) {
       audioRef.current.volume = 0.2;
-      audioRef.current.play().catch((err) => {
-        console.log("Audio 1 playback failed:", err);
-      });
-
-      const playNext = () => {
-        if (audioRef2.current) {
-          audioRef2.current.volume = 0.2;
-          audioRef2.current.play().catch((err) => {
-            console.log("Audio 3 playback failed:", err);
-          });
-        }
-        audioRef.current?.removeEventListener("ended", playNext);
-      };
-
-      audioRef.current.addEventListener("ended", playNext);
+      audioRef.current.play().catch(() => {});
     }
 
     setTimeout(() => {
       setChannelMeta((prevState: any) => {
-        // Transition to actual channel scene after noise transition duration (600ms)
         setTimeout(() => {
-          setChannelMeta((prevState: any) => {
-            return {
-              ...prevState,
-              overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
-              infoOverlay: true,
-            };
-          });
-        }, 600); // OVERLAY_DURATION
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+            infoOverlay: true,
+          }));
+        }, 600);
 
-        // Fade out the info display after 2600ms
         setTimeout(() => {
-          setChannelMeta((prevState: any) => {
-            return {
-              ...prevState,
-              infoOverlay: false,
-            };
-          });
-        }, 2600); // INFO_OVERLAY_DURATION
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            infoOverlay: false,
+          }));
+        }, 2600);
 
         return {
           ...prevState,
@@ -72,13 +78,20 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
         };
       });
     }, 1250);
-  };
+  }, [config, setChannelMeta, updateAnimState]);
 
   useEffect(() => {
     if (onRegisterTurnOn) {
       onRegisterTurnOn(handleTurnOn);
     }
-  }, [onRegisterTurnOn]);
+  }, [onRegisterTurnOn, handleTurnOn]);
+
+  const animClass =
+    animState === "turningOn"
+      ? styles.offText
+      : animState === "turningOff"
+      ? styles.offTextReverse
+      : "";
 
   return (
     <div
@@ -86,26 +99,21 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
       onClick={handleTurnOn}
     >
       <audio ref={audioRef} src="/tv-set/audios/remote_button_2.mp3" />
-      {/* <audio ref={audioRef2} src="/tv-set/audios/turn_on.mp3" /> */}
-      <span className={`flex flex-row ${offAnimation ? styles.offText : ""}`}>
+      <span className={`flex flex-row ${animClass}`}>
         <Text
-          className={`font-silkscreen text-white text-2xl mx-12 ${
-            offAnimation ? styles.offText : ""
-          }`}
+          className={`font-silkscreen text-white text-2xl mx-12 ${animClass}`}
         >
           Press to Turn
         </Text>
         <Text
-          className={`font-silkscreen text-2xl inline  ${
-            offAnimation ? `text-white ${styles.offText}` : "text-lime-500"
+          className={`font-silkscreen text-2xl inline ${
+            animClass ? `text-white ${animClass}` : "text-lime-500"
           }`}
         >
           {" On "}
         </Text>
         <Text
-          className={`font-silkscreen text-white text-2xl mx-12 ${
-            offAnimation ? styles.offText : ""
-          }`}
+          className={`font-silkscreen text-white text-2xl mx-12 ${animClass}`}
         >
           the TV
         </Text>
