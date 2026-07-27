@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { TvStatic } from "@canvas";
+import React, { useState, useRef, useEffect } from "react";
 import { Text } from "@atoms";
 import styles from "../TvSetNavigator.module.scss";
 
@@ -7,17 +6,22 @@ interface OffOverlayProps {
   config: any;
   setChannelMeta: React.Dispatch<React.SetStateAction<any>>;
   probablyTouchScreen?: boolean;
+  onRegisterTurnOn?: (fn: () => void) => void;
 }
 
 export const OffOverlay: React.FC<OffOverlayProps> = ({
   config,
   setChannelMeta,
+  onRegisterTurnOn,
 }) => {
   const [offAnimation, setOffAnimation] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioRef2 = useRef<HTMLAudioElement>(null);
 
   const handleTurnOn = () => {
+    if (offAnimation) return;
+    setOffAnimation(true);
+
     // Play remote turn-on sound
     if (audioRef.current) {
       audioRef.current.volume = 0.2;
@@ -38,7 +42,6 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
       audioRef.current.addEventListener("ended", playNext);
     }
 
-    setOffAnimation(true);
     setTimeout(() => {
       setChannelMeta((prevState: any) => {
         // Transition to actual channel scene after noise transition duration (600ms)
@@ -71,7 +74,12 @@ export const OffOverlay: React.FC<OffOverlayProps> = ({
     }, 1250);
   };
 
-  // return <TvStatic />
+  useEffect(() => {
+    if (onRegisterTurnOn) {
+      onRegisterTurnOn(handleTurnOn);
+    }
+  }, [onRegisterTurnOn]);
+
   return (
     <div
       className="off-overlay fixed h-screen w-screen top-0 bg-black flex flex-1 items-center justify-center text-center z-50 cursor-pointer"

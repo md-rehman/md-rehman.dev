@@ -65,27 +65,38 @@ export const TvSetNavigator: React.FC<any> = ({
     buttonAudioRef,
   );
 
+  const turnOnRef = useRef<(() => void) | null>(null);
+
+  const handleRegisterTurnOn = React.useCallback((fn: () => void) => {
+    turnOnRef.current = fn;
+  }, []);
+
   const togglePower = () => {
     if (channelMeta.overlay === "off") {
-      setChannelMeta((prevState: any) => ({
-        ...prevState,
-        overlay: "noise",
-        infoOverlay: true,
-      }));
-      setTimeout(() => {
+      if (turnOnRef.current) {
+        turnOnRef.current();
+      } else {
         setChannelMeta((prevState: any) => ({
           ...prevState,
-          overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+          overlay: "noise",
           infoOverlay: true,
         }));
-      }, 600);
-      setTimeout(() => {
-        setChannelMeta((prevState: any) => ({
-          ...prevState,
-          infoOverlay: false,
-        }));
-      }, 2600);
+        setTimeout(() => {
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+            infoOverlay: true,
+          }));
+        }, 600);
+        setTimeout(() => {
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            infoOverlay: false,
+          }));
+        }, 2600);
+      }
     } else {
+      turnOnRef.current = null;
       setChannelMeta((prevState: any) => ({
         ...prevState,
         overlay: "off",
@@ -173,6 +184,7 @@ export const TvSetNavigator: React.FC<any> = ({
             config={config}
             probablyTouchScreen={probablyTouchScreen}
             setChannelMeta={setChannelMeta}
+            onRegisterTurnOn={handleRegisterTurnOn}
           />
         )}
         {channelMeta.infoOverlay && (
