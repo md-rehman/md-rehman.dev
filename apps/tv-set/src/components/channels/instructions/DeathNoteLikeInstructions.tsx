@@ -9,7 +9,7 @@ import { Eye } from "./Eye";
 
 const EYE_CLOSE_DURATION_MS = 1000;
 
-const GlitchingRule: React.FC<{ text: string }> = ({ text }) => {
+const GlitchingRule: React.FC<{ text: string; isSimplified: boolean }> = ({ text, isSimplified }) => {
   const [scrambled, setScrambled] = useState(text);
 
   useEffect(() => {
@@ -31,8 +31,10 @@ const GlitchingRule: React.FC<{ text: string }> = ({ text }) => {
     return () => clearInterval(interval);
   }, [text]);
 
+  const textColorClass = isSimplified ? "text-cyan-400" : "text-red-400";
+
   return (
-    <span className="font-mono text-red-400 tracking-tighter opacity-90 select-none blur-[0.2px] glitch-active text-sm">
+    <span className={`font-mono ${textColorClass} tracking-tighter opacity-90 select-none blur-[0.2px] glitch-active text-sm`}>
       {scrambled}
     </span>
   );
@@ -188,7 +190,7 @@ export const DeathNoteLikeInstructions: React.FC = () => {
               <li key={i} className="flex items-start">
                 <span className="font-death_note_2 text-xl sm:text-2xl pr-4 sm:pr-6 mt-1 opacity-90">O</span>
                 <span className="text-base sm:text-xl mt-1.5 min-h-[1.5em]">
-                  {isGlitching ? <GlitchingRule text={rule} /> : rule}
+                  {isGlitching ? <GlitchingRule text={rule} isSimplified={isSimplified} /> : rule}
                 </span>
               </li>
             ))}
