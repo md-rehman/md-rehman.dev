@@ -17,6 +17,9 @@
     },
     "android": {
       "package": "dev.rehman.companionexpo",
+      "permissions": [
+        "android.permission.VIBRATE"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

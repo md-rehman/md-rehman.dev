@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform, Vibration } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Animated, {
   useSharedValue,
@@ -164,9 +164,9 @@ export function DateRulerV3({
   /** Fire a single discrete haptic — used in slow mode */
   const fireDiscreteHaptic = useCallback(() => {
     if (Platform.OS === 'android') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Vibration.vibrate(10);
     } else {
-      Haptics.selectionAsync();
+      Haptics.selectionAsync().catch(() => {});
     }
   }, []);
 
@@ -177,18 +177,20 @@ export function DateRulerV3({
 
     // Fire one immediately so the transition isn't silent
     if (Platform.OS === 'android') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Vibration.vibrate(10);
     } else {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
     }
+
+    const interval = Platform.OS === 'android' ? 40 : CONTINUOUS_HAPTIC_INTERVAL_MS;
 
     hapticIntervalRef.current = setInterval(() => {
       if (Platform.OS === 'android') {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        Vibration.vibrate(10);
       } else {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
       }
-    }, CONTINUOUS_HAPTIC_INTERVAL_MS);
+    }, interval);
   }, []);
 
   /** Stop the continuous haptic buzz */
