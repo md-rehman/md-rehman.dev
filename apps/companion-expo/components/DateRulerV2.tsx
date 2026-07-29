@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform, Vibration } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Animated, {
   useSharedValue,
@@ -153,11 +153,10 @@ export function DateRulerV2({
   }, [windowCenter, windowSize, todayTime]);
 
   const fireHaptic = useCallback(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
-      Vibration.vibrate(40);
-    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(40);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    } else {
+      Haptics.selectionAsync().catch(() => {});
     }
   }, []);
 

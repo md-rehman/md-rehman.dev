@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform, Vibration } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Animated, {
   useSharedValue,
@@ -163,11 +163,10 @@ export function DateRulerV3({
 
   /** Fire a single discrete haptic — used in slow mode */
   const fireDiscreteHaptic = useCallback(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
-      Vibration.vibrate(40);
-    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(40);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    } else {
+      Haptics.selectionAsync().catch(() => {});
     }
   }, []);
 
@@ -177,21 +176,19 @@ export function DateRulerV3({
     if (hapticIntervalRef.current) return;
 
     // Fire one immediately so the transition isn't silent
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
-      Vibration.vibrate(40);
-    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(40);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    } else {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
     }
 
-    const interval = Platform.OS === 'android' ? 60 : CONTINUOUS_HAPTIC_INTERVAL_MS;
+    const interval = Platform.OS === 'android' ? 35 : CONTINUOUS_HAPTIC_INTERVAL_MS;
 
     hapticIntervalRef.current = setInterval(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {
-        Vibration.vibrate(30);
-      });
       if (Platform.OS === 'android') {
-        Vibration.vibrate(30);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      } else {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
       }
     }, interval);
   }, []);
