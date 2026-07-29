@@ -8,6 +8,17 @@ export interface NavigationRouteContextType {
   changeChannel: (channel: number) => void;
   nextChannel: () => void;
   prevChannel: () => void;
+  overlay?: string;
+  togglePower?: () => void;
+  showInfoOverlay?: () => void;
+  appendDigit?: (digit: number) => void;
+  commitChannelInput?: () => boolean;
+  cancelDigitInput?: () => void;
+  pendingChannelNumber?: number | null;
+  volume?: number;
+  increaseVolume?: () => void;
+  decreaseVolume?: () => void;
+  isVolumeOverlayVisible?: boolean;
 }
 
 /**

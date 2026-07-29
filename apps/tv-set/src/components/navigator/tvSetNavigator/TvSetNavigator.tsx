@@ -10,11 +10,14 @@ import { channels } from "@constants";
 import { useTvChannelManager } from "./hooks/useTvChannelManager";
 import { useTvSwipeHandlers } from "./hooks/useTvSwipeHandlers";
 import { useTvKeyHandlers } from "./hooks/useTvKeyHandlers";
+import { useTvVolumeManager } from "./hooks/useTvVolumeManager";
 
 // Components
 import { TouchToggle } from "./components/TouchToggle";
 import { OffOverlay } from "./components/OffOverlay";
 import { InfoOverlay } from "./components/InfoOverlay";
+import { VolumeOverlay } from "./components/VolumeOverlay";
+import { TvRemoteControl } from "./components/TvRemoteControl";
 
 const AUDIO_VOL = 0.1;
 const START_CHANNEL = 0;
@@ -48,14 +51,81 @@ export const TvSetNavigator: React.FC<any> = ({
   const { blur, touchStartHandler, touchMoveHandler, touchEndHandler } =
     useTvSwipeHandlers(nextChannel, prevChannel, globalTouchDetection);
 
-  // 3. Remote/Key Interceptors Hook
-  const { channelNumber, keyDownHandler, keyUpHandler } = useTvKeyHandlers(
+  // 3. Volume State Manager
+  const { volume, isVolumeOverlayVisible, increaseVolume, decreaseVolume } =
+    useTvVolumeManager();
+
+  // 4. Remote/Key Interceptors Hook
+  const {
+    channelNumber,
+    appendDigit,
+    commitChannelInput,
+    cancelDigitInput,
+    keyDownHandler,
+    keyUpHandler,
+  } = useTvKeyHandlers(
     nextChannel,
     prevChannel,
     changeChannel,
     setChannelMeta,
     buttonAudioRef,
+    increaseVolume,
+    decreaseVolume,
   );
+
+  const turnOnRef = useRef<(() => void) | null>(null);
+
+  const handleRegisterTurnOn = React.useCallback((fn: () => void) => {
+    turnOnRef.current = fn;
+  }, []);
+
+  const togglePower = () => {
+    if (channelMeta.overlay === "off") {
+      if (turnOnRef.current) {
+        turnOnRef.current();
+      } else {
+        setChannelMeta((prevState: any) => ({
+          ...prevState,
+          overlay: "noise",
+          infoOverlay: true,
+        }));
+        setTimeout(() => {
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            overlay: config[prevState.activeChannel] ? "none" : "blueScreen",
+            infoOverlay: true,
+          }));
+        }, 600);
+        setTimeout(() => {
+          setChannelMeta((prevState: any) => ({
+            ...prevState,
+            infoOverlay: false,
+          }));
+        }, 2600);
+      }
+    } else {
+      turnOnRef.current = null;
+      setChannelMeta((prevState: any) => ({
+        ...prevState,
+        overlay: "off",
+        infoOverlay: false,
+        isTurningOff: true,
+      }));
+    }
+  };
+
+  const showInfoOverlay = () => {
+    setChannelMeta((prevState: any) => ({
+      ...prevState,
+      infoOverlay: true,
+    }));
+    setTimeout(() => {
+      setChannelMeta((prevState: any) => ({
+        ...prevState,
+        infoOverlay: false,
+      }));
+    }, 2600);
+  };
 
   // Focus the main element on mount
   useEffect(() => {
@@ -72,6 +142,17 @@ export const TvSetNavigator: React.FC<any> = ({
         changeChannel,
         nextChannel,
         prevChannel,
+        overlay: channelMeta.overlay,
+        togglePower,
+        showInfoOverlay,
+        appendDigit,
+        commitChannelInput,
+        cancelDigitInput,
+        pendingChannelNumber: channelNumber,
+        volume,
+        increaseVolume,
+        decreaseVolume,
+        isVolumeOverlayVisible,
       }}
     >
       <main
@@ -103,7 +184,7 @@ export const TvSetNavigator: React.FC<any> = ({
           <div
             style={{ backgroundColor: "white", position: "fixed", inset: 0 }}
           >
-            <TvStatic volume={AUDIO_VOL} />
+            <TvStatic volume={AUDIO_VOL * (volume / 100)} />
           </div>
         )}
         {channelMeta.overlay === "blueScreen" && (
@@ -116,6 +197,8 @@ export const TvSetNavigator: React.FC<any> = ({
             config={config}
             probablyTouchScreen={probablyTouchScreen}
             setChannelMeta={setChannelMeta}
+            onRegisterTurnOn={handleRegisterTurnOn}
+            isTurningOff={channelMeta.isTurningOff}
           />
         )}
         {channelMeta.infoOverlay && (
@@ -126,6 +209,8 @@ export const TvSetNavigator: React.FC<any> = ({
             channelNumber={channelNumber}
           />
         )}
+        <VolumeOverlay volume={volume} isVisible={isVolumeOverlayVisible} />
+        <TvRemoteControl />
         {probablyTouchScreen ? (
           <TouchToggle
             globalTouchDetection={globalTouchDetection}

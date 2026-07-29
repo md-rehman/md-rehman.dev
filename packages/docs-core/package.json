@@ -1,0 +1,22 @@
+{
+  "name": "@repo/docs-core",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/node": "^20",
+    "eslint": "^8.57.0",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

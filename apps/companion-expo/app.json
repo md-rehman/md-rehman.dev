@@ -7,12 +7,24 @@
     "icon": "./assets/images/icon.png",
     "scheme": "companionexpo",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "dev.rehman.companionexpo"
+      "bundleIdentifier": "dev.rehman.companionexpo",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow companion-expo to use your location to calculate accurate prayer timings.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow companion-expo to use your location to calculate accurate prayer timings."
+      }
     },
     "android": {
       "package": "dev.rehman.companionexpo",
+      "permissions": [
+        "android.permission.VIBRATE"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -28,11 +40,27 @@
     "plugins": [
       "expo-router",
       [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow companion-expo to use your location to calculate accurate prayer timings.",
+          "locationAlwaysAndWhenInUsePermission": "Allow companion-expo to use your location to calculate accurate prayer timings."
+        }
+      ],
+      "expo-notifications",
+      [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#000000",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
         }
       ]
     ],

@@ -12,17 +12,17 @@ export default function Home() {
 
       <div className={styles.divider} />
 
-      <ExperienceTimeline />
+      <AppShowcase />
 
       <div className={styles.divider} />
 
-      <AppShowcase />
+      <ExperienceTimeline />
 
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <p className={styles.footerText}>
-            Built with{"  "}
-            <span className={styles.heart}>❤️</span>{"  "}
+            Built with
+            <span className={styles.heart}> ❤️ </span>
             by Mohd. Rehman Baig
           </p>
           <div className={styles.footerLinks}>

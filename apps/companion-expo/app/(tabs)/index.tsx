@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { DateRuler } from '../../components/DateRuler';
+import { DateRulerV2 } from '../../components/DateRulerV2';
+import { DateRulerV3 } from '../../components/DateRulerV3';
 import { PrayerTrackerRadial } from '../../components/PrayerTrackerRadial';
+import { NextPrayerTimer } from '../../components/NextPrayerTimer';
 import { useTheme } from '../../context/ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getLocalYYYYMMDD } from '../../utils/date';
@@ -12,9 +15,10 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]} edges={['top']}>
-      <DateRuler selectedDate={selectedDate} onSelectDate={setSelectedDate} />
-      
+      <DateRulerV3 selectedDate={selectedDate} onSelectDate={setSelectedDate} showResetToToday={true} />
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <NextPrayerTimer selectedDate={selectedDate} />
         <View style={styles.trackerContainer}>
           <PrayerTrackerRadial selectedDate={selectedDate} />
         </View>
@@ -26,6 +30,16 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  separator: {
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
+  separatorText: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1,
+    opacity: 0.5,
   },
   scrollContent: {
     flexGrow: 1,

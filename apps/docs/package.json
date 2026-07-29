@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 4001",
+    "dev": "next dev --port 4003",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
+    "@repo/docs-core": "*",
     "@repo/ui": "*",
+    "gray-matter": "^4.0.3",
     "next": "16.2.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
@@ -21,7 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "eslint": "^8",
+    "eslint": "^8.57.0",
     "eslint-config-next": "16.2.9",
     "typescript": "^5"
   }

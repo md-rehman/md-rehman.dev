@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { AppModal } from "./AppModal";
 import styles from "./AppTray.module.css";
 
-type AppItem = {
+export type AppItem = {
   id: string;
   icon: string;
   label: string;
   accentColor: string;
 };
 
-const APPS: AppItem[] = [
+export const APPS: AppItem[] = [
   { id: "prayers", icon: "🕌", label: "Prayers", accentColor: "#00ffc8" },
   { id: "prayer-strict", icon: "📿", label: "Prayer Strict", accentColor: "#7c4dff" },
   { id: "quran", icon: "📖", label: "Quran", accentColor: "#ffea00" },
@@ -21,8 +21,16 @@ const APPS: AppItem[] = [
   { id: "profile", icon: "👤", label: "Profile", accentColor: "#39ff14" },
 ];
 
-export const AppTray = React.memo(function AppTray() {
-  const [activeApp, setActiveApp] = useState<AppItem | null>(null);
+interface AppTrayProps {
+  activeApp?: AppItem | null;
+  onSelectApp?: (app: AppItem | null) => void;
+}
+
+export const AppTray = React.memo(function AppTray({ activeApp: externalActiveApp, onSelectApp }: AppTrayProps) {
+  const [internalActiveApp, setInternalActiveApp] = React.useState<AppItem | null>(null);
+
+  const activeApp = externalActiveApp !== undefined ? externalActiveApp : internalActiveApp;
+  const setActiveApp = onSelectApp || setInternalActiveApp;
 
   return (
     <>
