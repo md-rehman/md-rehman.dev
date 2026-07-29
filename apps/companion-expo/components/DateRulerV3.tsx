@@ -7,8 +7,8 @@ import Animated, {
   withDecay,
   withTiming,
   useAnimatedReaction,
+  runOnJS,
 } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '../context/ThemeContext';
 import { getLocalYYYYMMDD } from '../utils/date';
@@ -163,10 +163,11 @@ export function DateRulerV3({
 
   /** Fire a single discrete haptic — used in slow mode */
   const fireDiscreteHaptic = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
+      Vibration.vibrate(40);
+    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(10);
-    } else {
-      Haptics.selectionAsync().catch(() => {});
+      Vibration.vibrate(40);
     }
   }, []);
 
@@ -176,19 +177,21 @@ export function DateRulerV3({
     if (hapticIntervalRef.current) return;
 
     // Fire one immediately so the transition isn't silent
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
+      Vibration.vibrate(40);
+    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(10);
-    } else {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      Vibration.vibrate(40);
     }
 
-    const interval = Platform.OS === 'android' ? 40 : CONTINUOUS_HAPTIC_INTERVAL_MS;
+    const interval = Platform.OS === 'android' ? 60 : CONTINUOUS_HAPTIC_INTERVAL_MS;
 
     hapticIntervalRef.current = setInterval(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {
+        Vibration.vibrate(30);
+      });
       if (Platform.OS === 'android') {
-        Vibration.vibrate(10);
-      } else {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        Vibration.vibrate(30);
       }
     }, interval);
   }, []);
@@ -257,19 +260,19 @@ export function DateRulerV3({
         if (shouldBeFast && !isFastMode.value) {
           // Transition: slow → fast
           isFastMode.value = true;
-          scheduleOnRN(onTickChanged, index, true);
+          runOnJS(onTickChanged)(index, true);
         } else if (!shouldBeFast && isFastMode.value) {
           // Transition: fast → slow
           isFastMode.value = false;
-          scheduleOnRN(onTickChanged, index, false);
+          runOnJS(onTickChanged)(index, false);
         } else if (!shouldBeFast) {
           // Steady slow mode — fire discrete haptic per tick
-          scheduleOnRN(onTickChanged, index, false);
+          runOnJS(onTickChanged)(index, false);
         }
         // In steady fast mode, we don't need to call onTickChanged for haptics
         // (the interval handles it), but we still need to update the date display
         if (shouldBeFast && isFastMode.value) {
-          scheduleOnRN(onTickChanged, index, true);
+          runOnJS(onTickChanged)(index, true);
         }
       }
     },
@@ -300,7 +303,7 @@ export function DateRulerV3({
               if (done) {
                 isFastMode.value = false;
                 const index = Math.round(-snappedX / tickSpacing);
-                scheduleOnRN(onAnimationSettled, index);
+                runOnJS(onAnimationSettled)(index);
               }
             });
           }

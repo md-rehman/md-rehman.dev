@@ -7,8 +7,8 @@ import Animated, {
   withDecay,
   withTiming,
   useAnimatedReaction,
+  runOnJS,
 } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '../context/ThemeContext';
 import { getLocalYYYYMMDD } from '../utils/date';
@@ -153,10 +153,11 @@ export function DateRulerV2({
   }, [windowCenter, windowSize, todayTime]);
 
   const fireHaptic = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
+      Vibration.vibrate(40);
+    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(10);
-    } else {
-      Haptics.selectionAsync().catch(() => {});
+      Vibration.vibrate(40);
     }
   }, []);
 
@@ -215,7 +216,7 @@ export function DateRulerV2({
       if (index !== prev && index >= -DAY_RANGE && index <= DAY_RANGE) {
         const ticksSkipped = prev !== null ? Math.abs(index - prev) : 1;
         previousIndex.value = index;
-        scheduleOnRN(onTickChanged, index, ticksSkipped);
+        runOnJS(onTickChanged)(index, ticksSkipped);
       }
     },
     [tickSpacing],
@@ -242,7 +243,7 @@ export function DateRulerV2({
             translateX.value = withTiming(snappedX, { duration: 150 }, (done) => {
               if (done) {
                 const index = Math.round(-snappedX / tickSpacing);
-                scheduleOnRN(handleSelectDate, index);
+                runOnJS(handleSelectDate)(index);
               }
             });
           }

@@ -7,8 +7,8 @@ import Animated, {
   withDecay,
   withTiming,
   useAnimatedReaction,
+  runOnJS,
 } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '../context/ThemeContext';
 import { getLocalYYYYMMDD } from '../utils/date';
@@ -80,10 +80,11 @@ export function DateRuler({
   };
 
   const triggerHaptic = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
+      Vibration.vibrate(40);
+    });
     if (Platform.OS === 'android') {
-      Vibration.vibrate(10);
-    } else {
-      Haptics.selectionAsync().catch(() => {});
+      Vibration.vibrate(40);
     }
   };
 
@@ -92,8 +93,8 @@ export function DateRuler({
     (index) => {
       if (index !== previousIndex.value && index >= -DAY_RANGE && index <= DAY_RANGE) {
         previousIndex.value = index;
-        scheduleOnRN(triggerHaptic);
-        scheduleOnRN(updateDisplayDate, index);
+        runOnJS(triggerHaptic)();
+        runOnJS(updateDisplayDate)(index);
       }
     },
     [todayTime, tickSpacing]
@@ -120,7 +121,7 @@ export function DateRuler({
             translateX.value = withTiming(snappedX, { duration: 150 }, (finishedTiming) => {
               if (finishedTiming) {
                 const index = Math.round(-snappedX / tickSpacing);
-                scheduleOnRN(handleSelectDate, index);
+                runOnJS(handleSelectDate)(index);
               }
             });
           }
