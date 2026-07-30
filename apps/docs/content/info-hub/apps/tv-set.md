@@ -1,7 +1,7 @@
 ---
 title: "TV Set App"
 description: "Interactive portfolio experience mimicking retro TV channels and glitch art"
-category: "apps"
+category: "info-hub/apps"
 order: 3
 pinned: false
 localOnly: true

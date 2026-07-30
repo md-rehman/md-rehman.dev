@@ -14,13 +14,13 @@ export default function Home() {
           Documentation Hub 📖
         </h1>
         <p className="docs-paragraph" style={{ fontSize: "1.125rem", color: "var(--text-secondary)" }}>
-          Centralized documentation engine for <strong>md-rehman.dev</strong> monorepo. Explore full architectures, package references, and AI agent session history.
+          Centralized documentation & planning hub for <strong>md-rehman.dev</strong> monorepo, designed for human developers and AI agents.
         </p>
       </div>
 
       {/* Hero Category Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem", marginBottom: "3rem" }}>
-        <Link href="/apps/companion" style={{ textDecoration: "none" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem", marginBottom: "3rem" }}>
+        <Link href="/info-hub/apps/companion" style={{ textDecoration: "none" }}>
           <div style={{
             background: "var(--bg-secondary)",
             border: "1px solid var(--border-color)",
@@ -32,12 +32,12 @@ export default function Home() {
             <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📱</div>
             <h3 style={{ color: "var(--text-primary)", marginBottom: "0.5rem", fontSize: "1.125rem" }}>Monorepo Apps</h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: "1.5" }}>
-              Companion, Planner, TV-Set, Companion Expo, Home landing page.
+              Companion, Planner, TV-Set, Companion Expo, Home portal.
             </p>
           </div>
         </Link>
 
-        <Link href="/packages/atomic-ui" style={{ textDecoration: "none" }}>
+        <Link href="/info-hub/packages/atomic-ui" style={{ textDecoration: "none" }}>
           <div style={{
             background: "var(--bg-secondary)",
             border: "1px solid var(--border-color)",
@@ -49,7 +49,24 @@ export default function Home() {
             <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📦</div>
             <h3 style={{ color: "var(--text-primary)", marginBottom: "0.5rem", fontSize: "1.125rem" }}>Shared Packages</h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: "1.5" }}>
-              Atomic UI, Auth, Backend, Shell, Docs Core, TypeScript configs.
+              Atomic UI, Auth, Docs Core, TypeScript configs.
+            </p>
+          </div>
+        </Link>
+
+        <Link href="/planning/in-progress/companion-web-prayer-timing" style={{ textDecoration: "none" }}>
+          <div style={{
+            background: "var(--bg-secondary)",
+            border: "1px solid var(--border-color)",
+            borderRadius: "0.75rem",
+            padding: "1.5rem",
+            transition: "all 0.2s ease",
+            cursor: "pointer",
+          }}>
+            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📋</div>
+            <h3 style={{ color: "var(--text-primary)", marginBottom: "0.5rem", fontSize: "1.125rem" }}>Task Planning</h3>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: "1.5" }}>
+              To-Do, In-Progress, Completed post-mortems & Archive.
             </p>
           </div>
         </Link>
@@ -64,9 +81,9 @@ export default function Home() {
             cursor: "pointer",
           }}>
             <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🤖</div>
-            <h3 style={{ color: "var(--text-primary)", marginBottom: "0.5rem", fontSize: "1.125rem" }}>AI Agents & Transcripts</h3>
+            <h3 style={{ color: "var(--text-primary)", marginBottom: "0.5rem", fontSize: "1.125rem" }}>AI Agents</h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: "1.5" }}>
-              Pinned architectural decisions, chat logs, rules, and system context.
+              Pinned architectural decisions, rules, and system context.
             </p>
           </div>
         </Link>

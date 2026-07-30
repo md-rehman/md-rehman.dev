@@ -3,7 +3,7 @@ import path from "path";
 import "./globals.css";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
-import { getSidebarCategories } from "@repo/docs-core";
+import { getSidebarTree } from "@repo/docs-core";
 
 export const metadata: Metadata = {
   title: "Documentation — md-rehman.dev",
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const contentDir = path.join(process.cwd(), "content");
-  const categories = getSidebarCategories(contentDir);
+  const tree = getSidebarTree(contentDir);
 
   return (
     <html lang="en">
@@ -24,7 +24,7 @@ export default function RootLayout({
         <div className="docs-layout">
           <Header />
           <div className="docs-main-container">
-            <Sidebar categories={categories} />
+            <Sidebar tree={tree} />
             <div className="docs-content-wrapper">{children}</div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ---
 title: "Auth Package"
 description: "Supabase SSR authentication helpers and server clients"
-category: "packages"
+category: "info-hub/packages"
 order: 2
 pinned: false
 localOnly: true

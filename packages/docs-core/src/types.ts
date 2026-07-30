@@ -41,6 +41,18 @@ export interface SidebarCategory {
   }[];
 }
 
+export interface SidebarTreeNode {
+  id: string;
+  name: string;
+  type: "folder" | "file";
+  path: string;
+  href?: string;
+  icon?: string;
+  pinned?: boolean;
+  order?: number;
+  children?: SidebarTreeNode[];
+}
+
 export interface SearchDocResult {
   slug: string;
   category: string;

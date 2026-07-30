@@ -1,7 +1,7 @@
 ---
 title: "Home Portal App"
 description: "Central landing portal and Vercel rewrite gateway for all apps"
-category: "apps"
+category: "info-hub/apps"
 order: 4
 pinned: false
 localOnly: true

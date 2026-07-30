@@ -1,7 +1,7 @@
 ---
 title: "Atomic UI Package"
 description: "Component library following Atomic Design principles"
-category: "packages"
+category: "info-hub/packages"
 order: 1
 pinned: false
 localOnly: true

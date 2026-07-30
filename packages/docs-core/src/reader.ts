@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { DocItem, DocFrontmatter, SidebarCategory, SearchDocResult } from "./types";
+import { DocItem, DocFrontmatter, SidebarCategory, SidebarTreeNode, SearchDocResult } from "./types";
 import { extractHeadings } from "./toc";
 
 export interface ReadDocsOptions {
@@ -31,6 +31,7 @@ export function getAllDocFiles(dirPath: string): string[] {
     if (item.isDirectory()) {
       results = results.concat(getAllDocFiles(fullPath));
     } else if (item.isFile() && (item.name.endsWith(".md") || item.name.endsWith(".mdx"))) {
+      if (item.name === "AGENTS.md") continue;
       results.push(fullPath);
     }
   }
@@ -99,18 +100,21 @@ export function getAllDocs(
   for (const filePath of allFiles) {
     const relativePath = path.relative(contentDir, filePath);
     const parts = relativePath.split(path.sep);
-    const category = parts[0];
-    if (!category) continue;
-    const fileName = parts.slice(1).join("/");
+    if (parts.length === 0) continue;
+    const computedCategory = parts.length > 1 ? parts.slice(0, -1).join("/") : parts[0];
+    const fileName = parts[parts.length - 1];
+    if (!fileName) continue;
     const slug = fileName.replace(/\.mdx?$/, "");
 
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(fileContents);
 
+    const category = data.category || computedCategory;
+
     const frontmatter: DocFrontmatter = {
       title: data.title || slug,
       description: data.description || "",
-      category: data.category || category,
+      category,
       section: data.section || category,
       order: typeof data.order === "number" ? data.order : 99,
       tags: data.tags || [],
@@ -149,10 +153,23 @@ export function getSidebarCategories(
   const categoriesMap = new Map<string, SidebarCategory>();
 
   const categoryLabels: Record<string, string> = {
-    apps: "Apps & Projects",
-    packages: "Packages & Libraries",
-    agents: "AI Agents & Transcripts",
-    "wip-tasks": "WIP Tasks",
+    "info-hub/apps": "📱 Monorepo Apps",
+    "info-hub/packages": "📦 Shared Packages",
+    "planning/in-progress": "⏳ In Progress Tasks",
+    "planning/todo": "📋 To-Do Tasks",
+    "planning/done": "✅ Completed Tasks",
+    "planning/archive": "🗄️ Archive",
+    agents: "🤖 AI Agents & Transcripts",
+  };
+
+  const categoryOrderMap: Record<string, number> = {
+    "info-hub/apps": 1,
+    "info-hub/packages": 2,
+    "planning/todo": 3,
+    "planning/in-progress": 4,
+    "planning/done": 5,
+    "planning/archive": 6,
+    agents: 7,
   };
 
   for (const doc of docs) {
@@ -187,7 +204,109 @@ export function getSidebarCategories(
     });
   }
 
-  return Array.from(categoriesMap.values()).filter((cat) => cat.items.length > 0);
+  const sortedCategories = Array.from(categoriesMap.values()).filter((cat) => cat.items.length > 0);
+  sortedCategories.sort((a, b) => (categoryOrderMap[a.id] ?? 99) - (categoryOrderMap[b.id] ?? 99));
+
+  return sortedCategories;
+}
+
+export function getSidebarTree(
+  contentDir: string,
+  options?: { includeLocalOnly?: boolean }
+): SidebarTreeNode[] {
+  const docs = getAllDocs(contentDir, options);
+
+  const folderMetaMap: Record<string, { name: string; icon: string; order: number }> = {
+    "info-hub": { name: "Info Hub", icon: "📁", order: 1 },
+    "info-hub/apps": { name: "Apps & Projects", icon: "📱", order: 1 },
+    "info-hub/packages": { name: "Packages & Libraries", icon: "📦", order: 2 },
+    "planning": { name: "Task Planning", icon: "🎯", order: 2 },
+    "planning/todo": { name: "To-Do", icon: "📋", order: 1 },
+    "planning/in-progress": { name: "In Progress", icon: "⏳", order: 2 },
+    "planning/done": { name: "Done", icon: "✅", order: 3 },
+    "planning/archive": { name: "Archive", icon: "🗄️", order: 4 },
+    "agents": { name: "AI Agents & Transcripts", icon: "🤖", order: 3 },
+  };
+
+  const rootNodesMap = new Map<string, SidebarTreeNode>();
+
+  for (const doc of docs) {
+    const parts = doc.category.split("/");
+    let currentPath = "";
+    let parentChildren: SidebarTreeNode[] = [];
+
+    for (let i = 0; i < parts.length; i++) {
+      const seg = parts[i];
+      if (!seg) continue;
+      currentPath = currentPath ? `${currentPath}/${seg}` : seg;
+
+      const meta = folderMetaMap[currentPath] || {
+        name: seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        icon: "📁",
+        order: 99,
+      };
+
+      if (i === 0) {
+        if (!rootNodesMap.has(currentPath)) {
+          rootNodesMap.set(currentPath, {
+            id: currentPath,
+            name: meta.name,
+            type: "folder",
+            path: currentPath,
+            icon: meta.icon,
+            order: meta.order,
+            children: [],
+          });
+        }
+        parentChildren = rootNodesMap.get(currentPath)!.children!;
+      } else {
+        let folderNode = parentChildren.find((node) => node.path === currentPath);
+        if (!folderNode) {
+          folderNode = {
+            id: currentPath,
+            name: meta.name,
+            type: "folder",
+            path: currentPath,
+            icon: meta.icon,
+            order: meta.order,
+            children: [],
+          };
+          parentChildren.push(folderNode);
+        }
+        parentChildren = folderNode.children!;
+      }
+    }
+
+    // Add file node
+    parentChildren.push({
+      id: `${doc.category}/${doc.slug}`,
+      name: doc.frontmatter.title,
+      type: "file",
+      path: `${doc.category}/${doc.slug}`,
+      href: `/${doc.category}/${doc.slug}`,
+      pinned: doc.frontmatter.pinned,
+      order: doc.frontmatter.order ?? 99,
+    });
+  }
+
+  const sortTreeNodes = (nodes: SidebarTreeNode[]): SidebarTreeNode[] => {
+    nodes.sort((a, b) => {
+      if ((a.order ?? 99) !== (b.order ?? 99)) {
+        return (a.order ?? 99) - (b.order ?? 99);
+      }
+      return a.name.localeCompare(b.name);
+    });
+
+    for (const node of nodes) {
+      if (node.children && node.children.length > 0) {
+        sortTreeNodes(node.children);
+      }
+    }
+    return nodes;
+  };
+
+  const tree = Array.from(rootNodesMap.values());
+  return sortTreeNodes(tree);
 }
 
 export function searchDocs(

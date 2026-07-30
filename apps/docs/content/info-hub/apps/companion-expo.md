@@ -1,7 +1,7 @@
 ---
 title: "Companion Expo (Mobile)"
 description: "React Native and Expo implementation of Companion mobile app"
-category: "apps"
+category: "info-hub/apps"
 order: 5
 pinned: false
 localOnly: true

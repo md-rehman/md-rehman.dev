@@ -1,18 +1,23 @@
+import React from "react";
 import path from "path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDocBySlug, compileMarkdownToHtml, getAllDocs } from "@repo/docs-core";
-import { TableOfContents } from "../../../components/TableOfContents";
+import { TableOfContents } from "../../components/TableOfContents";
 
 interface PageProps {
   params: Promise<{
-    category: string;
-    slug: string;
+    slug: string[];
   }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { category, slug } = await params;
+  const { slug: slugSegments } = await params;
+  if (!slugSegments || slugSegments.length === 0) return { title: "Doc Not Found — md-rehman.dev" };
+
+  const slug = slugSegments[slugSegments.length - 1];
+  if (!slug) return { title: "Doc Not Found — md-rehman.dev" };
+  const category = slugSegments.slice(0, -1).join("/");
   const contentDir = path.join(process.cwd(), "content");
   const doc = getDocBySlug(contentDir, category, slug);
 
@@ -25,7 +30,16 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function DocArticlePage({ params }: PageProps) {
-  const { category, slug } = await params;
+  const { slug: slugSegments } = await params;
+  if (!slugSegments || slugSegments.length === 0) {
+    notFound();
+  }
+
+  const slug = slugSegments[slugSegments.length - 1];
+  if (!slug) {
+    notFound();
+  }
+  const category = slugSegments.slice(0, -1).join("/");
   const contentDir = path.join(process.cwd(), "content");
   const doc = getDocBySlug(contentDir, category, slug);
 
@@ -45,8 +59,12 @@ export default async function DocArticlePage({ params }: PageProps) {
         {/* Breadcrumb */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "1.5rem" }}>
           <Link href="/">Docs</Link>
-          <span>/</span>
-          <span style={{ textTransform: "capitalize" }}>{category}</span>
+          {category.split("/").map((part, i) => (
+            <React.Fragment key={i}>
+              <span>/</span>
+              <span style={{ textTransform: "capitalize" }}>{part}</span>
+            </React.Fragment>
+          ))}
           <span>/</span>
           <span style={{ color: "var(--text-primary)" }}>{doc.frontmatter.title}</span>
         </div>
