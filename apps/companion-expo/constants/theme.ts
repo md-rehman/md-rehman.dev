@@ -58,14 +58,19 @@ export type ThemeKey = keyof typeof THEME_PRESETS;
 
 export function deriveColors(bgPrimary: string, accentPrimary: string, mixColor: string, fgPrimary: string, shadowColor: string) {
   const fgSecondaryBase = colorMix(fgPrimary, 75, bgPrimary);
+  const fgSecondary = colorMix(accentPrimary, 25, fgSecondaryBase);
+  const fgMuted = colorMix(accentPrimary, 35, colorMix(fgPrimary, 45, bgPrimary));
+  const bgSecondary = colorMix(bgPrimary, 96, mixColor);
+  const bgTertiary = colorMix(bgPrimary, 92, mixColor);
+
   return {
     bgPrimary,
     accentPrimary,
     mixColor,
     fgPrimary,
     shadowColor,
-    bgSecondary: colorMix(bgPrimary, 96, mixColor),
-    bgTertiary: colorMix(bgPrimary, 92, mixColor),
+    bgSecondary,
+    bgTertiary,
     glassBg: rgba(bgPrimary, 0.8),
     cardBg: rgba(bgPrimary, 0.9),
     
@@ -79,11 +84,47 @@ export function deriveColors(bgPrimary: string, accentPrimary: string, mixColor:
     
     badgeBg: rgba(accentPrimary, 0.12),
     badgeBorder: rgba(accentPrimary, 0.25),
-    badgeText: colorMix(accentPrimary, 80, 'ffffff'),
+    badgeText: colorMix(accentPrimary, 80, fgPrimary),
     
-    fgSecondary: colorMix(accentPrimary, 30, fgSecondaryBase),
-    fgMuted: colorMix(accentPrimary, 40, colorMix(accentPrimary, 30, fgSecondaryBase)),
+    fgSecondary,
+    fgMuted,
+
+    // Aliases for compatibility
+    text: fgPrimary,
+    textSecondary: fgSecondary,
+    background: bgPrimary,
+    backgroundElement: bgSecondary,
+    backgroundSelected: bgTertiary,
   };
 }
 
 export type DerivedColors = ReturnType<typeof deriveColors>;
+
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  half: 2,
+  one: 4,
+  two: 8,
+  three: 12,
+  four: 16,
+  five: 20,
+};
+
+export const Fonts = {
+  sans: 'System',
+  mono: 'monospace',
+};
+
+export const MaxContentWidth = 1200;
+
+export const Colors = {
+  light: deriveColors(THEME_PRESETS.light.bgPrimary, THEME_PRESETS.light.accentPrimary, THEME_PRESETS.light.mixColor, THEME_PRESETS.light.fgPrimary, THEME_PRESETS.light.shadowColor),
+  dark: deriveColors(THEME_PRESETS.nebula.bgPrimary, THEME_PRESETS.nebula.accentPrimary, THEME_PRESETS.nebula.mixColor, THEME_PRESETS.nebula.fgPrimary, THEME_PRESETS.nebula.shadowColor),
+};
+
+export type ThemeColor = keyof DerivedColors;
+
