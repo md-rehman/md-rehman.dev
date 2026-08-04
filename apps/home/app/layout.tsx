@@ -16,12 +16,13 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://md-rehman.dev"),
   title: {
-    default: "MD Rehman (md-rehman) — Senior React & React Native Developer",
-    template: "%s | MD Rehman",
+    default: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
+    template: "%s | Mohd Rehman Baig",
   },
   description:
     "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
   keywords: [
+    "Mohd Rehman Baig",
     "MD Rehman",
     "Md Rehman",
     "md-rehman",
@@ -29,31 +30,39 @@ export const metadata: Metadata = {
     "md rehman dev",
     "developer rehman",
     "rehman react native",
-    "Mohd. Rehman Baig",
     "Senior React Native Developer",
     "Senior React Developer",
   ],
-  authors: [{ name: "MD Rehman", url: "https://md-rehman.dev" }],
-  creator: "MD Rehman",
-  publisher: "MD Rehman",
+  authors: [{ name: "Mohd Rehman Baig", url: "https://md-rehman.dev" }],
+  creator: "Mohd Rehman Baig",
+  publisher: "Mohd Rehman Baig",
   alternates: {
     canonical: "https://md-rehman.dev",
   },
   openGraph: {
-    title: "MD Rehman (md-rehman) — Senior React & React Native Developer",
+    title: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
     description:
-      "Official portfolio and personal hub of MD Rehman (rehman dev). Senior React & React Native Engineer with 7+ years of experience.",
+      "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     url: "https://md-rehman.dev",
     siteName: "MD Rehman Dev",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mohd Rehman Baig — Senior React & React Native Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MD Rehman (md-rehman) — Senior React & React Native Developer",
+    title: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
     description:
-      "Official portfolio of MD Rehman (rehman dev). Senior React & React Native Engineer.",
+      "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     creator: "@_mdrehman",
+    images: ["/og-image.png"],
   },
   icons: {
     icon: "/favicon.ico",
