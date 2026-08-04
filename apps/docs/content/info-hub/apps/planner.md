@@ -1,7 +1,7 @@
 ---
 title: "Planner App"
 description: "Trello-like Kanban board and task management system"
-category: "apps"
+category: "info-hub/apps"
 order: 2
 pinned: false
 localOnly: true

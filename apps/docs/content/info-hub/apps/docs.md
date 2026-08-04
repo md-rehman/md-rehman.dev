@@ -1,7 +1,7 @@
 ---
 title: "Docs App"
 description: "NativeBase-inspired Documentation app built with Next.js 16 and @repo/docs-core"
-category: "apps"
+category: "info-hub/apps"
 order: 6
 pinned: true
 localOnly: true

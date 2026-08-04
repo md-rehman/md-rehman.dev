@@ -1,7 +1,7 @@
 ---
 title: "Companion Web: Prayer Timing Feature"
 description: "Implementation summary of Aladhan API integration, live next-prayer countdown timer, and web notifications in the Companion web app"
-category: "wip-tasks"
+category: "planning/in-progress"
 order: 1
 pinned: true
 localOnly: true

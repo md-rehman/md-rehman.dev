@@ -6,7 +6,7 @@ interface ThemeContextType {
   themeKey: ThemeKey | 'custom';
   colors: DerivedColors;
   setTheme: (key: ThemeKey) => void;
-  setCustomColors: (bgPrimary: string, accentPrimary: string) => void;
+  setCustomColors: (bgPrimary: string, accentPrimary: string, fgPrimary?: string) => void;
 }
 
 const defaultColors = deriveColors(
@@ -42,8 +42,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (savedKey === 'custom') {
         const savedCustom = await AsyncStorage.getItem(CUSTOM_COLORS_KEY);
         if (savedCustom) {
-          const { bgPrimary, accentPrimary } = JSON.parse(savedCustom);
-          applyCustom(bgPrimary, accentPrimary);
+          const { bgPrimary, accentPrimary, fgPrimary } = JSON.parse(savedCustom);
+          applyCustom(bgPrimary, accentPrimary, fgPrimary || THEME_PRESETS.nebula.fgPrimary);
         } else {
           applyTheme('nebula');
         }
@@ -66,9 +66,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setColors(deriveColors(preset.bgPrimary, preset.accentPrimary, preset.mixColor, preset.fgPrimary, preset.shadowColor));
   };
 
-  const applyCustom = (bgPrimary: string, accentPrimary: string) => {
+  const applyCustom = (bgPrimary: string, accentPrimary: string, fgPrimary: string = THEME_PRESETS.nebula.fgPrimary) => {
     setThemeState('custom');
-    setColors(deriveColors(bgPrimary, accentPrimary, 'ffffff', '#e8eaf6', 'rgba(0,0,0,0.4)'));
+    setColors(deriveColors(bgPrimary, accentPrimary, 'ffffff', fgPrimary, 'rgba(0,0,0,0.4)'));
   };
 
   const setTheme = async (key: ThemeKey) => {
@@ -76,10 +76,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     await AsyncStorage.setItem(THEME_STORAGE_KEY, key);
   };
 
-  const setCustomColors = async (bgPrimary: string, accentPrimary: string) => {
-    applyCustom(bgPrimary, accentPrimary);
+  const setCustomColors = async (bgPrimary: string, accentPrimary: string, fgPrimary?: string) => {
+    const finalFg = fgPrimary || colors.fgPrimary || THEME_PRESETS.nebula.fgPrimary;
+    applyCustom(bgPrimary, accentPrimary, finalFg);
     await AsyncStorage.setItem(THEME_STORAGE_KEY, 'custom');
-    await AsyncStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify({ bgPrimary, accentPrimary }));
+    await AsyncStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify({ bgPrimary, accentPrimary, fgPrimary: finalFg }));
   };
 
   if (!isLoaded) {

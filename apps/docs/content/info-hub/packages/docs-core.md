@@ -1,7 +1,7 @@
 ---
 title: "Docs Core Package"
 description: "Core MDX & Markdown document parsing engine for docs app"
-category: "packages"
+category: "info-hub/packages"
 order: 3
 pinned: true
 localOnly: true
