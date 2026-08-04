@@ -105,6 +105,28 @@ const SOCIALS = [
 export function HeroSection() {
   return (
     <section id="hero" className={styles.hero}>
+      {/* Visually hidden section for SEO search crawlers and screen readers */}
+      <div
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          padding: "0",
+          margin: "-1px",
+          overflow: "hidden",
+          clip: "rect(0, 0, 0, 0)",
+          whiteSpace: "nowrap",
+          border: "0",
+        }}
+      >
+        <h2>
+          MD Rehman — Senior React & React Native Engineer
+        </h2>
+        <p>
+          Official portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Engineer specializing in cross-platform engineering, design systems, and mobile architecture.
+        </p>
+      </div>
+
       <div className={styles.container}>
         <div className={styles.greeting}>Hello, I&apos;m</div>
         <h1 className={styles.name}>

@@ -14,12 +14,105 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Mohd. Rehman Baig — Senior React & React Native Engineer",
+  metadataBase: new URL("https://md-rehman.dev"),
+  title: {
+    default: "MD Rehman (md-rehman) — Senior React & React Native Developer",
+    template: "%s | MD Rehman",
+  },
   description:
-    "Personal portfolio and monorepo hub of Mohd. Rehman Baig. Senior React & React Native Engineer with 7+ years of experience in design systems, cross-platform architecture, and developer tooling.",
+    "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
+  keywords: [
+    "MD Rehman",
+    "Md Rehman",
+    "md-rehman",
+    "rehman dev",
+    "md rehman dev",
+    "developer rehman",
+    "rehman react native",
+    "Mohd. Rehman Baig",
+    "Senior React Native Developer",
+    "Senior React Developer",
+  ],
+  authors: [{ name: "MD Rehman", url: "https://md-rehman.dev" }],
+  creator: "MD Rehman",
+  publisher: "MD Rehman",
+  alternates: {
+    canonical: "https://md-rehman.dev",
+  },
+  openGraph: {
+    title: "MD Rehman (md-rehman) — Senior React & React Native Developer",
+    description:
+      "Official portfolio and personal hub of MD Rehman (rehman dev). Senior React & React Native Engineer with 7+ years of experience.",
+    url: "https://md-rehman.dev",
+    siteName: "MD Rehman Dev",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MD Rehman (md-rehman) — Senior React & React Native Developer",
+    description:
+      "Official portfolio of MD Rehman (rehman dev). Senior React & React Native Engineer.",
+    creator: "@_mdrehman",
+  },
   icons: {
     icon: "/favicon.ico",
   },
+  verification: {
+    google: "sxOiWLRDa1j3ofGcM8vq9IpuIWLBlJTv47gffUDjcIE",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://md-rehman.dev/#person",
+      "name": "MD Rehman",
+      "alternateName": [
+        "Md Rehman",
+        "md-rehman",
+        "Rehman Dev",
+        "MD Rehman Dev",
+        "Developer Rehman",
+        "Rehman React Native",
+        "Mohd. Rehman Baig",
+      ],
+      "url": "https://md-rehman.dev",
+      "image": "https://md-rehman.dev/favicon.ico",
+      "jobTitle": "Senior React & React Native Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "NativeBase Contributor & Senior Frontend Architect",
+      },
+      "sameAs": [
+        "https://github.com/md-rehman",
+        "https://linkedin.com/in/md-rehman",
+        "https://x.com/_mdrehman",
+        "https://www.instagram.com/_mdrehman",
+      ],
+      "knowsAbout": [
+        "React",
+        "React Native",
+        "Next.js",
+        "TypeScript",
+        "Design Systems",
+        "Cross-Platform Mobile Infrastructure",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://md-rehman.dev/#website",
+      "url": "https://md-rehman.dev",
+      "name": "MD Rehman Dev",
+      "description":
+        "Official Portfolio & Projects Hub of MD Rehman (md-rehman)",
+      "publisher": {
+        "@id": "https://md-rehman.dev/#person",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -29,6 +122,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeInitializer />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
