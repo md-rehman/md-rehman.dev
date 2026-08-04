@@ -15,8 +15,11 @@ export async function generateMetadata({
 
   if (isNaN(channelId)) {
     return {
-      title: "Channel Not Found - TV Set",
+      title: "Channel Not Found - TV Set | MD Rehman",
       description: "This TV channel does not exist.",
+      alternates: {
+        canonical: "https://md-rehman.dev/tv-set",
+      },
     };
   }
 
@@ -26,10 +29,38 @@ export async function generateMetadata({
     description: `This channel ${channelId} has no service or is under construction.`,
   };
 
+  const pageTitle = `${channelData.title || channelData.name} — TV Set | MD Rehman`;
+  const canonicalUrl = `https://md-rehman.dev/tv-set/${channelId}`;
+
   return {
-    title: `${channelData.title || channelData.name} - TV Set`,
+    title: pageTitle,
     description: channelData.description,
-    keywords: channelData.keywords || ["TV Set", "interactive", "portfolio"],
+    keywords: [
+      `tv-set/${channelId}`,
+      `tv set channel ${channelId}`,
+      "tv-set",
+      "tv set",
+      "retro tv emulator",
+      ...(channelData.keywords || []),
+      "MD Rehman",
+    ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: pageTitle,
+      description: channelData.description,
+      url: canonicalUrl,
+      siteName: "TV Set — MD Rehman",
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: channelData.description,
+      creator: "@_mdrehman",
+    },
   };
 }
 

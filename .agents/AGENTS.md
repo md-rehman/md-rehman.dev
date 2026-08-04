@@ -9,3 +9,5 @@
 
 - **Hotfixes & Minor Edits**: Minor hotfixes, typo fixes, formatting tweaks, or quick bugfixes bypass the prompt and default directly to Option 3 (immediate implementation).
 - **Default Selection**: Option 3 ("Implement without adding") is designated as the recommended default choice if no explicit selection is made.
+- **Docs App Scope (`apps/docs`)**: The `docs` application is strictly for internal development, task planning, and local workspace documentation. Do not apply production SEO metadata, sitemap entries, or public indexing updates to `apps/docs`.
+

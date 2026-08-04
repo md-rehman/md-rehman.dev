@@ -119,9 +119,9 @@ export function HeroSection() {
           border: "0",
         }}
       >
-        <h2>
-          MD Rehman — Senior React & React Native Engineer
-        </h2>
+        <h1>
+          MD Rehman — md-rehman — Rehman Dev — Developer Rehman — Rehman React Native Developer
+        </h1>
         <p>
           Official portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Engineer specializing in cross-platform engineering, design systems, and mobile architecture.
         </p>

@@ -112,6 +112,60 @@ const jsonLd = {
         "@id": "https://md-rehman.dev/#person",
       },
     },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://md-rehman.dev/tv-set/#application",
+      "name": "TV Set — Interactive Retro TV Emulator",
+      "operatingSystem": "Web, iOS, Android",
+      "applicationCategory": "MultimediaApplication",
+      "url": "https://md-rehman.dev/tv-set/0",
+      "description":
+        "Interactive TV emulator featuring custom WebGL shaders, generative canvas visualizers, and creative coding channels.",
+      "author": {
+        "@id": "https://md-rehman.dev/#person",
+      },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://md-rehman.dev/companion/#application",
+      "name": "Companion — Daily Prayer & Growth Tracker",
+      "operatingSystem": "Web, iOS, Android",
+      "applicationCategory": "LifestyleApplication",
+      "url": "https://md-rehman.dev/companion",
+      "description":
+        "Personal daily Islamic companion app for prayer timing calculation and spiritual goal tracking.",
+      "author": {
+        "@id": "https://md-rehman.dev/#person",
+      },
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://md-rehman.dev/#sitelinks",
+      "name": "Featured Applications",
+      "itemListElement": [
+        {
+          "@type": "SiteNavigationElement",
+          "position": 1,
+          "name": "TV Set Channel 0",
+          "description": "Interactive Retro TV Channel & Shader Visualizer",
+          "url": "https://md-rehman.dev/tv-set/0",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 2,
+          "name": "Companion App",
+          "description": "Daily Prayer Tracker & Spiritual Growth Partner",
+          "url": "https://md-rehman.dev/companion",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 3,
+          "name": "Planner App",
+          "description": "Interactive Kanban Task Management Board",
+          "url": "https://md-rehman.dev/planner",
+        },
+      ],
+    },
   ],
 };
 

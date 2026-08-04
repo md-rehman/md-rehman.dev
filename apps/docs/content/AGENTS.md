@@ -15,3 +15,4 @@ This directory serves as the centralized Documentation, Planning, and Informatio
    - Use GitHub-style callouts (`> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`).
    - Keep heading hierarchy semantic (`#`, `##`, `###`).
 3. **No Unstructured Edits**: Always maintain valid markdown syntax and preserve existing metadata schemas when modifying files.
+4. **Internal / Local Scope**: The `docs` app (`apps/docs`) is strictly for local development and internal workspace tracking. Never apply production SEO metadata, sitemap entries, or public search indexing changes to the `docs` app.
