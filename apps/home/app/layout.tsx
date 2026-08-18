@@ -133,6 +133,16 @@ const jsonLd = {
       "author": {
         "@id": "https://md-rehman.dev/#person",
       },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1",
+      },
     },
     {
       "@type": "SoftwareApplication",
@@ -145,6 +155,16 @@ const jsonLd = {
         "Personal daily Islamic companion app for prayer timing calculation and spiritual goal tracking.",
       "author": {
         "@id": "https://md-rehman.dev/#person",
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1",
       },
     },
     {
