@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { login } from "./actions";
+import { loginAsGuest } from "@repo/auth";
 import styles from "./login.module.css";
+
 
 export default async function LoginPage({
   searchParams,
@@ -70,6 +72,16 @@ export default async function LoginPage({
 
           <button type="submit" formAction={login} className={styles.button}>
             Sign in
+          </button>
+
+          <button
+            type="submit"
+            formNoValidate
+            formAction={loginAsGuest}
+            className={styles.button}
+            style={{ marginTop: "8px", backgroundColor: "var(--bg-tertiary, #333)", color: "var(--fg-primary, #fff)" }}
+          >
+            👤 Continue as Guest
           </button>
         </form>
 
