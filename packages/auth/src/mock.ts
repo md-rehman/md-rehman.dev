@@ -74,6 +74,16 @@ export function createMockServerClient(cookies?: MockCookieManager) {
       signUp: async ({ email }: { email: string; password: string }) => {
         return { data: { user: { ...MOCK_USER, email } as any }, error: null };
       },
+      signInAnonymously: async (options?: { options?: { captchaToken?: string } }) => {
+        cookies?.setSession();
+        return {
+          data: {
+            user: { ...MOCK_USER, is_anonymous: true } as any,
+            session: { access_token: "mock-anon-token" },
+          },
+          error: null,
+        };
+      },
       signOut: async () => {
         cookies?.clearSession();
         return { error: null };
@@ -103,6 +113,16 @@ export function createMockBrowserClient(cookies?: MockCookieManager) {
           return { data: { user: MOCK_USER as any }, error: null };
         }
         return { data: { user: null }, error: null };
+      },
+      signInAnonymously: async (options?: { options?: { captchaToken?: string } }) => {
+        cookies?.setSession();
+        return {
+          data: {
+            user: { ...MOCK_USER, is_anonymous: true } as any,
+            session: { access_token: "mock-anon-token" },
+          },
+          error: null,
+        };
       },
       signOut: async () => {
         cookies?.clearSession();
