@@ -26,6 +26,17 @@ export default function LoginScreen() {
     setLoading(false);
   };
 
+  const handleGuestLogin = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInAnonymously();
+
+    if (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bgPrimary }]}>
       <View style={styles.content}>
@@ -72,6 +83,18 @@ export default function LoginScreen() {
               <ActivityIndicator color="#fff" />
             ) : (
               <Text style={styles.buttonText}>Sign In</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.bgTertiary, marginTop: 12, borderWidth: 1, borderColor: colors.cardBorder }]}
+            onPress={handleGuestLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color={colors.fgPrimary} />
+            ) : (
+              <Text style={[styles.buttonText, { color: colors.fgPrimary }]}>Continue as Guest</Text>
             )}
           </TouchableOpacity>
         </View>
