@@ -40,6 +40,16 @@ export default async function LoginPage({
         {message && <div className={styles.message}>{message}</div>}
 
         <form className={styles.form}>
+          {/* Invisible honeypot field to trap automated form bots */}
+          <input
+            type="text"
+            name="user_website_trap"
+            tabIndex={-1}
+            autoComplete="off"
+            style={{ position: "absolute", opacity: 0, top: "-9999px", left: "-9999px", height: 0, width: 0, zIndex: -1 }}
+            aria-hidden="true"
+          />
+
           <div className={styles.field}>
             <label htmlFor="email" className={styles.label}>
               Email
