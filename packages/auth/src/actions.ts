@@ -11,16 +11,22 @@ export interface GuestLoginOptions {
 
 /**
  * Server action for logging in anonymously as a guest using Supabase.
- * Accepts either a FormData instance (from form submission) or GuestLoginOptions.
+ * Includes honeypot bot detection to prevent automated sign-in spam.
  */
 export async function loginAsGuest(formDataOrOptions?: FormData | GuestLoginOptions) {
-  const supabase = await createClient();
-
   let captchaToken: string | undefined;
   let redirectTo: string | undefined;
 
   if (formDataOrOptions && "get" in formDataOrOptions && typeof (formDataOrOptions as FormData).get === "function") {
     const formData = formDataOrOptions as FormData;
+
+    // Honeypot check: Bots automatically fill hidden inputs
+    const honeypotVal = formData.get("user_website_trap");
+    if (honeypotVal && typeof honeypotVal === "string" && honeypotVal.trim().length > 0) {
+      console.warn("[Auth] Honeypot triggered. Aborting bot guest sign-in.");
+      redirect("/");
+    }
+
     captchaToken = (formData.get("captchaToken") as string) || undefined;
     redirectTo = (formData.get("redirectTo") as string) || undefined;
   } else if (formDataOrOptions) {
@@ -28,6 +34,8 @@ export async function loginAsGuest(formDataOrOptions?: FormData | GuestLoginOpti
     captchaToken = options.captchaToken;
     redirectTo = options.redirectTo;
   }
+
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signInAnonymously({
     options: {
