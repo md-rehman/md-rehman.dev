@@ -1,7 +1,9 @@
 import { login } from "./actions";
+import { loginAsGuest } from "@repo/auth";
 import Link from "next/link";
 import { Navbar } from "@repo/atomic-ui/compounds";
 import styles from "./page.module.css";
+
 
 import { NavLink } from "@repo/atomic-ui/compounds";
 import Image from "next/image";
@@ -13,7 +15,13 @@ const COMPANION_LINKS: NavLink[] = [
   // { href: "/planner", icon: "📋", label: "Planner", size: "md" },
 ];
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; message?: string }>;
+}) {
+  const { error, message } = await searchParams;
+
   return (
     <>
       <Navbar links={[]} />
@@ -33,7 +41,29 @@ export default function LoginPage() {
 
           <h2 className={styles.title}>Welcome Back</h2>
 
+          {error && (
+            <div style={{ padding: "10px", margin: "10px 0", borderRadius: "6px", backgroundColor: "#fee2e2", color: "#991b1b", fontSize: "14px", textAlign: "center" }}>
+              {error}
+            </div>
+          )}
+          {message && (
+            <div style={{ padding: "10px", margin: "10px 0", borderRadius: "6px", backgroundColor: "#e0f2fe", color: "#075985", fontSize: "14px", textAlign: "center" }}>
+              {message}
+            </div>
+          )}
+
+
           <form className={styles.form}>
+            {/* Invisible honeypot field to trap automated form bots */}
+            <input
+              type="text"
+              name="user_website_trap"
+              tabIndex={-1}
+              autoComplete="off"
+              style={{ position: "absolute", opacity: 0, top: "-9999px", left: "-9999px", height: 0, width: 0, zIndex: -1 }}
+              aria-hidden="true"
+            />
+
             <div className={styles.field}>
               <label className={styles.label} htmlFor="email">
                 Email Address
@@ -68,6 +98,16 @@ export default function LoginPage() {
                 formAction={login}
               >
                 Log in
+              </button>
+
+              <button
+                type="submit"
+                formNoValidate
+                className={styles.btnSecondary}
+                formAction={loginAsGuest}
+                style={{ width: "100%", marginTop: "8px" }}
+              >
+                👤 Continue as Guest
               </button>
 
               <div className={styles.divider}>

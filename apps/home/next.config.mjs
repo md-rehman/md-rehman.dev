@@ -14,6 +14,16 @@ const subApps = [
 const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return {
       // "beforeFiles" rewrites are checked before pages/public files,

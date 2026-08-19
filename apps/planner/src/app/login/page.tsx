@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { login } from "./actions";
+import { loginAsGuest } from "@repo/auth";
 import styles from "./login.module.css";
+
 
 export default async function LoginPage({
   searchParams,
@@ -38,6 +40,16 @@ export default async function LoginPage({
         {message && <div className={styles.message}>{message}</div>}
 
         <form className={styles.form}>
+          {/* Invisible honeypot field to trap automated form bots */}
+          <input
+            type="text"
+            name="user_website_trap"
+            tabIndex={-1}
+            autoComplete="off"
+            style={{ position: "absolute", opacity: 0, top: "-9999px", left: "-9999px", height: 0, width: 0, zIndex: -1 }}
+            aria-hidden="true"
+          />
+
           <div className={styles.field}>
             <label htmlFor="email" className={styles.label}>
               Email
@@ -70,6 +82,16 @@ export default async function LoginPage({
 
           <button type="submit" formAction={login} className={styles.button}>
             Sign in
+          </button>
+
+          <button
+            type="submit"
+            formNoValidate
+            formAction={loginAsGuest}
+            className={styles.button}
+            style={{ marginTop: "8px", backgroundColor: "var(--bg-tertiary, #333)", color: "var(--fg-primary, #fff)" }}
+          >
+            👤 Continue as Guest
           </button>
         </form>
 

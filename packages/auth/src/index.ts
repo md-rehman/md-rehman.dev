@@ -23,3 +23,6 @@ export { createClient as createServerClient } from "./server";
 export { updateSession } from "./middleware";
 export type { AuthMiddlewareOptions } from "./middleware";
 export { isMockEnabled, MOCK_USER, MOCK_CREDENTIALS } from "./mock";
+export { loginAsGuest } from "./actions";
+export type { GuestLoginOptions } from "./actions";
+
