@@ -235,12 +235,22 @@ body::after {
    UTILITY CLASSES
    ═══════════════════════════════════════════ */
 .gradient-text {
+  color: var(--accent-primary);
   background: var(--accent-gradient);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientText 6s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .section-container {

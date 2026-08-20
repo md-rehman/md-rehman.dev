@@ -9,7 +9,7 @@
 .container {
   max-width: 800px;
   text-align: center;
-  animation: fadeInUp 0.8s ease-out;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .greeting {
