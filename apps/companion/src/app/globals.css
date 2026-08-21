@@ -5,15 +5,15 @@
    GLOBAL COLOR DERIVATIONS
    ═══════════════════════════════════════════ */
 :root {
-  /* Default to Nebula */
-  --bg-primary: #0b0d1a;
-  --accent-primary: #7c4dff;
+  /* Default to Dark Glitch */
+  --bg-primary: #050505;
+  --accent-primary: #00ffc8;
   --mix-color: white; /* Used for mixing bg variants */
   
   /* Foreground Defaults (Text) */
-  --fg-primary: #e8eaf6;
-  --shadow-color: rgba(0, 0, 0, 0.4);
-  --nebula-bg-visible: 1;
+  --fg-primary: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --nebula-bg-visible: 0;
 
   /* Dynamically Derived Backgrounds */
   --bg-secondary: color-mix(in srgb, var(--bg-primary) 96%, var(--mix-color));
@@ -49,10 +49,10 @@
   --fg-muted: color-mix(in srgb, var(--accent-primary) 40%, var(--fg-secondary));
 
   /* Dynamic Image Filtering Tokens */
-  --img-filter: grayscale(15%) contrast(105%);
-  --img-hover-filter: grayscale(0%) contrast(100%);
+  --img-filter: grayscale(70%) contrast(120%);
+  --img-hover-filter: grayscale(0%) contrast(105%);
   --img-overlay-blend: overlay;
-  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 /* ═══════════════════════════════════════════
