@@ -33,19 +33,22 @@ export function AppCard({
       className={styles.card}
       id={`app-card-${name.toLowerCase().replace(/\s+/g, "-")}`}
     >
-      <div 
-        className={styles.imageWrapper}
-        style={imageBgColor ? { backgroundColor: imageBgColor } : undefined}
-      >
+      <div className={styles.imageWrapper}>
         {badge && <span className={styles.categoryBadge}>{badge}</span>}
-        <Image
-          src={imageSrc}
-          alt={`${name} app preview`}
-          width={400}
-          height={400}
-          className={styles.image}
-          priority={priority}
-        />
+        <div
+          className={styles.imageContainer}
+          style={imageBgColor ? { backgroundColor: imageBgColor } : undefined}
+        >
+          <Image
+            src={imageSrc}
+            alt={`${name} app preview`}
+            width={400}
+            height={400}
+            className={styles.image}
+            priority={priority}
+          />
+          <div className={styles.imageTintOverlay} />
+        </div>
         <div className={styles.imageOverlay} />
       </div>
 

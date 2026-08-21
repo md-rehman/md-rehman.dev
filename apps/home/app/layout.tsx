@@ -212,7 +212,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeInitializer />
+        <ThemeInitializer defaultTheme="shades-of-grey" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>
     </html>

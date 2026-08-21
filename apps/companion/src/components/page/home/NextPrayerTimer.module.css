@@ -19,12 +19,12 @@
 
 .compactPill:hover {
   transform: translateY(-2px) scale(1.03);
-  border-color: rgba(0, 229, 160, 0.5);
-  box-shadow: 0 8px 24px rgba(0, 229, 160, 0.2);
+  border-color: var(--card-hover-border, color-mix(in srgb, var(--accent-primary) 50%, transparent));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent-primary) 25%, transparent);
 }
 
 .compactHighlight {
-  color: var(--accent-1, #00e5a0);
+  color: var(--accent-1, var(--accent-primary));
   font-weight: 700;
 }
 
@@ -105,9 +105,9 @@
 }
 
 .notifActive {
-  background: rgba(0, 229, 160, 0.15);
-  border-color: rgba(0, 229, 160, 0.4);
-  color: #00e5a0;
+  background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  color: var(--accent-1, var(--accent-primary));
 }
 
 /* Timer Hero section */
@@ -128,7 +128,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent-1, #00e5a0);
+  color: var(--accent-1, var(--accent-primary));
 }
 
 .prayerTitle {
@@ -173,7 +173,7 @@
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(90deg, #00e5a0, #3b82f6);
+  background: var(--accent-gradient, linear-gradient(90deg, var(--accent-1), var(--accent-2)));
   border-radius: 10px;
   transition: width 1s linear;
 }
@@ -201,9 +201,9 @@
 }
 
 .timingCellNext {
-  background: rgba(0, 229, 160, 0.12);
-  border-color: rgba(0, 229, 160, 0.3);
-  box-shadow: 0 0 12px rgba(0, 229, 160, 0.15);
+  background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 .timingCellCurrent {

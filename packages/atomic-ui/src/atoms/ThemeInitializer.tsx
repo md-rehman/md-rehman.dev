@@ -7,12 +7,17 @@ import { useEffect } from "react";
  * to the document on mount. This ensures the background/accent persist
  * across all pages — even those without a Navbar/ColorPicker.
  */
-export function ThemeInitializer() {
+interface ThemeInitializerProps {
+  defaultTheme?: string;
+}
+
+export function ThemeInitializer({ defaultTheme }: ThemeInitializerProps) {
   useEffect(() => {
-    // Apply saved theme
+    // Apply saved theme or defaultTheme
     const savedTheme = localStorage.getItem("app-theme");
-    if (savedTheme) {
-      document.documentElement.setAttribute("data-theme", savedTheme);
+    const activeTheme = savedTheme || defaultTheme;
+    if (activeTheme) {
+      document.documentElement.setAttribute("data-theme", activeTheme);
     }
 
     // Apply saved custom colors
@@ -25,7 +30,7 @@ export function ThemeInitializer() {
     if (savedAccent) {
       document.documentElement.style.setProperty("--accent-primary", savedAccent);
     }
-  }, []);
+  }, [defaultTheme]);
 
   return null;
 }

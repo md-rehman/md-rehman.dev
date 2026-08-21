@@ -3,27 +3,31 @@
 import { useEffect, useState } from "react";
 import styles from "./ThemeSwitcher.module.css";
 
-const THEMES = ["nebula", "dark-glitch", "light"] as const;
+const THEMES = ["nebula", "dark-glitch", "light", "shades-of-grey"] as const;
 type Theme = (typeof THEMES)[number];
 
 const THEME_META: Record<Theme, { icon: string; label: string }> = {
   nebula: { icon: "🌌", label: "Nebula" },
   "dark-glitch": { icon: "⚡", label: "Glitch" },
   light: { icon: "☀️", label: "Light" },
+  "shades-of-grey": { icon: "🩶", label: "Shades of Grey" },
 };
 
-export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<Theme>("nebula");
+interface ThemeSwitcherProps {
+  defaultTheme?: Theme;
+}
+
+export function ThemeSwitcher({ defaultTheme = "nebula" }: ThemeSwitcherProps = {}) {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("app-theme") as Theme | null;
-    if (saved && THEMES.includes(saved)) {
-      setTheme(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    }
+    const initialTheme = saved && THEMES.includes(saved) ? saved : defaultTheme;
+    setTheme(initialTheme);
+    document.documentElement.setAttribute("data-theme", initialTheme);
     setMounted(true);
-  }, []);
+  }, [defaultTheme]);
 
   const cycleTheme = () => {
     const nextIndex = (THEMES.indexOf(theme) + 1) % THEMES.length;

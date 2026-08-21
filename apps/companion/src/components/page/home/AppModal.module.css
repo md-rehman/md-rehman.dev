@@ -15,8 +15,13 @@
 }
 
 @keyframes overlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -44,6 +49,7 @@
     opacity: 0;
     transform: scale(0.88) translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -56,7 +62,7 @@
 .titleBar {
   display: flex;
   align-items: center;
-  height: 3rem;
+  height: 2.5rem;
   padding: 0 1rem;
   background: color-mix(in srgb, var(--bg-primary) 95%, var(--accent-primary));
   border-bottom: 1px solid var(--glass-border);
@@ -134,7 +140,8 @@
 }
 
 .titleSpacer {
-  width: 52px; /* matches trafficLights width for centering */
+  width: 52px;
+  /* matches trafficLights width for centering */
   flex-shrink: 0;
 }
 
@@ -164,8 +171,15 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .emptyTitle {
