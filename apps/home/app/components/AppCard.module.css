@@ -162,7 +162,7 @@
 }
 
 .card:hover .techBadge {
-  background: rgba(124, 77, 255, 0.15);
+  background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 /* Footer with visit link */
