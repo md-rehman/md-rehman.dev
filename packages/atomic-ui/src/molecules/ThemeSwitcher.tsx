@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import styles from "./ThemeSwitcher.module.css";
 
-const THEMES = ["nebula", "dark-glitch", "light"] as const;
+const THEMES = ["nebula", "dark-glitch", "light", "shades-of-grey"] as const;
 type Theme = (typeof THEMES)[number];
 
 const THEME_META: Record<Theme, { icon: string; label: string }> = {
   nebula: { icon: "🌌", label: "Nebula" },
   "dark-glitch": { icon: "⚡", label: "Glitch" },
   light: { icon: "☀️", label: "Light" },
+  "shades-of-grey": { icon: "🩶", label: "Shades of Grey" },
 };
 
 export function ThemeSwitcher() {
