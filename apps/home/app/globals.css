@@ -46,6 +46,12 @@
   
   --fg-secondary: color-mix(in srgb, var(--accent-primary) 30%, color-mix(in srgb, var(--fg-primary) 75%, var(--bg-primary)));
   --fg-muted: color-mix(in srgb, var(--accent-primary) 40%, var(--fg-secondary));
+
+  /* Dynamic Image Filtering Tokens */
+  --img-filter: grayscale(15%) contrast(105%);
+  --img-hover-filter: grayscale(0%) contrast(100%);
+  --img-overlay-blend: overlay;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
 }
 
 /* ═══════════════════════════════════════════
@@ -67,6 +73,10 @@
   --fg-primary: #e0e0e0;
   --shadow-color: rgba(0, 0, 0, 0.6);
   --nebula-bg-visible: 0;
+  --img-filter: grayscale(70%) contrast(120%);
+  --img-hover-filter: grayscale(0%) contrast(105%);
+  --img-overlay-blend: overlay;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 [data-theme="light"] {
@@ -76,6 +86,10 @@
   --fg-primary: #1a1a2e;
   --shadow-color: rgba(0, 0, 30, 0.08);
   --nebula-bg-visible: 0;
+  --img-filter: grayscale(10%) contrast(100%);
+  --img-hover-filter: grayscale(0%) contrast(100%);
+  --img-overlay-blend: multiply;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 8%, transparent);
 }
 
 [data-theme="shades-of-grey"] {
@@ -115,6 +129,11 @@
 
   --fg-secondary: #a1a1aa;
   --fg-muted: #71717a;
+
+  --img-filter: grayscale(100%) contrast(115%) brightness(90%);
+  --img-hover-filter: grayscale(20%) contrast(108%) brightness(98%);
+  --img-overlay-blend: color;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 /* ═══════════════════════════════════════════
