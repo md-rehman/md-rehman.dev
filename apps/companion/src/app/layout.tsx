@@ -55,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <ThemeInitializer defaultTheme="dark-glitch" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>

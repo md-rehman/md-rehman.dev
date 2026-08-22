@@ -211,7 +211,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
         <ThemeInitializer defaultTheme="shades-of-grey" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>
