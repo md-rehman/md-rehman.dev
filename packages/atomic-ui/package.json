@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./styles/*": "./src/styles/*",
     "./fermions": "./src/fermions/index.ts",
     "./atoms": "./src/atoms/index.ts",
     "./molecules": "./src/molecules/index.ts",

@@ -1,0 +1,15 @@
+/* ═══════════════════════════════════════════
+   THEME PRESET: LIGHT
+   ═══════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg-primary: #f8f9fc;
+  --accent-primary: #5c4dff;
+  --mix-color: black;
+  --fg-primary: #1a1a2e;
+  --shadow-color: rgba(0, 0, 30, 0.08);
+  --nebula-bg-visible: 0;
+  --img-filter: grayscale(10%) contrast(100%);
+  --img-hover-filter: grayscale(0%) contrast(100%);
+  --img-overlay-blend: multiply;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+}

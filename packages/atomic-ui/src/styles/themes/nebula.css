@@ -1,0 +1,11 @@
+/* ═══════════════════════════════════════════
+   THEME PRESET: NEBULA
+   ═══════════════════════════════════════════ */
+[data-theme="nebula"] {
+  --bg-primary: #0b0d1a;
+  --accent-primary: #7c4dff;
+  --mix-color: white;
+  --fg-primary: #e8eaf6;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --nebula-bg-visible: 1;
+}

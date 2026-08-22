@@ -1,0 +1,46 @@
+/* ═══════════════════════════════════════════
+   THEME PRESET: SHADES OF GREY
+   ═══════════════════════════════════════════ */
+[data-theme="shades-of-grey"] {
+  --bg-primary: #09090b;
+  --accent-primary: #f4f4f5;
+  --mix-color: white;
+  --fg-primary: #fafafa;
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  --nebula-bg-visible: 0;
+
+  --bg-secondary: #121215;
+  --bg-tertiary: #18181b;
+
+  --glass-bg: rgba(18, 18, 21, 0.8);
+  --card-bg: rgba(24, 24, 27, 0.65);
+
+  --accent-1: #ffffff;
+  --accent-2: #a1a1aa;
+  --accent-3: #52525b;
+  --accent-gradient: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #52525b 100%);
+
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-hover-border: rgba(255, 255, 255, 0.22);
+  --card-glow: rgba(255, 255, 255, 0.03);
+
+  --badge-bg: rgba(255, 255, 255, 0.06);
+  --badge-border: rgba(255, 255, 255, 0.12);
+  --badge-text: #e4e4e7;
+
+  --timeline-line: rgba(255, 255, 255, 0.12);
+  --timeline-node: #e4e4e7;
+  --timeline-node-glow: rgba(255, 255, 255, 0.15);
+
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --section-divider: rgba(255, 255, 255, 0.06);
+  --scrollbar-thumb: #3f3f46;
+
+  --fg-secondary: #a1a1aa;
+  --fg-muted: #71717a;
+
+  --img-filter: grayscale(100%) contrast(115%) brightness(90%);
+  --img-hover-filter: grayscale(20%) contrast(108%) brightness(98%);
+  --img-overlay-blend: color;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+}
