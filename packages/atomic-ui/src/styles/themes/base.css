@@ -44,8 +44,8 @@
   --fg-muted: color-mix(in srgb, var(--accent-primary) 40%, var(--fg-secondary));
 
   /* Dynamic Image Filtering Tokens */
-  --img-filter: grayscale(100%) contrast(115%) brightness(90%);
-  --img-hover-filter: grayscale(20%) contrast(108%) brightness(98%);
-  --img-overlay-blend: color;
-  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  --img-filter: grayscale(0%) contrast(105%);
+  --img-hover-filter: grayscale(0%) contrast(110%);
+  --img-overlay-blend: overlay;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
 }
