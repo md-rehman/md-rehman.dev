@@ -1,4 +1,4 @@
-import { Navbar as SharedNavbar } from "@repo/atomic-ui/compounds";
+import { Navbar as SharedNavbar } from "@repo/ui";
 
 const HOME_LINKS = [
   { href: "/tv-set", icon: "📺", label: "TV-Set" },

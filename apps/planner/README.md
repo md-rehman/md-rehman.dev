@@ -10,7 +10,7 @@ _Screenshots coming soon._
 - **Framework:** Next.js (v16+) with Turbopack
 - **Library:** React 19
 - **Authentication:** `@repo/auth`
-- **UI Components:** `@repo/atomic-ui` shared package
+- **UI Components:** `@repo/ui` shared package
 
 ## Upcoming Features
 - Drag-and-drop interface enhancements for cards and lists.

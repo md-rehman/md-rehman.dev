@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { ThemeInitializer } from "@repo/atomic-ui/atoms";
+import { ThemeInitializer } from "@repo/ui";
 import { AnalyticsWrapper } from "@repo/shell";
 import "./globals.css";
 

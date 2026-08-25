@@ -1,9 +1,7 @@
 import { signup } from "./actions";
 import Link from "next/link";
-import { Navbar } from "@repo/atomic-ui/compounds";
+import { Navbar, type NavLink } from "@repo/ui";
 import styles from "../login/page.module.css";
-
-import { NavLink } from "@repo/atomic-ui/compounds";
 import Image from "next/image";
 import companionImg from "../../../public/images/Companion.png";
 

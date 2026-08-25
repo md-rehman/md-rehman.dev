@@ -14,7 +14,7 @@ const subApps = [
 const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
-  transpilePackages: ["@repo/atomic-ui", "@repo/shell"],
+  transpilePackages: ["@repo/shell", "@repo/ui"],
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,

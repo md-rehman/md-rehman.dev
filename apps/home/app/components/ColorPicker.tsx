@@ -1,1 +1,1 @@
-export { ColorPicker } from "@repo/atomic-ui/molecules";
+export { ColorPicker } from "@repo/ui";

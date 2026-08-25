@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Navbar } from "@repo/atomic-ui/compounds";
+import { Navbar } from "@repo/ui";
 import { DateRuler } from "@/components/page/home/DateRuler";
 import { PrayerTrackerRadial } from "@/components/page/home/PrayerTrackerRadial";
 import { NextPrayerTimer } from "@/components/page/home/NextPrayerTimer";

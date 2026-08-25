@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Navbar } from "@repo/atomic-ui/compounds";
+import { Navbar } from "@repo/ui";
 import styles from "../login/page.module.css";
 
 const ERROR_MESSAGES = [

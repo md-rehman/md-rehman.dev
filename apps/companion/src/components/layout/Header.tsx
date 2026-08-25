@@ -1,4 +1,4 @@
-import { Navbar, type NavLink } from "@repo/atomic-ui/compounds";
+import { Navbar, type NavLink } from "@repo/ui";
 
 const COMPANION_LINKS: NavLink[] = [
   { href: "/", icon: "🏠", label: "Home", size: "md" },
