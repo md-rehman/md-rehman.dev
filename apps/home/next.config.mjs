@@ -19,10 +19,14 @@ const nextConfig = {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,
   },
+  devIndicators: {
+    appIsrStatus: false,
+    buildActivity: false,
+  },
   async headers() {
     return [
       {
-        source: "/:path*",
+        source: "/:path((?!_next).*)",
         headers: [
           { key: "Access-Control-Allow-Origin", value: "*" },
         ],
