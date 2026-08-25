@@ -15,10 +15,6 @@ const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
   transpilePackages: ["@repo/shell", "@repo/ui"],
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
   devIndicators: {
     appIsrStatus: false,
     buildActivity: false,
@@ -45,8 +41,8 @@ const nextConfig = {
             destination: `${baseUrl}/${name}`,
           },
           {
-            source: `/${name}/:path+`,
-            destination: `${baseUrl}/${name}/:path+`,
+            source: `/${name}/:path*`,
+            destination: `${baseUrl}/${name}/:path*`,
           },
         ];
       }),
