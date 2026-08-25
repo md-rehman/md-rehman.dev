@@ -66,8 +66,8 @@ export function AppShowcase() {
         </p>
 
         <div className={styles.grid}>
-          {APPS.map((app) => (
-            <AppCard key={app.name} {...app} priority={true} />
+          {APPS.map((app, index) => (
+            <AppCard key={app.name} {...app} priority={index < 2} />
           ))}
         </div>
       </div>

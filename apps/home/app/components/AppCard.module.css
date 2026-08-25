@@ -29,7 +29,7 @@
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
-  background: var(--bg-tertiary);
+  background: color-mix(in srgb, var(--accent-primary) 6%, var(--bg-tertiary));
   isolation: isolate;
 }
 
