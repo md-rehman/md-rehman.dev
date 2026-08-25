@@ -51,7 +51,7 @@ sequenceDiagram
 - Update `mock.ts` mock clients to accept optional `captchaToken` parameter without failing validation.
 
 ### 2. Web UI Integration (`apps/companion` & `apps/planner`)
-- Install lightweight turnstile package (e.g., `@marsidev/react-turnstile`) or add a client-side wrapper compound in `@repo/atomic-ui`.
+- Install lightweight turnstile package (e.g., `@marsidev/react-turnstile`) or add a client-side wrapper compound in `@repo/ui`.
 - Render Turnstile widget on `login/page.tsx` when user interacts with guest sign in.
 - Obtain `captchaToken` and pass it to the `loginAsGuest` server action.
 

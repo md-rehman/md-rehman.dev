@@ -19,7 +19,7 @@ This is a Turborepo-powered monorepo where I keep all my experiments, full-stack
 - **Docs:** NativeBase-inspired documentation hub for apps, packages, and AI agents (Port 4003).
 
 ## Included Packages
-- **@repo/atomic-ui:** Component library based on Atomic Design.
+- **@repo/ui:** Component library based on Atomic Design.
 - **@repo/auth:** Supabase authentication utilities.
 - **@repo/docs-core:** MDX & Markdown documentation engine.
 - **@repo/channel, @repo/shell:** Other shared UI and utility packages.
