@@ -18,5 +18,5 @@ The Home App is the central hub and main landing page for the md-rehman.dev mono
 - **Framework:** Next.js (v16+)
 - **Library:** React 19
 - **Language:** TypeScript
-- **Styling:** Shared UI packages (`@repo/ui`, `@repo/atomic-ui`)
+- **Styling:** Shared UI package (`@repo/atomic-ui`)
 

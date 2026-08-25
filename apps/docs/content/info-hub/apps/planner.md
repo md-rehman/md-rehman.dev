@@ -29,4 +29,4 @@ The **Planner** app is a Trello-inspired project management dashboard built for 
 | Next.js 16 | React Framework |
 | React 19 | Client UI Rendering |
 | `@repo/auth` | Authentication & User Context |
-| `@repo/ui` | Core Atomic UI Elements |
+| `@repo/atomic-ui` | Core Atomic UI Elements |

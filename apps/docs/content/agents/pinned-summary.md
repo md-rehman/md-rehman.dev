@@ -27,7 +27,7 @@ This document maintains critical system context, monorepo dependency hubs, and a
   - `docs`: Port `4003`
 - **Core Abstractions**:
   - `createClient()` (`packages/auth/src/server.ts`): Primary Supabase server handler.
-  - `@repo/ui`: Shared UI elements.
+  - `@repo/atomic-ui`: Shared Atomic Design UI elements.
   - `@repo/docs-core`: Markdown document processing.
 
 ## Crucial Agent Guidelines
