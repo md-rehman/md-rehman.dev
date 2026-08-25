@@ -200,7 +200,7 @@ async function main() {
             'prettier --write "**/*.{js,jsx,ts,tsx,json,css,scss,md}" --ignore-path ../../.gitignore',
         },
         dependencies: {
-          "@repo/ui": "*",
+          "@repo/atomic-ui": "*",
           next: "16.2.9",
           react: "^19.2.0",
           "react-dom": "^19.2.0",
