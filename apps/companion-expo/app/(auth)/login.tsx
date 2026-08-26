@@ -100,7 +100,7 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.footer}>
-          <Text style={[styles.footerText, { color: colors.fgSecondary }]}>Don't have an account? </Text>
+          <Text style={[styles.footerText, { color: colors.fgSecondary }]}>Don&apos;t have an account? </Text>
           <Link href="/(auth)/signup" asChild>
             <TouchableOpacity>
               <Text style={[styles.link, { color: colors.accentPrimary }]}>Sign Up</Text>

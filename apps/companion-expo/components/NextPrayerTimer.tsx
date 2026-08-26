@@ -193,7 +193,7 @@ export function NextPrayerTimer({ selectedDate }: NextPrayerTimerProps) {
           {/* Section Divider Header */}
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: colors.fgMuted }]}>
-              TODAY'S TIMINGS
+              TODAY&apos;S TIMINGS
             </Text>
           </View>
 
