@@ -20,7 +20,7 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^20",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "next": "16.2.9",
     "typescript": "^5"
   },
