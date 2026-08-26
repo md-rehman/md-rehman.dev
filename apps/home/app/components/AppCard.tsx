@@ -61,12 +61,21 @@ export function AppCard({
           <p>{description}</p>
         </div>
 
-        <button
+        <span
+          role="button"
+          tabIndex={0}
           className={styles.expandToggle}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             setIsExpanded(!isExpanded);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }
           }}
           aria-label={isExpanded ? "Show less" : "Read more"}
         >
@@ -84,7 +93,7 @@ export function AppCard({
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
-        </button>
+        </span>
 
         <div className={styles.techStack}>
           {techStack.map((tech) => (

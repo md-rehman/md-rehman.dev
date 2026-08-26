@@ -11,5 +11,5 @@ The Companion App is prayer Tracker & Muslim Assistant app.
 - **Library:** React 19
 - **Styling:** Tailwind CSS (v4)
 - **Authentication:** `@repo/auth` shared package
-- **UI Components:** `@repo/atomic-ui`
+- **UI Components:** `@repo/ui`
 

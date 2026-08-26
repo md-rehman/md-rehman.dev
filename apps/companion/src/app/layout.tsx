@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ThemeInitializer } from "@repo/atomic-ui/atoms";
+import { ThemeInitializer } from "@repo/ui";
 import { AnalyticsWrapper } from "@repo/shell";
 import "./globals.css";
 
@@ -55,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <ThemeInitializer defaultTheme="dark-glitch" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>

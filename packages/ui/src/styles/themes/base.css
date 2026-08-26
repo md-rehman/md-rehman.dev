@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════
+   CORE DESIGN TOKENS & DERIVATIONS
+   ═══════════════════════════════════════════ */
+:root {
+  /* Default Base Variables (Shades of Grey) */
+  --bg-primary: #09090b;
+  --accent-primary: #f4f4f5;
+  --mix-color: white;
+  --fg-primary: #fafafa;
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  --nebula-bg-visible: 0;
+
+  /* Dynamically Derived Backgrounds */
+  --bg-secondary: color-mix(in srgb, var(--bg-primary) 96%, var(--mix-color));
+  --bg-tertiary: color-mix(in srgb, var(--bg-primary) 92%, var(--mix-color));
+  
+  --glass-bg: color-mix(in srgb, var(--bg-primary) 80%, transparent);
+  --card-bg: color-mix(in srgb, var(--bg-primary) 90%, transparent);
+  --scrollbar-track: var(--bg-primary);
+
+  /* Dynamically Derived Accents */
+  --accent-1: var(--accent-primary);
+  --accent-2: color-mix(in srgb, var(--accent-primary) 70%, white);
+  --accent-3: color-mix(in srgb, var(--accent-primary) 50%, black);
+  --accent-gradient: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+  
+  --card-border: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  --card-hover-border: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  --card-glow: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+  
+  --badge-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  --badge-border: color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  --badge-text: color-mix(in srgb, var(--accent-primary) 80%, white);
+  
+  --timeline-line: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  --timeline-node: var(--accent-primary);
+  --timeline-node-glow: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  
+  --glass-border: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  --section-divider: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+  --scrollbar-thumb: color-mix(in srgb, var(--accent-primary) 80%, black);
+  
+  --fg-secondary: color-mix(in srgb, var(--accent-primary) 30%, color-mix(in srgb, var(--fg-primary) 75%, var(--bg-primary)));
+  --fg-muted: color-mix(in srgb, var(--accent-primary) 40%, var(--fg-secondary));
+
+  /* Dynamic Image Filtering Tokens */
+  --img-filter: grayscale(0%) contrast(105%);
+  --img-hover-filter: grayscale(0%) contrast(110%);
+  --img-overlay-blend: overlay;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+}

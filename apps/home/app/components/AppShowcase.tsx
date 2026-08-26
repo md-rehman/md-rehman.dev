@@ -31,7 +31,7 @@ const APPS = [
     description:
       "A mobile app version of Companion built with Expo and React Native. Includes prayer tracking and seamless synchronization.",
     techStack: ["React Native", "Expo", "TypeScript"],
-    href: "/companion-expo",
+    href: "/companion-app",
     imageSrc: "/images/companion.png",
   },
   {
@@ -66,8 +66,8 @@ export function AppShowcase() {
         </p>
 
         <div className={styles.grid}>
-          {APPS.map((app) => (
-            <AppCard key={app.name} {...app} priority={true} />
+          {APPS.map((app, index) => (
+            <AppCard key={app.name} {...app} priority={index < 2} />
           ))}
         </div>
       </div>

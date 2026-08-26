@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "@repo/ui/styles/themes/index.css";
 
 /* ── Design Tokens ──────────────────────────────────────────────── */
 
 :root {
-  --background: #0c0e14;
+  --background: var(--bg-primary, #0c0e14);
   --surface: rgba(255, 255, 255, 0.03);
   --surface-hover: rgba(255, 255, 255, 0.05);
   --surface-active: rgba(255, 255, 255, 0.07);
-  --foreground: #e8eaf0;
+  --foreground: var(--fg-primary, #e8eaf0);
   --muted: rgba(255, 255, 255, 0.45);
   --border: rgba(255, 255, 255, 0.06);
   --border-hover: rgba(255, 255, 255, 0.12);

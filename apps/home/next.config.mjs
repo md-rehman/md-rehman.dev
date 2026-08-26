@@ -6,7 +6,7 @@
  */
 const subApps = [
   { name: "tv-set", port: 3011, domain: "md-rehman-dev-tv-set.vercel.app" },
-  { name: "docs", port: 4001, domain: "md-rehman-dev-docs.vercel.app" },
+  { name: "docs", port: 4003, domain: "md-rehman-dev-docs.vercel.app" },
   { name: "companion", port: 3012, domain: "md-rehman-dev-companion.vercel.app" },
   { name: "planner", port: 4002, domain: "md-rehman-dev-planner.vercel.app" },
 ];
@@ -14,10 +14,15 @@ const subApps = [
 const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
+  transpilePackages: ["@repo/shell", "@repo/ui"],
+  devIndicators: {
+    appIsrStatus: false,
+    buildActivity: false,
+  },
   async headers() {
     return [
       {
-        source: "/:path*",
+        source: "/:path((?!_next).*)",
         headers: [
           { key: "Access-Control-Allow-Origin", value: "*" },
         ],

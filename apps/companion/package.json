@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack  --port 3012",
+    "dev": "next dev --turbopack --port 3012",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
-    "@repo/atomic-ui": "*",
     "@repo/auth": "*",
     "@repo/shell": "*",
+    "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.1.11",
-    "next": "16.2.9",
+    "next": "^16.3.3",
     "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

@@ -15,6 +15,6 @@ updatedAt: "2026-07-31"
 Implement smooth dark/light mode toggle animations with CSS custom properties across atomic UI components.
 
 ## Proposed Steps
-1. Add theme context listener to `@repo/atomic-ui`.
+1. Add theme context listener to `@repo/ui`.
 2. Persist user theme preference in `localStorage`.
 3. Add subtle rotation animation to theme toggle icon.

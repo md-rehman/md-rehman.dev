@@ -1,11 +1,8 @@
 import { login } from "./actions";
 import { loginAsGuest } from "@repo/auth";
 import Link from "next/link";
-import { Navbar } from "@repo/atomic-ui/compounds";
+import { Navbar, type NavLink } from "@repo/ui";
 import styles from "./page.module.css";
-
-
-import { NavLink } from "@repo/atomic-ui/compounds";
 import Image from "next/image";
 import companionImg from "../../../public/images/Companion.png";
 

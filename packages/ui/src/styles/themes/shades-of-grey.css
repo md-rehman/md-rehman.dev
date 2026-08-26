@@ -1,0 +1,16 @@
+/* ═══════════════════════════════════════════
+   THEME PRESET: SHADES OF GREY
+   ═══════════════════════════════════════════ */
+[data-theme="shades-of-grey"] {
+  --bg-primary: #09090b;
+  --accent-primary: #f4f4f5;
+  --mix-color: white;
+  --fg-primary: #fafafa;
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  --nebula-bg-visible: 0;
+
+  --img-filter: grayscale(0%) contrast(105%);
+  --img-hover-filter: grayscale(0%) contrast(110%);
+  --img-overlay-blend: overlay;
+  --img-tint-bg: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+}
