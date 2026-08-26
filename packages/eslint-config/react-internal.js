@@ -1,39 +1,29 @@
-const { resolve } = require("node:path");
+const { FlatCompat } = require("@eslint/eslintrc");
+const js = require("@eslint/js");
+const eslintConfigPrettier = require("eslint-config-prettier");
+const globals = require("globals");
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
-/*
- * This is a custom ESLint configuration for use with
- * internal (bundled by their consumer) libraries
- * that utilize React.
- */
-
-/** @type {import("eslint").Linter.Config} */
-module.exports = {
-  extends: ["eslint:recommended", "prettier", "turbo"],
-  plugins: ["only-warn"],
-  globals: {
-    React: true,
-    JSX: true,
-  },
-  env: {
-    browser: true,
-  },
-  settings: {
-    "import/resolver": {
-      typescript: {
-        project,
+/** @type {import("eslint").Linter.Config[]} */
+module.exports = [
+  js.configs.recommended,
+  eslintConfigPrettier,
+  ...compat.extends("turbo"),
+  {
+    plugins: {
+      "only-warn": require("eslint-plugin-only-warn"),
+    },
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        React: "writable",
+        JSX: "writable",
       },
     },
+    ignores: [".*.js", "node_modules/", "dist/"],
   },
-  ignorePatterns: [
-    // Ignore dotfiles
-    ".*.js",
-    "node_modules/",
-    "dist/",
-  ],
-  overrides: [
-    // Force ESLint to detect .tsx files
-    { files: ["*.js?(x)", "*.ts?(x)"] },
-  ],
-};
+];
