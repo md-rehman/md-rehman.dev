@@ -7,9 +7,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
-    "deps:check": "syncpack lint",
-    "deps:fix": "syncpack fix",
-    "deps:format": "syncpack format",
+    "deps:check": "npx syncpack lint",
+    "deps:fix": "npx syncpack fix",
+    "deps:format": "npx syncpack format",
     "generate:app": "node scripts/generate-app.mjs",
     "generate:package": "node scripts/generate-package.mjs",
     "preinstall": "npx only-allow yarn"
