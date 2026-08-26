@@ -1,5 +1,6 @@
 {
   "name": "@repo/build-plugins",
+  "description": "DEPRECATED: Legacy module federation utilities. Locked - do not update.",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -16,9 +17,9 @@
     "@repo/typescript-config": "*",
     "@turbo/gen": "^1.12.4",
     "@types/eslint": "^8.56.5",
-    "@types/node": "^20.11.24",
-    "@types/react": "^18.2.61",
-    "@types/react-dom": "^18.2.19",
+    "@types/node": "^20",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@types/webpack": "*",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
