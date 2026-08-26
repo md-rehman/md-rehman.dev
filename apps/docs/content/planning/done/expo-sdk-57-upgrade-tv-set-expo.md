@@ -1,7 +1,7 @@
 ---
 title: "Expo SDK 57 Upgrade for tv-set-expo"
 description: "Upgrade tv-set-expo from Expo SDK 56 track to SDK 57 track to align with companion-expo"
-category: "planning/todo"
+category: "planning/done"
 order: 10
 pinned: false
 localOnly: true
