@@ -1,7 +1,7 @@
 ---
 title: "Tailwind CSS v4 Migration for tv-set"
 description: "Migrate tv-set app from Tailwind v3 to Tailwind v4 CSS directives and PostCSS setup"
-category: "planning/todo"
+category: "planning/done"
 order: 11
 pinned: false
 localOnly: true
