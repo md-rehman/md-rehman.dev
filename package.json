@@ -1,11 +1,15 @@
 {
   "name": "md-rehman.dev",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
+    "deps:check": "syncpack lint",
+    "deps:fix": "syncpack fix",
+    "deps:format": "syncpack format",
     "generate:app": "node scripts/generate-app.mjs",
     "generate:package": "node scripts/generate-package.mjs",
     "preinstall": "npx only-allow yarn"
@@ -17,9 +21,11 @@
     "prettier": "^3.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-native": "^0.85.3",
+    "react-native": "^0.86.0",
+    "@types/minimatch": "^6.0.0",
     "react-native-web": "*",
-    "turbo": "2.9.18",
+    "syncpack": "^15.3.3",
+    "turbo": "^2.9.18",
     "typescript": "^5.4.5"
   },
   "engines": {

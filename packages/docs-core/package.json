@@ -14,7 +14,7 @@
     "@repo/typescript-config": "*",
     "@types/node": "^20",
     "eslint": "^9.0.0",
-    "typescript": "^5"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
