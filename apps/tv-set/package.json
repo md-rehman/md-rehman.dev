@@ -25,7 +25,6 @@
     "@eslint/eslintrc": "^3.0.0",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "@types/minimatch": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.0",
