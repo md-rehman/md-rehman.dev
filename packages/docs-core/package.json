@@ -13,8 +13,8 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^20",
-    "eslint": "^8.57.0",
-    "typescript": "^5"
+    "eslint": "^9.0.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"

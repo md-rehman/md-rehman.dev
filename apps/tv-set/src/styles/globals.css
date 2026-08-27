@@ -1,8 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Edu+QLD+Beginner:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-body: "Edu QLD Beginner", serif;
+  --font-sans: "Edu QLD Beginner", serif;
+  --font-serif: "Edu QLD Beginner", serif;
+  --font-bubble: "Bubblegum Sans", serif;
+  --font-chalk: "Cabin Sketch", serif;
+  --font-silkscreen: "Silkscreen", serif;
+  --font-arial: arial;
+  --font-death_note_1: death_note_1;
+  --font-death_note_2: death_note_2;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-lime-50: #f7fee7;
+  --color-lime-100: #ecfccb;
+  --color-lime-200: #d9f99d;
+  --color-lime-300: #bef264;
+  --color-lime-400: #a3e635;
+  --color-lime-500: #84cc16;
+  --color-lime-600: #65a30d;
+  --color-lime-700: #4d7c0f;
+  --color-lime-800: #3f6212;
+  --color-lime-900: #365314;
+
+  --animate-blink: blink .3s linear infinite alternate;
+
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
 
 :root {
   --background: #ffffff;

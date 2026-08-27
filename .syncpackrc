@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JamieMason/syncpack/main/config-schema.json",
+  "versionGroups": [
+    {
+      "label": "Ignore local monorepo workspace packages",
+      "dependencies": ["@repo/*"],
+      "isIgnored": true
+    },
+    {
+      "label": "Ignore specific wildcard dependencies",
+      "dependencies": [
+        "react-native-web",
+        "@module-federation/nextjs-mf",
+        "@react-native/metro-config",
+        "@rspack/core",
+        "@types/webpack",
+        "webpack"
+      ],
+      "isIgnored": true
+    },
+    {
+      "label": "Pin React 19 across monorepo",
+      "dependencies": ["react", "react-dom"],
+      "pinVersion": "^19.2.0"
+    },
+    {
+      "label": "Pin Next.js 16 across monorepo",
+      "dependencies": ["next"],
+      "pinVersion": "^16.3.3"
+    },
+    {
+      "label": "Pin TypeScript 5 across monorepo",
+      "dependencies": ["typescript"],
+      "pinVersion": "^5.4.5"
+    },
+    {
+      "label": "Pin Tailwind CSS 4 across monorepo",
+      "dependencies": ["tailwindcss", "@tailwindcss/postcss"],
+      "pinVersion": "^4.1.11"
+    }
+  ],
+  "semverGroups": [
+    {
+      "label": "Use caret ranges consistently across monorepo packages",
+      "range": "^",
+      "dependencies": ["**"],
+      "packages": ["**"]
+    }
+  ]
+}

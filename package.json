@@ -1,32 +1,38 @@
 {
   "name": "md-rehman.dev",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path .gitignore",
+    "deps:check": "npx syncpack lint",
+    "deps:fix": "npx syncpack fix",
+    "deps:format": "npx syncpack format",
     "generate:app": "node scripts/generate-app.mjs",
     "generate:package": "node scripts/generate-package.mjs",
     "preinstall": "npx only-allow yarn"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@shopify/react-native-skia": "*",
-    "eslint": "^8.57.0",
-    "minimatch": "^10.2.5",
+    "eslint": "^9.0.0",
     "next": "^16.3.3",
-    "prettier": "^3.2.5",
+    "prettier": "^3.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-native": "^0.85.3",
+    "react-native": "^0.86.0",
     "react-native-web": "*",
-    "turbo": "2.9.18",
+    "syncpack": "^15.3.3",
+    "turbo": "^2.9.18",
     "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18",
     "yarn": ">=1.22.0"
+  },
+  "resolutions": {
+    "@types/minimatch": "5.1.2"
   },
   "packageManager": "yarn@1.22.22",
   "workspaces": [

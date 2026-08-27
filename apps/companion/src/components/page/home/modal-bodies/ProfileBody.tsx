@@ -22,7 +22,7 @@ export function ProfileBody({ accentColor }: { accentColor?: string }) {
   if (!user) {
     return (
       <div className={styles.container}>
-        <p className={styles.message}>You're not logged in</p>
+        <p className={styles.message}>You&apos;re not logged in</p>
         <button className={styles.button} onClick={handleLogin}>
           Go to Login
         </button>

@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack --port 4002",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ../../.gitignore"
   },
   "dependencies": {
@@ -20,10 +20,10 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^20",
-    "@types/react": "^19.2.0",
+    "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.9",
-    "typescript": "^5"
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.2.9",
+    "typescript": "^5.4.5"
   }
 }

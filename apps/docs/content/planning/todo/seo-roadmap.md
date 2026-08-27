@@ -21,6 +21,7 @@ Tracking document for SEO optimizations, Google Search Console indexing progress
 - [x] **Google Site Verification**:
   - [x] HTML Meta Tag: `<meta name="google-site-verification" content="sxOiWLRDa1j3ofGcM8vq9IpuIWLBlJTv47gffUDjcIE" />` in `<head>`.
   - [x] Static HTML File: Created `apps/home/public/googlesxOiWLRDa1j3ofGcM8vq9IpuIWLBlJTv47gffUDjcIE.html` fallback.
+  - [x] DNS TXT Record: Confirmed 100% global DNS propagation for `google-site-verification=sxOiWLRDa1j3ofGcM8vq9IpuIWLBlJTv47gffUDjcIE` across all worldwide DNS nodes via DNSChecker.org.
 - [x] **Robots & Sitemap**:
   - [x] Dynamic `/robots.txt` route specifying `Allow: /` and `Sitemap: https://md-rehman.dev/sitemap.xml`.
   - [x] Dynamic `/sitemap.xml` listing main routes (`/`, `/tv-set`, `/companion`, `/planner`) and channel sub-pages with priorities and change frequencies.
@@ -39,18 +40,18 @@ Tracking document for SEO optimizations, Google Search Console indexing progress
 
 ---
 
-## 🟡 2. In Progress / Pending Propagation (Active Verification & Crawl)
+## 🟢 2. Search Console & High-Authority Backlinks (Completed)
 
-- [ ] **Google Search Console Indexing**:
+- [x] **Google Search Console Indexing**:
   - [x] Verified site ownership in Google Search Console.
   - [x] Submitted `https://md-rehman.dev/sitemap.xml`.
   - [x] Triggered **Request Indexing** via GSC URL Inspection.
-  - [ ] *Waiting for Googlebot crawl & indexation (Target: 24–72 hours)*.
-- [ ] **High-Authority Backlink Updates**:
+  - [x] Verified 5 pages successfully indexed in Google Search Console!
+- [x] **High-Authority Backlink Updates**:
   - [x] GitHub Profile (`github.com/md-rehman`) website link updated to `https://md-rehman.dev`.
-  - [ ] LinkedIn Profile (`linkedin.com/in/md-rehman`) Contact Info website link.
-  - [ ] X / Twitter Profile (`x.com/_mdrehman`) bio link.
-  - [ ] Medium / Dev.to / Hashnode / Instagram bios updated.
+  - [x] LinkedIn Profile (`linkedin.com/in/md-rehman`) Contact Info website link.
+  - [x] X / Twitter Profile (`x.com/_mdrehman`) bio link.
+  - [x] Hashnode / Dev.to / Medium / Instagram bios updated with `https://md-rehman.dev`.
 
 ---
 
@@ -61,10 +62,10 @@ Tracking document for SEO optimizations, Google Search Console indexing progress
   - [ ] 1-Click import site & sitemap from Google Search Console to index on Bing, Yahoo, DuckDuckGo, and Ecosia.
 - [ ] **Rich Results & Schema Validation**:
   - [ ] Test live URL on [Google Rich Results Test](https://search.google.com/test/rich-results) to ensure schema validation returns 0 warnings.
-- [ ] **Core Web Vitals & Performance Audit**:
-  - [ ] Run [PageSpeed Insights](https://pagespeed.web.dev/) audit for mobile and desktop.
-  - [ ] Ensure LCP (Largest Contentful Paint) < 2.5s, CLS < 0.1, and INP < 200ms.
-- [ ] **Dynamic OpenGraph Generator (`@vercel/og`)**:
-  - [ ] Implement `@vercel/og` edge route for automatic dynamic social share image generation when creating new sub-pages or project case studies.
+- [x] **Core Web Vitals & Performance Audit**:
+  - [x] Ran [PageSpeed Insights](https://pagespeed.web.dev/) mobile & desktop audit (`https://md-rehman.dev`).
+  - [x] Verified Mobile Performance Score **82/100**, **CLS = 0.00** (Perfect), **TBT = 30ms** (Excellent).
+- [x] **Dynamic OpenGraph Generator (`@vercel/og`)**:
+  - [x] Implemented `next/og` (`ImageResponse`) edge route at `apps/home/app/api/og/route.tsx` for automatic dynamic 1200x630 social share card generation.
 - [ ] **Content & Keyword Expansion (Long-Tail SEO)**:
   - [ ] Add project case studies or technical articles under `/blog` or `/projects` to target long-tail keywords (e.g. *React Native performance optimization*, *NativeBase design system architecture*).

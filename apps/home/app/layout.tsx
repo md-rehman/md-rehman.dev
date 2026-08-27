@@ -7,10 +7,12 @@ import "./globals.css";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
+  display: "swap",
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -49,6 +51,12 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
+        url: "/api/og",
+        width: 1200,
+        height: 630,
+        alt: "Mohd Rehman Baig — Senior React & React Native Developer",
+      },
+      {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
@@ -62,7 +70,7 @@ export const metadata: Metadata = {
     description:
       "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     creator: "@_mdrehman",
-    images: ["/og-image.png"],
+    images: ["/api/og", "/og-image.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -206,6 +214,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
