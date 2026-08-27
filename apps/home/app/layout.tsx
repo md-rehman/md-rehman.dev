@@ -49,6 +49,12 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
+        url: "/api/og",
+        width: 1200,
+        height: 630,
+        alt: "Mohd Rehman Baig — Senior React & React Native Developer",
+      },
+      {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
@@ -62,7 +68,7 @@ export const metadata: Metadata = {
     description:
       "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     creator: "@_mdrehman",
-    images: ["/og-image.png"],
+    images: ["/api/og", "/og-image.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
