@@ -18,35 +18,36 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://md-rehman.dev"),
   title: {
-    default: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
-    template: "%s | Mohd Rehman Baig",
+    default: "Mohd. Rehman Baig (md-rehman) — Senior React & React Native Architect",
+    template: "%s | md-rehman",
   },
   description:
-    "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
+    "Official website & portfolio of md-rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
   keywords: [
+    "md-rehman",
+    "md-rehman dev",
+    "md rehman",
     "Mohd Rehman Baig",
     "MD Rehman",
-    "Md Rehman",
-    "md-rehman",
     "rehman dev",
-    "md rehman dev",
     "developer rehman",
+    "Mohd. Rehman Baig",
     "rehman react native",
     "Senior React Native Developer",
     "Senior React Developer",
   ],
-  authors: [{ name: "Mohd Rehman Baig", url: "https://md-rehman.dev" }],
-  creator: "Mohd Rehman Baig",
-  publisher: "Mohd Rehman Baig",
+  authors: [{ name: "Mohd. Rehman Baig (md-rehman)", url: "https://md-rehman.dev" }],
+  creator: "md-rehman",
+  publisher: "md-rehman",
   alternates: {
     canonical: "https://md-rehman.dev",
   },
   openGraph: {
-    title: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
+    title: "Mohd. Rehman Baig (md-rehman) — Senior React & React Native Architect",
     description:
-      "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
+      "Official website & portfolio of md-rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     url: "https://md-rehman.dev",
-    siteName: "MD Rehman Dev",
+    siteName: "md-rehman",
     locale: "en_US",
     type: "website",
     images: [
@@ -66,9 +67,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohd Rehman Baig (md-rehman) — Senior React & React Native Developer",
+    title: "Mohd. Rehman Baig (md-rehman) — Senior React & React Native Architect",
     description:
-      "Official website & portfolio of MD Rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
+      "Official website & portfolio of md-rehman (Mohd. Rehman Baig), Senior React & React Native Developer. Specializing in cross-platform engineering, design systems, and mobile architecture.",
     creator: "@_mdrehman",
     images: ["/api/og", "/og-image.jpg"],
   },
@@ -86,7 +87,7 @@ const jsonLd = {
     {
       "@type": "Person",
       "@id": "https://md-rehman.dev/#person",
-      "name": "MD Rehman",
+      "name": "Mohd. Rehman Baig",
       "alternateName": [
         "Md Rehman",
         "md-rehman",
@@ -122,7 +123,7 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": "https://md-rehman.dev/#website",
       "url": "https://md-rehman.dev",
-      "name": "MD Rehman Dev",
+      "name": "Mohd. Rehman Dev",
       "description":
         "Official Portfolio & Projects Hub of MD Rehman (md-rehman)",
       "publisher": {

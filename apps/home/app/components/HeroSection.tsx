@@ -130,6 +130,21 @@ export function HeroSection() {
       <div className={styles.container}>
         <div className={styles.greeting}>Hello, I&apos;m</div>
         <h1 className={styles.name}>
+          <span
+            style={{
+              position: "absolute",
+              width: "1px",
+              height: "1px",
+              padding: "0",
+              margin: "-1px",
+              overflow: "hidden",
+              clip: "rect(0, 0, 0, 0)",
+              whiteSpace: "nowrap",
+              border: "0",
+            }}
+          >
+            md-rehman —{" "}
+          </span>
           <span className="gradient-text">Mohd. Rehman Baig</span>
         </h1>
         <p className={styles.title}>Senior React & React Native Engineer</p>
