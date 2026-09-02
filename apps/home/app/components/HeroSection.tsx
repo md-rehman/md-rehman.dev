@@ -143,7 +143,7 @@ export function HeroSection() {
               border: "0",
             }}
           >
-            md-rehman —{" "}
+            md-rehman — Mohd. Rehman Baig — md-rehman.dev —{" "}
           </span>
           <span className="gradient-text">Mohd. Rehman Baig</span>
         </h1>
