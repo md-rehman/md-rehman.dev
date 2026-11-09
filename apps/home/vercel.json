@@ -39,6 +39,14 @@
     {
       "source": "/planner/:match*",
       "destination": "https://md-rehman-dev-planner.vercel.app/planner/:match*"
+    },
+    {
+      "source": "/react-native-ruler-date-picker",
+      "destination": "https://react-native-ruler-date-picker-docs.vercel.app/react-native-ruler-date-picker"
+    },
+    {
+      "source": "/react-native-ruler-date-picker/:match*",
+      "destination": "https://react-native-ruler-date-picker-docs.vercel.app/react-native-ruler-date-picker/:match*"
     }
   ]
 }

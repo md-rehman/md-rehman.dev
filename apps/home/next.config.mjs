@@ -9,6 +9,11 @@ const subApps = [
   { name: "docs", port: 4003, domain: "md-rehman-dev-docs.vercel.app" },
   { name: "companion", port: 3012, domain: "md-rehman-dev-companion.vercel.app" },
   { name: "planner", port: 4002, domain: "md-rehman-dev-planner.vercel.app" },
+  {
+    name: "react-native-ruler-date-picker",
+    port: 3000,
+    domain: "react-native-ruler-date-picker-docs.vercel.app",
+  },
 ];
 
 const isDev = process.env.NODE_ENV !== "production";
