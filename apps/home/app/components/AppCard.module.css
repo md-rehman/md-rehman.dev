@@ -120,6 +120,15 @@
   animation: gradientText 6s ease infinite;
 }
 
+.appNameLink {
+  color: inherit;
+  text-decoration: none;
+  background: inherit;
+  -webkit-background-clip: inherit;
+  background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
 .description {
   max-height: 3.4em;
   overflow: hidden;
@@ -195,6 +204,11 @@
   margin-top: auto;
   padding-top: 0.75rem;
   border-top: 1px solid var(--section-divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .visitLabel {
@@ -204,6 +218,7 @@
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--fg-muted);
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
@@ -217,6 +232,34 @@
 
 .card:hover .visitLabel svg {
   transform: translateX(4px);
+}
+
+.actionLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.actionIconLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--fg-secondary);
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.actionIconLink:hover {
+  color: var(--fg-primary);
+  border-color: var(--card-hover-border);
+  background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  transform: translateY(-1px);
 }
 
 /* Responsive */

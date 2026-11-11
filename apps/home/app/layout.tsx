@@ -176,6 +176,24 @@ const jsonLd = {
       },
     },
     {
+      "@type": "SoftwareApplication",
+      "@id": "https://md-rehman.dev/react-native-ruler-date-picker/#application",
+      "name": "react-native-ruler-date-picker",
+      "operatingSystem": "iOS, Android, Web",
+      "applicationCategory": "DeveloperApplication",
+      "url": "https://md-rehman.dev/react-native-ruler-date-picker",
+      "description":
+        "A performant, customizable horizontal ruler date picker & scroll wheel for React Native and Expo with 60 FPS Reanimated 3 physics.",
+      "author": {
+        "@id": "https://md-rehman.dev/#person",
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
+    },
+    {
       "@type": "ItemList",
       "@id": "https://md-rehman.dev/#sitelinks",
       "name": "Featured Applications",
@@ -200,6 +218,13 @@ const jsonLd = {
           "name": "Planner App",
           "description": "Interactive Kanban Task Management Board",
           "url": "https://md-rehman.dev/planner",
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": "react-native-ruler-date-picker",
+          "description": "60 FPS Horizontal Ruler Date Picker & Scroll Wheel for React Native & Expo",
+          "url": "https://md-rehman.dev/react-native-ruler-date-picker",
         },
       ],
     },
