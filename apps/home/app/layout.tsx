@@ -239,6 +239,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          id="suppress-extension-noise"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(typeof window==='undefined')return;try{new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].type==='attributes'&&m[i].attributeName&&m[i].attributeName.indexOf('bis_')===0){m[i].target.removeAttribute(m[i].attributeName);}}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['bis_skin_checked','bis_register','bis_size']});}catch(e){}var origError=console.error;console.error=function(){var s='';for(var i=0;i<arguments.length;i++){s+=String(arguments[i])+' ';}if(s.indexOf('bis_skin_checked')!==-1||s.indexOf('bis_')!==-1){return;}origError.apply(console,arguments);};window.addEventListener('unhandledrejection',function(e){try{var r=e.reason;var t=(r&&(r.stack||r.message))?String(r.stack||r.message):String(r);if(t.indexOf('M_ID')!==-1||t.indexOf('chrome-extension://')!==-1||t.indexOf('moz-extension://')!==-1||t.indexOf('safari-web-extension://')!==-1){e.stopImmediatePropagation();e.preventDefault();}}catch(err){}},true);})();`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
