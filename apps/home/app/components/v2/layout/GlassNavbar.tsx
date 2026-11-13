@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useSyncExternalStore } from "react";
+import React, { useSyncExternalStore } from "react";
 import Link from "next/link";
 import styles from "./GlassNavbar.module.css";
 import { useUIPreferences } from "../context/UIPreferencesContext";
@@ -24,25 +24,33 @@ const HOME_NAV_ITEMS = [
   { href: "/planner", label: "Planner", icon: PlannerIcon },
 ];
 
+function subscribeTheme(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  return () => observer.disconnect();
+}
+
+function getThemeSnapshot(): boolean {
+  if (typeof document === "undefined") return true;
+  return document.documentElement.getAttribute("data-theme") !== "light";
+}
+
+function getServerThemeSnapshot(): boolean {
+  return true;
+}
+
 export function GlassNavbar() {
   const { cyclePattern, currentPatternConfig, toggleModal } = useUIPreferences();
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
-
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof document === "undefined") return true;
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "nebula";
-    return currentTheme !== "light";
-  });
+  const isDark = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   const toggleTheme = () => {
     const nextTheme = isDark ? "light" : "nebula";
     document.documentElement.setAttribute("data-theme", nextTheme);
     localStorage.setItem("app-theme", nextTheme);
-    setIsDark(!isDark);
   };
 
   return (
@@ -88,10 +96,13 @@ export function GlassNavbar() {
             className={styles.navButton}
             onClick={cyclePattern}
             aria-label={`Toggle background pattern. Currently ${currentPatternConfig.name}`}
+            suppressHydrationWarning
           >
             <PatternIcon size={16} />
             <span>Pattern</span>
-            <span className={styles.patternBadge}>{currentPatternConfig.badge}</span>
+            <span className={styles.patternBadge} suppressHydrationWarning>
+              {currentPatternConfig.badge}
+            </span>
           </button>
         </GlassTooltip>
 
@@ -108,21 +119,20 @@ export function GlassNavbar() {
         </GlassTooltip>
 
         {/* Theme Toggle */}
-        {mounted && (
-          <GlassTooltip
-            content={`Switch to ${isDark ? "Light" : "Dark"} Mode`}
-            placement="bottom"
+        <GlassTooltip
+          content={`Switch to ${isDark ? "Light" : "Dark"} Mode`}
+          placement="bottom"
+        >
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            suppressHydrationWarning
           >
-            <button
-              type="button"
-              className={styles.iconButton}
-              onClick={toggleTheme}
-              aria-label="Toggle Theme"
-            >
-              {isDark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
-            </button>
-          </GlassTooltip>
-        )}
+            {isDark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
+          </button>
+        </GlassTooltip>
 
         {/* GitHub */}
         <GlassTooltip content="GitHub Profile" placement="bottom">

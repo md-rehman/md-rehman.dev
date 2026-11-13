@@ -15,7 +15,7 @@ import "./styles/glass-tokens.css";
 export function HomeV2() {
   return (
     <UIPreferencesProvider>
-      <div className={styles.page}>
+      <div className={styles.page} suppressHydrationWarning>
         {/* Dynamic Background Patterns & Ambient Glows from react-native-ruler-date-picker */}
         <BackgroundCanvas />
 

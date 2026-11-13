@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useSyncExternalStore } from "react";
 import { PatternType, PatternConfig, BACKGROUND_PATTERNS } from "../background/patterns";
 
 interface UIPreferencesContextType {
@@ -17,39 +17,58 @@ interface UIPreferencesContextType {
 const UIPreferencesContext = createContext<UIPreferencesContextType | undefined>(undefined);
 
 const STORAGE_KEY = "home-bg-pattern";
+const patternListeners = new Set<() => void>();
+
+function subscribePattern(callback: () => void) {
+  patternListeners.add(callback);
+  if (typeof window !== "undefined") {
+    window.addEventListener("storage", callback);
+  }
+  return () => {
+    patternListeners.delete(callback);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("storage", callback);
+    }
+  };
+}
+
+function getPatternSnapshot(): PatternType {
+  if (typeof window === "undefined") return "ruler-grid";
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY) as PatternType | null;
+    if (saved && BACKGROUND_PATTERNS.some((p) => p.id === saved)) {
+      return saved;
+    }
+  } catch {}
+  return "ruler-grid";
+}
+
+function getServerPatternSnapshot(): PatternType {
+  return "ruler-grid";
+}
+
+function emitPatternChange(next: PatternType) {
+  try {
+    localStorage.setItem(STORAGE_KEY, next);
+  } catch {}
+  patternListeners.forEach((listener) => listener());
+}
 
 export function UIPreferencesProvider({ children }: { children: React.ReactNode }) {
-  const [pattern, setPatternState] = useState<PatternType>(() => {
-    if (typeof window === "undefined") return "ruler-grid";
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY) as PatternType | null;
-      if (saved && BACKGROUND_PATTERNS.some((p) => p.id === saved)) {
-        return saved;
-      }
-    } catch {}
-    return "ruler-grid";
-  });
+  const pattern = useSyncExternalStore(subscribePattern, getPatternSnapshot, getServerPatternSnapshot);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const setPattern = useCallback((nextPattern: PatternType) => {
-    setPatternState(nextPattern);
-    try {
-      localStorage.setItem(STORAGE_KEY, nextPattern);
-    } catch {}
+    emitPatternChange(nextPattern);
   }, []);
 
   const cyclePattern = useCallback(() => {
-    setPatternState((prev) => {
-      const currentIndex = BACKGROUND_PATTERNS.findIndex((p) => p.id === prev);
-      const nextIndex = (currentIndex + 1) % BACKGROUND_PATTERNS.length;
-      const target = BACKGROUND_PATTERNS[nextIndex];
-      const next: PatternType = target ? target.id : "ruler-grid";
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch {}
-      return next;
-    });
-  }, []);
+    const currentIndex = BACKGROUND_PATTERNS.findIndex((p) => p.id === pattern);
+    const nextIndex = (currentIndex + 1) % BACKGROUND_PATTERNS.length;
+    const target = BACKGROUND_PATTERNS[nextIndex];
+    const next: PatternType = target ? target.id : "ruler-grid";
+    emitPatternChange(next);
+  }, [pattern]);
 
   const fallbackPattern: PatternConfig = BACKGROUND_PATTERNS[0]!;
 

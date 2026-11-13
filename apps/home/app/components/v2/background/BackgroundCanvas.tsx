@@ -31,7 +31,7 @@ export function BackgroundCanvas() {
       <div className={styles.glowAccent} />
 
       {/* Pattern Grid Layer */}
-      <div className={getPatternClass()} />
+      <div className={getPatternClass()} suppressHydrationWarning />
     </div>
   );
 }
