@@ -19,7 +19,7 @@ export function InspectorModal() {
       badge="Interactive"
       onClose={closeModal}
       defaultPosition={{ x: 24, y: 100 }}
-      width={300}
+      width={320}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div>
@@ -35,7 +35,16 @@ export function InspectorModal() {
           >
             Select Canvas Pattern
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              maxHeight: "360px",
+              overflowY: "auto",
+              paddingRight: 4,
+            }}
+          >
             {BACKGROUND_PATTERNS.map((p) => {
               const isActive = pattern === p.id;
               return (
@@ -63,14 +72,23 @@ export function InspectorModal() {
                     transition: "all 0.15s ease",
                   }}
                 >
-                  <div>
-                    <div style={{ fontSize: "0.825rem", fontWeight: 600 }}>
+                  <div style={{ flex: 1, minWidth: 0, paddingRight: 8 }}>
+                    <div
+                      style={{
+                        fontSize: "0.825rem",
+                        fontWeight: 600,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
                       {p.name}
                     </div>
                     <div
                       style={{
                         fontSize: "0.7rem",
                         color: "var(--glass-text-secondary)",
+                        marginTop: 2,
                       }}
                     >
                       {p.badge}

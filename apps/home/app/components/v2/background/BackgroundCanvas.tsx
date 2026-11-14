@@ -9,16 +9,22 @@ export function BackgroundCanvas() {
 
   const getPatternClass = () => {
     switch (pattern) {
-      case "ruler-grid":
-        return styles.defaultGrid;
-      case "dual-grid":
-        return styles.dualGrid;
       case "diamond":
         return styles.diamondMesh;
+      case "dual-grid":
+        return styles.dualGrid;
       case "dots":
         return styles.dotMatrix;
-      default:
+      case "crosshair":
+        return styles.crosshairMatrix;
+      case "isometric-cubes":
+        return styles.isometricCubes;
+      case "topographic":
+        return styles.topographicContours;
+      case "ruler-grid":
         return styles.defaultGrid;
+      default:
+        return styles.diamondMesh;
     }
   };
 

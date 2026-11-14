@@ -33,18 +33,18 @@ function subscribePattern(callback: () => void) {
 }
 
 function getPatternSnapshot(): PatternType {
-  if (typeof window === "undefined") return "ruler-grid";
+  if (typeof window === "undefined") return "diamond";
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as PatternType | null;
     if (saved && BACKGROUND_PATTERNS.some((p) => p.id === saved)) {
       return saved;
     }
   } catch {}
-  return "ruler-grid";
+  return "diamond";
 }
 
 function getServerPatternSnapshot(): PatternType {
-  return "ruler-grid";
+  return "diamond";
 }
 
 function emitPatternChange(next: PatternType) {
@@ -66,7 +66,7 @@ export function UIPreferencesProvider({ children }: { children: React.ReactNode 
     const currentIndex = BACKGROUND_PATTERNS.findIndex((p) => p.id === pattern);
     const nextIndex = (currentIndex + 1) % BACKGROUND_PATTERNS.length;
     const target = BACKGROUND_PATTERNS[nextIndex];
-    const next: PatternType = target ? target.id : "ruler-grid";
+    const next: PatternType = target ? target.id : "diamond";
     emitPatternChange(next);
   }, [pattern]);
 
