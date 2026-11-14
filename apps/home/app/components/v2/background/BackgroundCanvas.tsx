@@ -11,6 +11,8 @@ export function BackgroundCanvas() {
     switch (pattern) {
       case "diamond":
         return styles.diamondMesh;
+      case "diamond-alternate":
+        return styles.diamondAlternate;
       case "dual-grid":
         return styles.dualGrid;
       case "dots":

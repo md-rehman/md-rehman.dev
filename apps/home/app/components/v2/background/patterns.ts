@@ -1,5 +1,6 @@
 export type PatternType =
   | "diamond"
+  | "diamond-alternate"
   | "dual-grid"
   | "dots"
   | "crosshair"
@@ -19,6 +20,12 @@ export const BACKGROUND_PATTERNS: PatternConfig[] = [
     name: "Isometric Diamond Mesh",
     description: "45-degree intersecting angled mesh creating diamond facets",
     badge: "Isometric",
+  },
+  {
+    id: "diamond-alternate",
+    name: "Alternating Diamond Mesh",
+    description: "Isometric 45-degree diamond mesh with 20% translucent gray alternating facets",
+    badge: "Faceted",
   },
   {
     id: "dual-grid",

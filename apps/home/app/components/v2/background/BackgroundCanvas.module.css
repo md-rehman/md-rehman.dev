@@ -105,6 +105,14 @@
   opacity: 0.4;
 }
 
+/* ── 3b. Alternating Isometric Diamond (20% Gray Translucent Facets) ── */
+.diamondAlternate {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='20,0 40,20 20,40 0,20' fill='%23808080' fill-opacity='0.02' stroke='%23808080' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
 /* ── 4. Matrix Dot Grid ── */
 .dotMatrix {
   position: absolute;
@@ -135,7 +143,7 @@
 .isometricCubes {
   position: absolute;
   inset: 0;
-  background-color: color-mix(in srgb, var(--color-text-primary) 14%, transparent);
+  background-color: color-mix(in srgb, var(--color-text-primary) 3%, transparent);
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16.17v32.33L28 64.67 0 48.5V16.17z M28 32.33V0 M28 32.33L56 48.5 M28 32.33L0 48.5 M0 48.5l28 16.17 28-16.17v32.33L28 97 0 80.83z' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16.17v32.33L28 64.67 0 48.5V16.17z M28 32.33V0 M28 32.33L56 48.5 M28 32.33L0 48.5 M0 48.5l28 16.17 28-16.17v32.33L28 97 0 80.83z' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E");
   -webkit-mask-size: 56px 97px;
