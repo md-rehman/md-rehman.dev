@@ -28,7 +28,6 @@ export function GlassAppCard({
   imageSrc,
   imageBgColor,
   priority,
-  badge,
   githubUrl,
   npmUrl,
 }: GlassAppCardProps) {
@@ -55,16 +54,6 @@ export function GlassAppCard({
         if (e.key === "Enter") handleCardClick(e as unknown as React.MouseEvent<HTMLDivElement>);
       }}
     >
-      {/* macOS Traffic Lights Header */}
-      <div className={styles.cardHeader}>
-        <div className={styles.trafficLights}>
-          <div className={`${styles.dot} ${styles.dotRed}`} />
-          <div className={`${styles.dot} ${styles.dotYellow}`} />
-          <div className={`${styles.dot} ${styles.dotGreen}`} />
-        </div>
-        {badge && <span className={styles.categoryBadge}>{badge}</span>}
-      </div>
-
       {/* Image Preview Container */}
       <div className={styles.imageWrapper}>
         <div

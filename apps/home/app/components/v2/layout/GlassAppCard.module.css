@@ -19,49 +19,6 @@
   box-shadow: var(--glass-shadow), 0 24px 50px rgba(0, 0, 0, 0.45);
 }
 
-.cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--glass-border);
-  background: rgba(var(--glass-bg-rgb), 0.15);
-}
-
-.trafficLights {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-}
-
-.dotRed {
-  background-color: #ff5f56;
-}
-
-.dotYellow {
-  background-color: #ffbd2e;
-}
-
-.dotGreen {
-  background-color: #27c93f;
-}
-
-.categoryBadge {
-  font-size: 0.725rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: var(--radius-xl, 24px);
-  background: var(--color-surface);
-  border: 1px solid var(--glass-border);
-  color: var(--color-text-secondary);
-}
-
 .imageWrapper {
   position: relative;
   width: 100%;
