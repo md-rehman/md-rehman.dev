@@ -4,7 +4,6 @@ export type PatternType =
   | "dots"
   | "crosshair"
   | "isometric-cubes"
-  | "topographic"
   | "ruler-grid";
 
 export interface PatternConfig {
@@ -44,12 +43,6 @@ export const BACKGROUND_PATTERNS: PatternConfig[] = [
     name: "3D Wireframe Cube Voxels",
     description: "Axonometric tumbling 3D wireframe cube voxel grid",
     badge: "Voxel",
-  },
-  {
-    id: "topographic",
-    name: "Topographic Elevation Contours",
-    description: "Delicate geospatial elevation contour curves mapping altitude gradients",
-    badge: "Topo",
   },
   {
     id: "ruler-grid",

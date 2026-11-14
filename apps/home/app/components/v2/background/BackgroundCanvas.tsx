@@ -19,8 +19,6 @@ export function BackgroundCanvas() {
         return styles.crosshairMatrix;
       case "isometric-cubes":
         return styles.isometricCubes;
-      case "topographic":
-        return styles.topographicContours;
       case "ruler-grid":
         return styles.defaultGrid;
       default:
