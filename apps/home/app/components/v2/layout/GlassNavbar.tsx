@@ -10,7 +10,6 @@ import {
   RulerIcon,
   CompanionIcon,
   PlannerIcon,
-  PatternIcon,
   LayersIcon,
   SunIcon,
   MoonIcon,
@@ -44,7 +43,7 @@ function getServerThemeSnapshot(): boolean {
 }
 
 export function GlassNavbar() {
-  const { cyclePattern, currentPatternConfig, toggleModal } = useUIPreferences();
+  const { toggleModal } = useUIPreferences();
   const isDark = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   const toggleTheme = () => {
@@ -78,34 +77,6 @@ export function GlassNavbar() {
       </div>
 
       <div className={styles.right}>
-        {/* Background Pattern Switcher Button on the right (Requested) */}
-        <GlassTooltip
-          content={
-            <div>
-              <div style={{ fontWeight: 600 }}>Background Pattern</div>
-              <div style={{ opacity: 0.85 }}>{currentPatternConfig.name}</div>
-              <div style={{ fontSize: "0.7rem", marginTop: 4, color: "var(--color-accent)" }}>
-                Click to switch pattern
-              </div>
-            </div>
-          }
-          placement="bottom"
-        >
-          <button
-            type="button"
-            className={styles.navButton}
-            onClick={cyclePattern}
-            aria-label={`Toggle background pattern. Currently ${currentPatternConfig.name}`}
-            suppressHydrationWarning
-          >
-            <PatternIcon size={16} />
-            <span>Pattern</span>
-            <span className={styles.patternBadge} suppressHydrationWarning>
-              {currentPatternConfig.badge}
-            </span>
-          </button>
-        </GlassTooltip>
-
         {/* Floating Glass Inspector Modal Launcher */}
         <GlassTooltip content="Open Glass Inspector" placement="bottom">
           <button
