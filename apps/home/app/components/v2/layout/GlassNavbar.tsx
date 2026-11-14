@@ -2,6 +2,7 @@
 
 import React, { useSyncExternalStore } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./GlassNavbar.module.css";
 import { useUIPreferences } from "../context/UIPreferencesContext";
 import { GlassTooltip } from "../glass/GlassTooltip";
@@ -56,7 +57,14 @@ export function GlassNavbar() {
     <header className={styles.topbar}>
       <div className={styles.left}>
         <Link href="/" className={styles.brandLink} title="Mohd. Rehman Baig" aria-label="Home">
-          R
+          <Image
+            src="/logo.png"
+            alt="Mohd. Rehman Baig Logo"
+            width={28}
+            height={28}
+            className={styles.brandLogo}
+            priority
+          />
         </Link>
 
         {HOME_NAV_ITEMS.map((item) => {

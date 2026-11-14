@@ -61,6 +61,14 @@
   transform: translateY(0);
 }
 
+.brandLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: contain;
+  display: block;
+}
+
 .navButton {
   display: flex;
   align-items: center;
