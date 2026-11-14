@@ -15,8 +15,6 @@ export function BackgroundCanvas() {
         return styles.dualGrid;
       case "diamond":
         return styles.diamondMesh;
-      case "fading-circuit":
-        return styles.fadingCircuit;
       case "dots":
         return styles.dotMatrix;
       default:

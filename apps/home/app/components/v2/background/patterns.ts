@@ -2,7 +2,6 @@ export type PatternType =
   | "ruler-grid"
   | "dual-grid"
   | "diamond"
-  | "fading-circuit"
   | "dots";
 
 export interface PatternConfig {
@@ -22,7 +21,7 @@ export const BACKGROUND_PATTERNS: PatternConfig[] = [
   {
     id: "dual-grid",
     name: "Architectural Dual Grid",
-    description: "24px minor grid coupled with 120px major grid and crosshairs",
+    description: "Dashed 120px major structural grid with subtle dotted 24px blueprint subdivisions",
     badge: "Architectural",
   },
   {
@@ -30,12 +29,6 @@ export const BACKGROUND_PATTERNS: PatternConfig[] = [
     name: "Isometric Diamond Mesh",
     description: "45-degree intersecting angled mesh",
     badge: "Isometric",
-  },
-  {
-    id: "fading-circuit",
-    name: "Fading Circuit Matrix",
-    description: "Procedural randomized dashed grid lines fading organically",
-    badge: "Procedural",
   },
   {
     id: "dots",
