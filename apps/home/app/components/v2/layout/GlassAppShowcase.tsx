@@ -1,11 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "./GlassAppShowcase.module.css";
-import { GlassAppCard } from "./GlassAppCard";
+import { GlassAppCard, GlassAppCardProps } from "./GlassAppCard";
+import { FEATURE_FLAGS } from "../config/features";
+
+export type ProjectCategory = "all" | "libraries" | "apps" | "mobile";
+
+interface CategoryFilter {
+  id: ProjectCategory;
+  label: string;
+}
+
+const CATEGORIES: CategoryFilter[] = [
+  { id: "all", label: "All Projects" },
+  { id: "libraries", label: "Libraries & Tools" },
+  { id: "apps", label: "Full-Stack Web" },
+  { id: "mobile", label: "Mobile & Expo" },
+];
+
+interface ShowcaseApp extends GlassAppCardProps {
+  categories: ProjectCategory[];
+}
 
 // EXACT ORIGINAL APPS LIST FROM apps/home/app/components/AppShowcase.tsx
-const APPS = [
+const APPS: ShowcaseApp[] = [
   {
     name: "react-native-ruler-date-picker",
     description:
@@ -14,10 +33,14 @@ const APPS = [
     href: "/react-native-ruler-date-picker",
     imageSrc: "/images/react-native-ruler-date-picker.png",
     imageBgColor: "#050b14",
-    badge: "Open Source",
     githubUrl: "https://github.com/md-rehman/react-native-ruler-date-picker",
     npmUrl: "https://www.npmjs.com/package/react-native-ruler-date-picker",
     priority: true,
+    featured: FEATURE_FLAGS.ENABLE_BENTO_PROJECT_LAYOUT,
+    categories: ["libraries", "mobile"],
+    metrics: ["⚡ 60 FPS Reanimated 3", "📱 Expo Config Plugin", "📦 npm v0.2.1"],
+    installCmd: "npm i react-native-ruler-date-picker",
+    deviceFrame: "mobile",
   },
   {
     name: "TV-Set",
@@ -26,6 +49,8 @@ const APPS = [
     techStack: ["Next.js", "p5.js", "Sass", "Tailwind"],
     href: "/tv-set",
     imageSrc: "/images/tv-set.png",
+    categories: ["apps"],
+    metrics: ["🎨 Generative p5.js", "📺 CRT Glitch Shaders", "🔀 10 Channels"],
   },
   {
     name: "Companion",
@@ -34,6 +59,8 @@ const APPS = [
     techStack: ["Next.js", "Supabase", "Tailwind v4", "TypeScript"],
     href: "/companion",
     imageSrc: "/images/companion.png",
+    categories: ["apps"],
+    metrics: ["🔐 Supabase Auth", "🎨 Tailwind v4", "🕌 Prayer Activity Tracker"],
   },
   {
     name: "Planner",
@@ -42,6 +69,8 @@ const APPS = [
     techStack: ["Next.js", "Supabase", "React", "TypeScript"],
     href: "/planner",
     imageSrc: "/images/planner.png",
+    categories: ["apps"],
+    metrics: ["📋 Kanban State Machine", "🎯 Drag & Drop", "⚡ Realtime Sync"],
   },
   {
     name: "Companion Expo",
@@ -50,6 +79,9 @@ const APPS = [
     techStack: ["React Native", "Expo", "TypeScript"],
     href: "/companion-app",
     imageSrc: "/images/companion.png",
+    categories: ["mobile"],
+    metrics: ["📱 React Native & Expo", "🔄 Offline Cache & Sync", "🔔 Timed Notifications"],
+    deviceFrame: "mobile",
   },
   {
     name: "NativeBase",
@@ -59,6 +91,13 @@ const APPS = [
     href: "https://nativebase.io/",
     imageSrc: "/images/nativebase.png",
     imageBgColor: "#0f172a",
+    githubUrl: "https://github.com/GeekyAnts/NativeBase",
+    npmUrl: "https://www.npmjs.com/package/native-base",
+    featured: FEATURE_FLAGS.ENABLE_BENTO_PROJECT_LAYOUT,
+    badge: "Core Contributor",
+    categories: ["libraries"],
+    metrics: ["⭐ 20K+ GitHub Stars", "🧩 40+ Components", "👥 50K+ Active Devs"],
+    installCmd: "npm i native-base",
   },
   {
     name: "NativeBase Kitchen Sink",
@@ -68,10 +107,24 @@ const APPS = [
     href: "https://docs.nativebase.io/kitchen-sink",
     imageSrc: "/images/nativebase-kitchen-sink.png",
     imageBgColor: "#0f172a",
+    categories: ["libraries"],
+    metrics: ["📱 Expo Component Showcase", "✨ Universal Web & Mobile", "🚀 Live Controls"],
   },
 ];
 
 export function GlassAppShowcase() {
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>("all");
+
+  const getCategoryCount = (catId: ProjectCategory) => {
+    if (catId === "all") return APPS.length;
+    return APPS.filter((app) => app.categories.includes(catId)).length;
+  };
+
+  const filteredApps =
+    !FEATURE_FLAGS.ENABLE_PROJECT_FILTERS || activeCategory === "all"
+      ? APPS
+      : APPS.filter((app) => app.categories.includes(activeCategory));
+
   return (
     <section id="projects" className={styles.section}>
       <div className={styles.sectionHeader}>
@@ -82,10 +135,33 @@ export function GlassAppShowcase() {
         <p className={styles.sectionSubtitle}>
           A collection of personal projects crafted with care, alongside open-source systems I&apos;ve helped shape 💡
         </p>
+
+        {/* Feature-Flagged Category Filter Bar */}
+        {FEATURE_FLAGS.ENABLE_PROJECT_FILTERS && (
+          <div className={styles.filterBar} role="tablist" aria-label="Project categories">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              const count = getCategoryCount(cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`${styles.filterPill} ${isActive ? styles.filterPillActive : ""}`}
+                  onClick={() => setActiveCategory(cat.id)}
+                >
+                  <span>{cat.label}</span>
+                  <span className={styles.filterCount}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className={styles.grid}>
-        {APPS.map((app) => (
+        {filteredApps.map((app) => (
           <GlassAppCard key={app.name} {...app} />
         ))}
       </div>
