@@ -58,7 +58,7 @@ const APPS: ShowcaseApp[] = [
       "A prayer and namaz activity tracker with authentication via Supabase. Track your daily prayers (Fajr, Dhuhr, Asr, Maghrib, Isha), maintain streaks, and visualize your consistency — all in a clean, focused interface.",
     techStack: ["Next.js", "Supabase", "Tailwind v4", "TypeScript"],
     href: "/companion",
-    imageSrc: "/images/companion.png",
+    imageSrc: "/images/companion-web.png",
     categories: ["apps"],
     metrics: ["🔐 Supabase Auth", "🎨 Tailwind v4", "🕌 Prayer Activity Tracker"],
   },
