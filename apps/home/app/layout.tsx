@@ -14,6 +14,11 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   display: "swap",
 });
+const library3Am = localFont({
+  src: "./fonts/Library3AM-Soft.otf",
+  variable: "--font-library-3am",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://md-rehman.dev"),
@@ -256,7 +261,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${library3Am.variable}`} suppressHydrationWarning>
         <ThemeInitializer defaultTheme="shades-of-grey" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>

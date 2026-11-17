@@ -35,6 +35,8 @@
 }
 
 .gradientText {
+  font-family: var(--font-library-3am), var(--font-geist-sans), sans-serif;
+  letter-spacing: 0.02em;
   background: linear-gradient(135deg, var(--color-accent) 0%, #818cf8 60%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

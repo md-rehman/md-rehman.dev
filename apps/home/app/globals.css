@@ -161,6 +161,8 @@ body::after {
    UTILITY CLASSES
    ═══════════════════════════════════════════ */
 .gradient-text {
+  font-family: var(--font-library-3am), var(--font-geist-sans), sans-serif;
+  letter-spacing: 0.02em;
   color: var(--accent-primary);
   background: var(--accent-gradient);
   background-size: 200% 200%;
