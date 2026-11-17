@@ -23,3 +23,4 @@ Vercel rewrites forward subpaths to individual micro-apps:
 - `/companion` ➔ `companion` app
 - `/planner` ➔ `planner` app
 - `/docs` ➔ `docs` app
+- `/react-native-ruler-date-picker` ➔ `react-native-ruler-date-picker` docs app

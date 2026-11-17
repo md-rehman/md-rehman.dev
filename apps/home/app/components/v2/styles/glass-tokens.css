@@ -1,0 +1,82 @@
+/* ══════════════════════════════════════════════════════════════
+   EXACT DESIGN TOKENS FROM REACT-NATIVE-RULER-DATE-PICKER
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Surface ── */
+  --color-bg: #F5F5F7;
+  --color-surface: rgba(255, 255, 255, 0.65);
+  --color-surface-hover: rgba(255, 255, 255, 0.85);
+
+  /* ── Text ── */
+  --color-text-primary: #1D1D1F;
+  --color-text-secondary: #6E6E73;
+  --color-text-muted: #AEAEB2;
+
+  /* ── Accent ── */
+  --color-accent: #007AFF;
+  --color-accent-rgb: 0, 122, 255;
+  --color-accent-hover: #0056CC;
+
+  /* ── Border ── */
+  --color-border: #E5E5EA;
+
+  /* ── Glass Effect ── */
+  --glass-bg-rgb: 255, 255, 255;
+  --glass-bg-alpha: 0.35;
+  --glass-bg: rgba(var(--glass-bg-rgb), var(--glass-bg-alpha));
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: 12px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ── Radius ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* ── Nav ── */
+  --nav-width: 300px;
+  --topbar-height: 56px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+[data-theme="dark"],
+[data-theme="nebula"],
+[data-theme="dark-glitch"],
+[data-theme="shades-of-grey"] {
+  --color-bg: #1C1C1E;
+  --color-surface: rgba(44, 44, 46, 0.6);
+  --color-surface-hover: rgba(44, 44, 46, 0.8);
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A1A1A6;
+  --color-text-muted: #636366;
+  --color-accent: #0A84FF;
+  --color-accent-rgb: 10, 132, 255;
+  --color-accent-hover: #409CFF;
+  --color-border: #38383A;
+  --glass-bg-rgb: 44, 44, 46;
+  --glass-bg-alpha: 0.35;
+  --glass-bg: rgba(var(--glass-bg-rgb), var(--glass-bg-alpha));
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}

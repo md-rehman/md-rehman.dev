@@ -1,0 +1,148 @@
+.section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px var(--spacing-lg, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.sectionTag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.sectionTitle {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.gradientText {
+  font-family: var(--font-library-3am), var(--font-geist-sans), sans-serif;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--color-accent) 0%, #818cf8 60%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sectionSubtitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  max-width: 620px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Feature-Flagged Floating Filter Capsules */
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 6px;
+  border-radius: var(--radius-xl, 24px);
+  background: var(--color-surface);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px));
+  box-shadow: var(--glass-shadow);
+}
+
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius-xl, 24px);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast, 150ms ease);
+}
+
+.filterPill:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.filterPillActive {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, var(--color-accent) 0%, #409cff 100%) !important;
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+}
+
+.filterCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.12);
+  color: inherit;
+}
+
+.filterPillActive .filterCount {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+  gap: 28px;
+}
+
+@media (max-width: 1080px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterBar {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 6px;
+  }
+
+  .filterPill {
+    padding: 0 12px;
+    height: 32px;
+    font-size: 0.775rem;
+  }
+}

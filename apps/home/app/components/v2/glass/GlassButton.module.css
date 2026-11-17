@@ -1,0 +1,108 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 16px));
+  border: 1px solid var(--glass-border);
+  color: var(--glass-text-secondary);
+  box-shadow: var(--glass-shadow);
+  transition:
+    color var(--glass-transition-fast),
+    background-color var(--glass-transition-fast),
+    border-color var(--glass-transition-fast),
+    box-shadow var(--glass-transition-fast),
+    transform var(--glass-transition-fast);
+  user-select: none;
+}
+
+.button:hover {
+  color: var(--glass-text-primary);
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--glass-shadow-elevated);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* ── Variants ── */
+
+/* Pill (Navbar links, filters) */
+.pill {
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+/* Icon button (Theme, Pattern, Social) */
+.icon {
+  border-radius: var(--radius-md, 12px);
+  width: 38px;
+  height: 38px;
+  padding: 0;
+}
+
+/* CTA Gradient Button */
+.cta {
+  border-radius: var(--radius-full);
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--glass-accent) 0%, #38bdf8 100%);
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(var(--glass-accent-rgb), 0.35);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(var(--glass-accent-rgb), 0.5);
+  color: #ffffff;
+}
+
+/* Chip / Badge tag */
+.chip {
+  border-radius: var(--radius-sm, 8px);
+  padding: 4px 10px;
+  font-size: 0.775rem;
+  border: 1px solid var(--glass-border);
+}
+
+/* ── Active State ── */
+.active {
+  color: var(--glass-accent);
+  background: rgba(var(--glass-accent-rgb), 0.12);
+  border-color: rgba(var(--glass-accent-rgb), 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Sizes ── */
+.sm {
+  padding: 4px 10px;
+  font-size: 0.775rem;
+}
+
+.sm.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.lg {
+  padding: 12px 26px;
+  font-size: 1rem;
+}
+
+.lg.icon {
+  width: 44px;
+  height: 44px;
+}
+

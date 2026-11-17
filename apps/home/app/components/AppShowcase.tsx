@@ -3,6 +3,18 @@ import styles from "./AppShowcase.module.css";
 
 const APPS = [
   {
+    name: "react-native-ruler-date-picker",
+    description:
+      "A performant, customizable horizontal ruler date picker & scroll wheel for React Native and Expo. Powered by 60 FPS Reanimated 3 physics, dual-speed haptic feedback, compound anatomy, and fluid date range selection.",
+    techStack: ["React Native", "Expo", "Reanimated 3", "TypeScript"],
+    href: "/react-native-ruler-date-picker",
+    imageSrc: "/images/react-native-ruler-date-picker.png",
+    imageBgColor: "#050b14",
+    badge: "Open Source",
+    githubUrl: "https://github.com/md-rehman/react-native-ruler-date-picker",
+    npmUrl: "https://www.npmjs.com/package/react-native-ruler-date-picker",
+  },
+  {
     name: "TV-Set",
     description:
       "A retro TV channel-surfing experience with generative p5.js visuals and glitch effects. Flip through channels of mesmerizing procedural animations, each rendered in real-time with unique visual styles and CRT-inspired aesthetics.",

@@ -36,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.85,
     },
+    {
+      url: `${baseUrl}/react-native-ruler-date-picker`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
   ];
 
   // TV Set channel routes (0 through 9)

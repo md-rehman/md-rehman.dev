@@ -14,6 +14,11 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   display: "swap",
 });
+const library3Am = localFont({
+  src: "./fonts/Library3AM-Soft.otf",
+  variable: "--font-library-3am",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://md-rehman.dev"),
@@ -176,6 +181,24 @@ const jsonLd = {
       },
     },
     {
+      "@type": "SoftwareApplication",
+      "@id": "https://md-rehman.dev/react-native-ruler-date-picker/#application",
+      "name": "react-native-ruler-date-picker",
+      "operatingSystem": "iOS, Android, Web",
+      "applicationCategory": "DeveloperApplication",
+      "url": "https://md-rehman.dev/react-native-ruler-date-picker",
+      "description":
+        "A performant, customizable horizontal ruler date picker & scroll wheel for React Native and Expo with 60 FPS Reanimated 3 physics.",
+      "author": {
+        "@id": "https://md-rehman.dev/#person",
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
+    },
+    {
       "@type": "ItemList",
       "@id": "https://md-rehman.dev/#sitelinks",
       "name": "Featured Applications",
@@ -201,6 +224,13 @@ const jsonLd = {
           "description": "Interactive Kanban Task Management Board",
           "url": "https://md-rehman.dev/planner",
         },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": "react-native-ruler-date-picker",
+          "description": "60 FPS Horizontal Ruler Date Picker & Scroll Wheel for React Native & Expo",
+          "url": "https://md-rehman.dev/react-native-ruler-date-picker",
+        },
       ],
     },
   ],
@@ -214,6 +244,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          id="suppress-extension-noise"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(typeof window==='undefined')return;try{new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].type==='attributes'&&m[i].attributeName&&m[i].attributeName.indexOf('bis_')===0){m[i].target.removeAttribute(m[i].attributeName);}}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['bis_skin_checked','bis_register','bis_size']});}catch(e){}var origError=console.error;console.error=function(){var s='';for(var i=0;i<arguments.length;i++){s+=String(arguments[i])+' ';}if(s.indexOf('bis_skin_checked')!==-1||s.indexOf('bis_')!==-1){return;}origError.apply(console,arguments);};window.addEventListener('unhandledrejection',function(e){try{var r=e.reason;var t=(r&&(r.stack||r.message))?String(r.stack||r.message):String(r);if(t.indexOf('M_ID')!==-1||t.indexOf('chrome-extension://')!==-1||t.indexOf('moz-extension://')!==-1||t.indexOf('safari-web-extension://')!==-1){e.stopImmediatePropagation();e.preventDefault();}}catch(err){}},true);})();`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -225,7 +261,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${library3Am.variable}`} suppressHydrationWarning>
         <ThemeInitializer defaultTheme="shades-of-grey" />
         <AnalyticsWrapper>{children}</AnalyticsWrapper>
       </body>
