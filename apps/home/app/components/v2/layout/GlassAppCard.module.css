@@ -61,6 +61,12 @@
     border-right: 1px solid var(--glass-border);
   }
 
+  .cardFeatured .image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
   .cardFeatured .content {
     padding: 28px 24px;
     justify-content: space-between;

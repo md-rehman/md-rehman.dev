@@ -40,7 +40,6 @@ const APPS: ShowcaseApp[] = [
     categories: ["libraries", "mobile"],
     metrics: ["⚡ 60 FPS Reanimated 3", "📱 Expo Config Plugin", "📦 npm v0.2.1"],
     installCmd: "npm i react-native-ruler-date-picker",
-    deviceFrame: "mobile",
   },
   {
     name: "TV-Set",
@@ -81,7 +80,6 @@ const APPS: ShowcaseApp[] = [
     imageSrc: "/images/companion.png",
     categories: ["mobile"],
     metrics: ["📱 React Native & Expo", "🔄 Offline Cache & Sync", "🔔 Timed Notifications"],
-    deviceFrame: "mobile",
   },
   {
     name: "NativeBase",
@@ -90,7 +88,7 @@ const APPS: ShowcaseApp[] = [
     techStack: ["React Native", "React", "TypeScript"],
     href: "https://nativebase.io/",
     imageSrc: "/images/nativebase.png",
-    imageBgColor: "#0f172a",
+    imageBgColor: "#0b0f19",
     githubUrl: "https://github.com/GeekyAnts/NativeBase",
     npmUrl: "https://www.npmjs.com/package/native-base",
     featured: FEATURE_FLAGS.ENABLE_BENTO_PROJECT_LAYOUT,
