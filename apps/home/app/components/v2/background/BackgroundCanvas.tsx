@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useUIPreferences } from "../context/UIPreferencesContext";
+import { PointerLight } from "../effects/PointerLight";
 import styles from "./BackgroundCanvas.module.css";
 
 export function BackgroundCanvas() {
@@ -33,6 +34,9 @@ export function BackgroundCanvas() {
       {/* Background ambient glows matching react-native-ruler-date-picker */}
       <div className={styles.glowTop} />
       <div className={styles.glowAccent} />
+
+      {/* Interactive Light following pointer */}
+      <PointerLight />
 
       {/* Pattern Grid Layer */}
       <div className={getPatternClass()} suppressHydrationWarning />
