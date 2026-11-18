@@ -26,7 +26,7 @@ export function BackgroundCanvas() {
       case "ruler-grid":
         return styles.defaultGrid;
       default:
-        return styles.diamondMesh;
+        return styles.diamondAlternate;
     }
   };
 
@@ -47,7 +47,7 @@ export function BackgroundCanvas() {
       case "ruler-grid":
         return styles.maskDefaultGrid;
       default:
-        return styles.maskDiamondMesh;
+        return styles.maskDiamondAlternate;
     }
   };
 

@@ -17,6 +17,7 @@ interface UIPreferencesContextType {
 const UIPreferencesContext = createContext<UIPreferencesContextType | undefined>(undefined);
 
 const STORAGE_KEY = "home-bg-pattern";
+const DEFAULT_PATTERN: PatternType = "diamond-alternate";
 const patternListeners = new Set<() => void>();
 
 function subscribePattern(callback: () => void) {
@@ -33,18 +34,18 @@ function subscribePattern(callback: () => void) {
 }
 
 function getPatternSnapshot(): PatternType {
-  if (typeof window === "undefined") return "diamond";
+  if (typeof window === "undefined") return DEFAULT_PATTERN;
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as PatternType | null;
     if (saved && BACKGROUND_PATTERNS.some((p) => p.id === saved)) {
       return saved;
     }
   } catch {}
-  return "diamond";
+  return DEFAULT_PATTERN;
 }
 
 function getServerPatternSnapshot(): PatternType {
-  return "diamond";
+  return DEFAULT_PATTERN;
 }
 
 function emitPatternChange(next: PatternType) {
@@ -66,7 +67,7 @@ export function UIPreferencesProvider({ children }: { children: React.ReactNode 
     const currentIndex = BACKGROUND_PATTERNS.findIndex((p) => p.id === pattern);
     const nextIndex = (currentIndex + 1) % BACKGROUND_PATTERNS.length;
     const target = BACKGROUND_PATTERNS[nextIndex];
-    const next: PatternType = target ? target.id : "diamond";
+    const next: PatternType = target ? target.id : DEFAULT_PATTERN;
     emitPatternChange(next);
   }, [pattern]);
 
