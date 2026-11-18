@@ -1,5 +1,5 @@
 .pointerLight {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 700px;
@@ -13,12 +13,11 @@
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   background: radial-gradient(
     circle,
-    rgba(var(--color-accent-rgb, 10, 132, 255), 0.2) 0%,
-    rgba(129, 140, 248, 0.1) 35%,
-    rgba(192, 132, 252, 0.03) 55%,
+    rgba(var(--color-accent-rgb, 10, 132, 255), 1) 0%,
+    rgba(129, 140, 248, 0.7) 35%,
+    rgba(192, 132, 252, 0.3) 55%,
     transparent 70%
   );
-  filter: blur(45px);
   z-index: 1;
 }
 
