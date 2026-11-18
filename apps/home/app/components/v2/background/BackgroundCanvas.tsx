@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useUIPreferences } from "../context/UIPreferencesContext";
+import { FEATURE_FLAGS } from "../config/features";
 import { PointerLight } from "../effects/PointerLight";
 import styles from "./BackgroundCanvas.module.css";
 
@@ -60,9 +61,11 @@ export function BackgroundCanvas() {
       <div className={`${styles.patternLayer} ${getPatternClass()}`} suppressHydrationWarning />
 
       {/* Interactive Light strictly illuminating pattern wireframe strokes (z-index: 2) */}
-      <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
-        <PointerLight />
-      </div>
+      {FEATURE_FLAGS.ENABLE_POINTER_LIGHT && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <PointerLight />
+        </div>
+      )}
     </div>
   );
 }

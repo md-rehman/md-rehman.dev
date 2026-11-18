@@ -14,5 +14,11 @@ export const FEATURE_FLAGS = {
    * with prominent 2-column featured styling and metrics.
    */
   ENABLE_BENTO_PROJECT_LAYOUT: true,
+
+  /**
+   * Enables 60fps ambient pointer light effect with pattern wireframe masking.
+   * Set to `false` to disable the pointer light entirely.
+   */
+  ENABLE_POINTER_LIGHT: false,
 } as const;
 
