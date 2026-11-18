@@ -1,0 +1,79 @@
+.rippleContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.rippleWave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170vmax;
+  height: 170vmax;
+  margin-left: -85vmax;
+  margin-top: -85vmax;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  background: radial-gradient(
+    circle,
+    transparent 45%,
+    rgba(var(--color-accent-rgb, 10, 132, 255), 0.7) 48%,
+    rgba(129, 140, 248, 1) 50%,
+    rgba(192, 132, 252, 0.9) 52%,
+    rgba(var(--color-accent-rgb, 10, 132, 255), 0.7) 54%,
+    transparent 57%
+  );
+  opacity: 0;
+  animation: heartbeatWave var(--heartbeat-cycle, 3.8s) cubic-bezier(0.12, 0.7, 0.2, 1) infinite;
+}
+
+/* Secondary pulse wavefront for the "lub-dub" heartbeat cadence */
+.waveSecondary {
+  animation-delay: var(--heartbeat-delay, 0.35s);
+  background: radial-gradient(
+    circle,
+    transparent 45.5%,
+    rgba(129, 140, 248, 0.7) 48.5%,
+    rgba(192, 132, 252, 1) 50%,
+    rgba(129, 140, 248, 0.7) 51.5%,
+    transparent 54.5%
+  );
+}
+
+@keyframes heartbeatWave {
+  0% {
+    transform: scale3d(0.02, 0.02, 1);
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  88% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0.2;
+  }
+  92% {
+    transform: scale3d(1.08, 1.08, 1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale3d(1.08, 1.08, 1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rippleContainer {
+    display: none !important;
+  }
+}

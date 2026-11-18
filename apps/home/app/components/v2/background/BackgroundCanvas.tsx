@@ -4,6 +4,7 @@ import React from "react";
 import { useUIPreferences } from "../context/UIPreferencesContext";
 import { FEATURE_FLAGS } from "../config/features";
 import { PointerLight } from "../effects/PointerLight";
+import { HeartbeatRipple } from "../effects/HeartbeatRipple";
 import styles from "./BackgroundCanvas.module.css";
 
 export function BackgroundCanvas() {
@@ -64,6 +65,13 @@ export function BackgroundCanvas() {
       {FEATURE_FLAGS.ENABLE_POINTER_LIGHT && (
         <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
           <PointerLight />
+        </div>
+      )}
+
+      {/* Rhythmic Heartbeat Ripple illuminating pattern wireframe strokes (z-index: 2) */}
+      {FEATURE_FLAGS.ENABLE_HEARTBEAT_RIPPLE && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <HeartbeatRipple />
         </div>
       )}
     </div>
