@@ -1,36 +1,74 @@
-.pointerLight {
+/* ══════════════════════════════════════════════════════════════
+   POINTER LIGHT PING-PONG RIPPLE STYLING
+   Continuous ping-pong ripple wavefront expanding outward to a
+   customizable radius and contracting back around the cursor,
+   illuminating the canvas pattern wireframe stencil mask.
+   ══════════════════════════════════════════════════════════════ */
+
+.pointerTracker {
   position: absolute;
   top: 0;
   left: 0;
-  width: 700px;
-  height: 700px;
-  margin-left: -350px;
-  margin-top: -350px;
-  border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  background: radial-gradient(
-    circle,
-    var(--effect-pointer-core) 0%,
-    var(--effect-pointer-mid) 35%,
-    var(--effect-pointer-outer) 55%,
-    transparent 70%
-  );
   z-index: 1;
 }
 
-/* Touch device & motion sensitivity optimizations */
+.rippleRing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--pointer-max-diameter, 440px);
+  height: var(--pointer-max-diameter, 440px);
+  margin-left: calc(var(--pointer-max-diameter, 440px) * -0.5);
+  margin-top: calc(var(--pointer-max-diameter, 440px) * -0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center center;
+
+  /* Concentric wavefront ring with customizable stroke thickness & single-seed colors */
+  background: radial-gradient(
+    circle,
+    var(--effect-pointer-core) 0%,
+    transparent calc(var(--pointer-thickness, 5px) * 1.5),
+    transparent calc(50% - var(--pointer-thickness, 5px)),
+    var(--effect-ripple-halo-1) calc(50% - var(--pointer-thickness, 5px) * 0.5),
+    var(--effect-ripple-crest-1) 50%,
+    var(--effect-ripple-halo-2) calc(50% + var(--pointer-thickness, 5px) * 0.5),
+    transparent calc(50% + var(--pointer-thickness, 5px))
+  );
+
+  /* Ping-pong oscillation: expands out to max radius, then reverses and contracts back */
+  animation: pointerPingPong var(--pointer-cycle, 2.0s) cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
+}
+
+@keyframes pointerPingPong {
+  0% {
+    transform: scale3d(var(--pointer-min-scale, 0.15), var(--pointer-min-scale, 0.15), 1);
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0.65;
+  }
+}
+
+/* Touch device optimizations: disable on coarse / touch devices */
 @media (hover: none), (pointer: coarse) {
-  .pointerLight {
+  .pointerTracker {
     display: none !important;
   }
 }
 
+/* Reduced motion sensitivity */
 @media (prefers-reduced-motion: reduce) {
-  .pointerLight {
+  .pointerTracker {
     display: none !important;
   }
 }
-

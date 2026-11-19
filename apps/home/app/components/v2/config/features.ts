@@ -16,10 +16,10 @@ export const FEATURE_FLAGS = {
   ENABLE_BENTO_PROJECT_LAYOUT: true,
 
   /**
-   * Enables 60fps ambient pointer light effect with pattern wireframe masking.
+   * Enables 60fps ambient pointer light ripple effect with pattern wireframe masking.
    * Set to `false` to disable the pointer light entirely.
    */
-  ENABLE_POINTER_LIGHT: false,
+  ENABLE_POINTER_LIGHT: true,
 
   /**
    * Enables rhythmic heartbeat ripple effect expanding from screen center along pattern wireframes.
@@ -82,5 +82,36 @@ export const RAINDROP_RIPPLE_CONFIG = {
    * Maximum concurrent ripples active on screen to guarantee 60fps performance.
    */
   MAX_CONCURRENT_DROPS: 12,
+} as const;
+
+/**
+ * Easily customizable configuration for Pointer Light Ping-Pong Ripple
+ */
+export const POINTER_LIGHT_CONFIG = {
+  /**
+   * Duration of one full expansion-and-contraction cycle in seconds (speed).
+   * - 1.2s: brisk energetic pulse
+   * - 2.0s: smooth fluid breathing wave (Default)
+   * - 3.5s: slow, calm ambient radar wave
+   */
+  CYCLE_DURATION_SEC: .5,
+
+  /**
+   * Maximum expansion radius in pixels (the wave ring expands to this distance before reversing).
+   */
+  MAX_RADIUS_PX: 150,
+
+  /**
+   * Minimum contraction radius in pixels (the contracted inner ring).
+   */
+  MIN_RADIUS_PX: 20,
+
+  /**
+   * Thickness of the ripple ring wavefront stroke in pixels.
+   * - 2px: razor-sharp delicate line
+   * - 5px: crisp defined wireframe wave (Default)
+   * - 10px: thick luminous neon ring
+   */
+  THICKNESS_PX: 18,
 } as const;
 

@@ -1,10 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { POINTER_LIGHT_CONFIG } from "../config/features";
 import styles from "./PointerLight.module.css";
 
+/**
+ * PointerLight
+ *
+ * Fluid 60fps cursor-tracking ping-pong ripple wave.
+ * Instead of fading, the ripple expands outward to POINTER_LIGHT_CONFIG.MAX_RADIUS_PX
+ * and then smoothly reverses/contracts back to MIN_RADIUS_PX in a continuous breathing cycle.
+ * Illuminates strictly through the active pattern wireframe stencil mask.
+ */
 export function PointerLight() {
-  const lightRef = useRef<HTMLDivElement>(null);
+  const trackerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check if the device has hover capability
@@ -12,8 +21,8 @@ export function PointerLight() {
       return;
     }
 
-    const lightEl = lightRef.current;
-    if (!lightEl) return;
+    const trackerEl = trackerRef.current;
+    if (!trackerEl) return;
 
     let targetX = -1000;
     let targetY = -1000;
@@ -33,29 +42,29 @@ export function PointerLight() {
         isVisible = true;
         currentX = targetX;
         currentY = targetY;
-        lightEl.style.opacity = "1";
+        trackerEl.style.opacity = "1";
       }
     };
 
     const onPointerLeave = () => {
       isVisible = false;
-      lightEl.style.opacity = "0";
+      trackerEl.style.opacity = "0";
     };
 
     const onPointerEnter = () => {
       if (targetX > 0 && targetY > 0) {
         isVisible = true;
-        lightEl.style.opacity = "1";
+        trackerEl.style.opacity = "1";
       }
     };
 
     // Smooth physics-based fluid follow
     const updatePosition = () => {
       if (isVisible) {
-        const ease = 0.18;
+        const ease = 0.2;
         currentX += (targetX - currentX) * ease;
         currentY += (targetY - currentY) * ease;
-        lightEl.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        trackerEl.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
       }
       rafId = requestAnimationFrame(updatePosition);
     };
@@ -73,6 +82,19 @@ export function PointerLight() {
     };
   }, []);
 
-  return <div ref={lightRef} className={styles.pointerLight} aria-hidden="true" />;
-}
+  const maxDiameter = POINTER_LIGHT_CONFIG.MAX_RADIUS_PX * 2;
+  const minScale = (POINTER_LIGHT_CONFIG.MIN_RADIUS_PX / POINTER_LIGHT_CONFIG.MAX_RADIUS_PX).toFixed(3);
 
+  const ringStyles: React.CSSProperties = {
+    "--pointer-cycle": `${POINTER_LIGHT_CONFIG.CYCLE_DURATION_SEC}s`,
+    "--pointer-max-diameter": `${maxDiameter}px`,
+    "--pointer-min-scale": minScale,
+    "--pointer-thickness": `${POINTER_LIGHT_CONFIG.THICKNESS_PX}px`,
+  } as React.CSSProperties;
+
+  return (
+    <div ref={trackerRef} className={styles.pointerTracker} aria-hidden="true">
+      <div className={styles.rippleRing} style={ringStyles} />
+    </div>
+  );
+}
