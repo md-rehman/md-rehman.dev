@@ -10,6 +10,7 @@ import { GlassTimeline } from "./layout/GlassTimeline";
 import { GlassFooter } from "./layout/GlassFooter";
 import { InspectorModal } from "./glass/InspectorModal";
 import styles from "./HomeV2.module.css";
+import "./styles/one-color-to-rule-them-all.css";
 import "./styles/glass-tokens.css";
 
 export function HomeV2() {

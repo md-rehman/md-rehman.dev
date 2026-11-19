@@ -21,7 +21,7 @@
   border-radius: inherit;
   background: radial-gradient(
     500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(var(--color-accent-rgb, 10, 132, 255), 0.12),
+    color-mix(in srgb, var(--color-accent) 14%, transparent),
     transparent 50%
   );
   opacity: 0;
@@ -36,7 +36,7 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
   box-shadow: var(--glass-shadow), 0 24px 50px rgba(0, 0, 0, 0.45);
 }
 
@@ -238,8 +238,12 @@
   letter-spacing: 0.05em;
   padding: 3px 8px;
   border-radius: var(--radius-sm, 6px);
-  background: linear-gradient(135deg, rgba(var(--color-accent-rgb, 10, 132, 255), 0.2) 0%, rgba(129, 140, 248, 0.2) 100%);
-  border: 1px solid rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-accent) 20%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-secondary) 20%, transparent) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
   color: var(--color-accent);
 }
 
@@ -347,12 +351,12 @@
 .actionBtnPrimary {
   margin-left: auto;
   color: #ffffff !important;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #409cff 100%);
+  background: var(--gradient-cta);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 14px rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .actionBtnPrimary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(var(--color-accent-rgb, 10, 132, 255), 0.45);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-accent) 55%, transparent);
 }

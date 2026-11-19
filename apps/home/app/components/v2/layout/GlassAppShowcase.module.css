@@ -37,7 +37,7 @@
 .gradientText {
   font-family: var(--font-library-3am), var(--font-geist-sans), sans-serif;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #818cf8 60%, #c084fc 100%);
+  background: var(--gradient-headline);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -91,9 +91,9 @@
 
 .filterPillActive {
   color: #ffffff !important;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #409cff 100%) !important;
+  background: var(--gradient-cta) !important;
   border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 14px rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .filterCount {

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useCallback } from "react";
 import styles from "./GlassTimeline.module.css";
 
 // EXACT ORIGINAL EXPERIENCES FROM apps/home/app/components/ExperienceTimeline.tsx
@@ -65,6 +65,46 @@ const EXPERIENCES: Experience[] = [
   },
 ];
 
+function GlassExperienceCard({ exp }: { exp: Experience }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    cardRef.current.style.setProperty("--mouse-x", `${x}px`);
+    cardRef.current.style.setProperty("--mouse-y", `${y}px`);
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={styles.card}
+      onMouseMove={handleMouseMove}
+    >
+      <div className={styles.cardHeader}>
+        <div>
+          <h3 className={styles.roleTitle}>{exp.role}</h3>
+          <div className={styles.company}>{exp.company}</div>
+        </div>
+        <div className={styles.metaBadges}>
+          <span className={styles.glassPill}>{exp.duration}</span>
+          <span className={styles.glassPill}>{exp.location}</span>
+        </div>
+      </div>
+
+      <ul className={styles.detailsList}>
+        {exp.details.map((detail, idx) => (
+          <li key={idx} className={styles.detailItem}>
+            {detail}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function GlassTimeline() {
   return (
     <section id="experience" className={styles.section}>
@@ -80,28 +120,10 @@ export function GlassTimeline() {
 
       <div className={styles.timeline}>
         {EXPERIENCES.map((exp) => (
-          <div key={exp.company} className={styles.card}>
-            <div className={styles.cardHeader}>
-              <div>
-                <h3 className={styles.roleTitle}>{exp.role}</h3>
-                <div className={styles.company}>{exp.company}</div>
-              </div>
-              <div className={styles.metaBadges}>
-                <span className={styles.glassPill}>{exp.duration}</span>
-                <span className={styles.glassPill}>{exp.location}</span>
-              </div>
-            </div>
-
-            <ul className={styles.detailsList}>
-              {exp.details.map((detail, idx) => (
-                <li key={idx} className={styles.detailItem}>
-                  {detail}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <GlassExperienceCard key={exp.company} exp={exp} />
         ))}
       </div>
     </section>
   );
 }
+

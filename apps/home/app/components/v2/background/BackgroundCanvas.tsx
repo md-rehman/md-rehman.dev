@@ -2,10 +2,28 @@
 
 import React from "react";
 import { useUIPreferences } from "../context/UIPreferencesContext";
+import { FEATURE_FLAGS } from "../config/features";
+import { PointerLight } from "../effects/PointerLight";
+import { HeartbeatRipple } from "../effects/HeartbeatRipple";
+import { RaindropRipples } from "../effects/RaindropRipples";
 import styles from "./BackgroundCanvas.module.css";
 
 export function BackgroundCanvas() {
-  const { pattern } = useUIPreferences();
+  const { pattern, isRandomizeEnabled, activeRandomEffect } = useUIPreferences();
+
+  // When Randomize Experience is active, illuminate via exactly 1 randomly chosen effect.
+  // When inactive, fallback to explicit FEATURE_FLAGS.
+  const showPointerLight = isRandomizeEnabled
+    ? activeRandomEffect === "POINTER_LIGHT"
+    : FEATURE_FLAGS.ENABLE_POINTER_LIGHT;
+
+  const showHeartbeatRipple = isRandomizeEnabled
+    ? activeRandomEffect === "HEARTBEAT_RIPPLE"
+    : FEATURE_FLAGS.ENABLE_HEARTBEAT_RIPPLE;
+
+  const showRaindropRipple = isRandomizeEnabled
+    ? activeRandomEffect === "RAINDROP_RIPPLE"
+    : FEATURE_FLAGS.ENABLE_RAINDROP_RIPPLE;
 
   const getPatternClass = () => {
     switch (pattern) {
@@ -24,7 +42,28 @@ export function BackgroundCanvas() {
       case "ruler-grid":
         return styles.defaultGrid;
       default:
-        return styles.diamondMesh;
+        return styles.diamondAlternate;
+    }
+  };
+
+  const getPatternStrokeMaskClass = () => {
+    switch (pattern) {
+      case "diamond":
+        return styles.maskDiamondMesh;
+      case "diamond-alternate":
+        return styles.maskDiamondAlternate;
+      case "dual-grid":
+        return styles.maskDualGrid;
+      case "dots":
+        return styles.maskDotMatrix;
+      case "crosshair":
+        return styles.maskCrosshairMatrix;
+      case "isometric-cubes":
+        return styles.maskIsometricCubes;
+      case "ruler-grid":
+        return styles.maskDefaultGrid;
+      default:
+        return styles.maskDiamondAlternate;
     }
   };
 
@@ -34,8 +73,29 @@ export function BackgroundCanvas() {
       <div className={styles.glowTop} />
       <div className={styles.glowAccent} />
 
-      {/* Pattern Grid Layer */}
-      <div className={getPatternClass()} suppressHydrationWarning />
+      {/* Base Pattern Grid Layer (z-index: 1) */}
+      <div className={`${styles.patternLayer} ${getPatternClass()}`} suppressHydrationWarning />
+
+      {/* Interactive Light strictly illuminating pattern wireframe strokes (z-index: 2) */}
+      {showPointerLight && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <PointerLight />
+        </div>
+      )}
+
+      {/* Rhythmic Heartbeat Ripple illuminating pattern wireframe strokes (z-index: 2) */}
+      {showHeartbeatRipple && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <HeartbeatRipple />
+        </div>
+      )}
+
+      {/* Random Raindrop Ripples illuminating pattern wireframe strokes (z-index: 2) */}
+      {showRaindropRipple && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <RaindropRipples />
+        </div>
+      )}
     </div>
   );
 }

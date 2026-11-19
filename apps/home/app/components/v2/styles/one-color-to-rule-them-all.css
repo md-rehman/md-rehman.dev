@@ -1,0 +1,113 @@
+/* ══════════════════════════════════════════════════════════════
+   ONE COLOR TO RULE THEM ALL
+   Single-Seed Dynamic Color Engine for Mohd. Rehman Baig Portfolio
+   
+   Philosophy:
+   Define ONLY 1 master seed color (--color-seed).
+   Every surface, accent, glow, ripple wave, gradient, border,
+   and shadow is mathematically derived at the CSS level via
+   native CSS color-mix() and oklch() Relative Color Syntax.
+   Zero JavaScript calculation.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ══════════════════════════════════════════════════════════
+     0. THE ONE COLOR TO RULE THEM ALL
+     Change this single value to transform the entire website!
+     Examples:
+       #007AFF -> Apple Signature Blue (Default)
+       #10B981 -> Emerald Forest Cyber-Glass
+       #8B5CF6 -> Cosmic Violet Synthwave
+       #EC4899 -> Neon Fuchsia Cyberpunk
+       #F59E0B -> Sunset Amber
+     ══════════════════════════════════════════════════════════ */
+  --color-seed: #007AFF;
+
+  /* ── 1. Harmonic Accent Spectrum (OKLCH Hue Derivations) ── */
+  --color-accent: var(--color-seed);
+
+  /* Analogous secondary shift (+35° hue) - Replaces hardcoded indigo #818cf8 */
+  --color-accent-secondary: oklch(from var(--color-seed) l c calc(h + 35));
+
+  /* Triadic tertiary shift (+70° hue) - Replaces hardcoded purple #c084fc */
+  --color-accent-tertiary: oklch(from var(--color-seed) l c calc(h + 70));
+
+  /* Lifted vibrancy for primary active buttons - Replaces #409cff / #38bdf8 */
+  --color-accent-light: oklch(from var(--color-seed) calc(l + 0.12) c calc(h - 8));
+  --color-accent-hover: oklch(from var(--color-seed) calc(l + 0.08) c h);
+
+  /* Unified Signature Gradients */
+  --gradient-headline: linear-gradient(135deg,
+      var(--color-accent) 0%,
+      var(--color-accent-secondary) 60%,
+      var(--color-accent-tertiary) 100%);
+
+  --gradient-cta: linear-gradient(135deg,
+      var(--color-accent) 0%,
+      var(--color-accent-light) 100%);
+
+  --gradient-glass-accent: linear-gradient(135deg,
+      var(--color-accent) 0%,
+      var(--color-accent-secondary) 100%);
+
+  /* ── 2. Dynamic Radial Illumination Effects ── */
+  /* Heartbeat Ripple Wavefronts */
+  --effect-ripple-crest-1: oklch(from var(--color-accent-secondary) calc(l + 0.1) c h / 0.95);
+  --effect-ripple-crest-2: oklch(from var(--color-accent-tertiary) calc(l + 0.1) c h / 0.95);
+  --effect-ripple-halo-1: oklch(from var(--color-accent) l c h / 0.7);
+  --effect-ripple-halo-2: oklch(from var(--color-accent-secondary) l c h / 0.7);
+
+  /* Pointer Light Moving Halos */
+  --effect-pointer-core: oklch(from var(--color-accent) l c h / 0.95);
+  --effect-pointer-mid: oklch(from var(--color-accent-secondary) l c h / 0.7);
+  --effect-pointer-outer: oklch(from var(--color-accent-tertiary) l c h / 0.3);
+
+  /* Background Canvas Ambient Lights */
+  --effect-ambient-top: oklch(from var(--color-accent-secondary) l c h / 0.08);
+  --effect-ambient-accent: oklch(from var(--color-accent-tertiary) l c h / 0.12);
+}
+
+/* ── 3. Dark Mode Surfaces & Frosted Glass (Default) ── */
+:root,
+[data-theme="dark"],
+[data-theme="nebula"],
+[data-theme="dark-glitch"],
+[data-theme="shades-of-grey"] {
+  --color-bg: color-mix(in oklch, var(--color-seed) 4%, #0f1013);
+  --color-surface: color-mix(in oklch, var(--color-seed) 7%, rgba(35, 36, 40, 0.65));
+  --color-surface-hover: color-mix(in oklch, var(--color-seed) 11%, rgba(45, 46, 52, 0.85));
+
+  /* Unified Typography */
+  --color-text-primary: color-mix(in oklch, var(--color-seed) 4%, #F5F5F7);
+  --color-text-secondary: color-mix(in oklch, var(--color-seed) 10%, #A1A1A6);
+  --color-text-muted: color-mix(in oklch, var(--color-seed) 12%, #636366);
+  --glass-text-primary: var(--color-text-primary);
+  --glass-text-secondary: var(--color-text-secondary);
+  --glass-text-muted: var(--color-text-muted);
+  --glass-accent: var(--color-accent);
+
+  --color-border: color-mix(in oklch, var(--color-seed) 14%, #28282c);
+  --glass-border: color-mix(in srgb, var(--color-seed) 18%, rgba(255, 255, 255, 0.12));
+  --glass-shadow: 0 8px 32px color-mix(in srgb, var(--color-seed) 12%, rgba(0, 0, 0, 0.4));
+  --glass-bg: var(--color-surface);
+}
+
+/* ── 4. Light Mode Derivations (Inherits Same Seed) ── */
+[data-theme="light"] {
+  --color-bg: color-mix(in oklch, var(--color-seed) 3%, #F8F9FC);
+  --color-surface: color-mix(in oklch, var(--color-seed) 5%, rgba(255, 255, 255, 0.7));
+  --color-surface-hover: color-mix(in oklch, var(--color-seed) 8%, rgba(255, 255, 255, 0.9));
+
+  --color-text-primary: color-mix(in oklch, var(--color-seed) 5%, #1D1D1F);
+  --color-text-secondary: color-mix(in oklch, var(--color-seed) 12%, #6E6E73);
+  --color-text-muted: color-mix(in oklch, var(--color-seed) 14%, #AEAEB2);
+  --glass-text-primary: var(--color-text-primary);
+  --glass-text-secondary: var(--color-text-secondary);
+  --glass-text-muted: var(--color-text-muted);
+  --glass-accent: var(--color-accent);
+
+  --color-border: color-mix(in oklch, var(--color-seed) 10%, #E5E5EA);
+  --glass-border: color-mix(in srgb, var(--color-seed) 14%, rgba(255, 255, 255, 0.6));
+  --glass-shadow: 0 8px 32px color-mix(in srgb, var(--color-seed) 8%, rgba(0, 0, 0, 0.08));
+  --glass-bg: var(--color-surface);
+}
