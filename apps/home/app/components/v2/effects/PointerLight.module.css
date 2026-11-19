@@ -13,9 +13,9 @@
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   background: radial-gradient(
     circle,
-    rgba(var(--color-accent-rgb, 10, 132, 255), 1) 0%,
-    rgba(129, 140, 248, 0.7) 35%,
-    rgba(192, 132, 252, 0.3) 55%,
+    var(--effect-pointer-core) 0%,
+    var(--effect-pointer-mid) 35%,
+    var(--effect-pointer-outer) 55%,
     transparent 70%
   );
   z-index: 1;

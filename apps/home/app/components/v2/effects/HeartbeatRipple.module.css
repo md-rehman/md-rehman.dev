@@ -21,10 +21,10 @@
   background: radial-gradient(
     circle,
     transparent 45%,
-    rgba(var(--color-accent-rgb, 10, 132, 255), 0.7) 48%,
-    rgba(129, 140, 248, 1) 50%,
-    rgba(192, 132, 252, 0.9) 52%,
-    rgba(var(--color-accent-rgb, 10, 132, 255), 0.7) 54%,
+    var(--effect-ripple-halo-1) 48%,
+    var(--effect-ripple-crest-1) 50%,
+    var(--effect-ripple-crest-2) 52%,
+    var(--effect-ripple-halo-1) 54%,
     transparent 57%
   );
   opacity: 0;
@@ -37,9 +37,9 @@
   background: radial-gradient(
     circle,
     transparent 45.5%,
-    rgba(129, 140, 248, 0.7) 48.5%,
-    rgba(192, 132, 252, 1) 50%,
-    rgba(129, 140, 248, 0.7) 51.5%,
+    var(--effect-ripple-halo-2) 48.5%,
+    var(--effect-ripple-crest-2) 50%,
+    var(--effect-ripple-halo-2) 51.5%,
     transparent 54.5%
   );
 }
