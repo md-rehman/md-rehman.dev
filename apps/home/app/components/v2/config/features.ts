@@ -25,7 +25,13 @@ export const FEATURE_FLAGS = {
    * Enables rhythmic heartbeat ripple effect expanding from screen center along pattern wireframes.
    * Set to `false` to disable.
    */
-  ENABLE_HEARTBEAT_RIPPLE: true,
+  ENABLE_HEARTBEAT_RIPPLE: false,
+
+  /**
+   * Enables random raindrop ripples falling across the screen and illuminating pattern wireframes.
+   * Set to `false` to disable.
+   */
+  ENABLE_RAINDROP_RIPPLE: true,
 } as const;
 
 /**
@@ -44,5 +50,37 @@ export const HEARTBEAT_RIPPLE_CONFIG = {
    * Delay in seconds between the primary (lub) and secondary (dub) pulse wave.
    */
   SECONDARY_PULSE_DELAY_SEC: 0.35,
+} as const;
+
+/**
+ * Easily customizable configuration for Raindrop Ripples
+ */
+export const RAINDROP_RIPPLE_CONFIG = {
+  /**
+   * Frequency of rain drops in milliseconds [min, max] between spawns.
+   * - [150, 400]: torrential / heavy rain
+   * - [350, 750]: steady gentle shower (Default)
+   * - [800, 1600]: slow sporadic drizzle
+   */
+  SPAWN_INTERVAL_MS: [350, 750] as const,
+
+  /**
+   * Speed of the ripple in seconds (how long each droplet takes to expand and dissipate).
+   * - 1.0s: brisk / rapid splash
+   * - 1.6s: natural water ripple expansion (Default)
+   * - 2.5s: slow, lingering ethereal rings
+   */
+  RIPPLE_DURATION_SEC: 1.6,
+
+  /**
+   * Size range of the ripple in pixels [min, max].
+   * Each droplet randomly picks its final expanded diameter within this range.
+   */
+  SIZE_RANGE_PX: [150, 300] as const,
+
+  /**
+   * Maximum concurrent ripples active on screen to guarantee 60fps performance.
+   */
+  MAX_CONCURRENT_DROPS: 12,
 } as const;
 

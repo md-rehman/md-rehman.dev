@@ -1,0 +1,65 @@
+/* ══════════════════════════════════════════════════════════════
+   RAINDROP RIPPLES STYLING
+   Random droplets falling across the canvas, illuminating the
+   pattern wireframe stencil mask with expanding concentric rings.
+   ══════════════════════════════════════════════════════════════ */
+
+.raindropContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.raindrop {
+  position: absolute;
+  left: var(--drop-x);
+  top: var(--drop-y);
+  width: var(--drop-size);
+  height: var(--drop-size);
+  margin-left: calc(var(--drop-size) * -0.5);
+  margin-top: calc(var(--drop-size) * -0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  /* Dual concentric water ripple wavefront utilizing single-seed color tokens */
+  background: radial-gradient(
+    circle,
+    transparent 32%,
+    var(--effect-ripple-halo-1, rgba(0, 122, 255, 0.4)) 40%,
+    var(--effect-ripple-crest-1, rgba(129, 140, 248, 0.95)) 46%,
+    transparent 50%,
+    var(--effect-ripple-halo-2, rgba(192, 132, 252, 0.3)) 54%,
+    var(--effect-ripple-crest-2, rgba(192, 132, 252, 0.85)) 58%,
+    transparent 64%
+  );
+  opacity: 0;
+  animation: raindropExpand var(--ripple-duration, 1.6s) cubic-bezier(0.12, 0.65, 0.25, 1) forwards;
+}
+
+@keyframes raindropExpand {
+  0% {
+    transform: scale3d(0.06, 0.06, 1);
+    opacity: 0.95;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  65% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0;
+  }
+}
+
+/* Reduced motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  .raindropContainer {
+    display: none !important;
+  }
+}
+

@@ -5,6 +5,7 @@ import { useUIPreferences } from "../context/UIPreferencesContext";
 import { FEATURE_FLAGS } from "../config/features";
 import { PointerLight } from "../effects/PointerLight";
 import { HeartbeatRipple } from "../effects/HeartbeatRipple";
+import { RaindropRipples } from "../effects/RaindropRipples";
 import styles from "./BackgroundCanvas.module.css";
 
 export function BackgroundCanvas() {
@@ -72,6 +73,13 @@ export function BackgroundCanvas() {
       {FEATURE_FLAGS.ENABLE_HEARTBEAT_RIPPLE && (
         <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
           <HeartbeatRipple />
+        </div>
+      )}
+
+      {/* Random Raindrop Ripples illuminating pattern wireframe strokes (z-index: 2) */}
+      {FEATURE_FLAGS.ENABLE_RAINDROP_RIPPLE && (
+        <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
+          <RaindropRipples />
         </div>
       )}
     </div>
