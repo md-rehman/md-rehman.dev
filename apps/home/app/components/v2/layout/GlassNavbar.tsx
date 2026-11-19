@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useSyncExternalStore } from "react";
+import React, { useSyncExternalStore, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./GlassNavbar.module.css";
@@ -13,6 +13,7 @@ import {
   CompanionIcon,
   PlannerIcon,
   LayersIcon,
+  DiceIcon,
   SunIcon,
   MoonIcon,
   GithubIcon,
@@ -26,7 +27,7 @@ const HOME_NAV_ITEMS = [
 ];
 
 function subscribeTheme(callback: () => void) {
-  if (typeof window === "undefined") return () => {};
+  if (typeof window === "undefined") return () => { };
   const observer = new MutationObserver(callback);
   observer.observe(document.documentElement, {
     attributes: true,
@@ -45,8 +46,42 @@ function getServerThemeSnapshot(): boolean {
 }
 
 export function GlassNavbar() {
-  const { toggleModal } = useUIPreferences();
+  const { toggleModal, isRandomizeEnabled, toggleRandomize } = useUIPreferences();
   const isDark = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerThemeSnapshot);
+  const [isPulsing, setIsPulsing] = useState(false);
+
+  // Attention-grabbing pulse when Randomize is in OFF state
+  useEffect(() => {
+    if (isRandomizeEnabled) return;
+
+    let pulseTimer: NodeJS.Timeout | null = null;
+    let resetTimer: NodeJS.Timeout | null = null;
+    let isMounted = true;
+
+    const scheduleNextPulse = () => {
+      // Random interval between 6s and 11s
+      const delay = Math.round(6000 + Math.random() * 5000);
+      pulseTimer = setTimeout(() => {
+        if (!isMounted) return;
+        setIsPulsing(true);
+
+        // Reset pulse after heartbeat animation completes (900ms)
+        resetTimer = setTimeout(() => {
+          if (!isMounted) return;
+          setIsPulsing(false);
+          scheduleNextPulse();
+        }, 900);
+      }, delay);
+    };
+
+    scheduleNextPulse();
+
+    return () => {
+      isMounted = false;
+      if (pulseTimer) clearTimeout(pulseTimer);
+      if (resetTimer) clearTimeout(resetTimer);
+    };
+  }, [isRandomizeEnabled]);
 
   const toggleTheme = () => {
     const nextTheme = isDark ? "light" : "nebula";
@@ -99,6 +134,32 @@ export function GlassNavbar() {
             </button>
           </GlassTooltip>
         )}
+
+        {/* Randomize Experience Toggle Button */}
+        <GlassTooltip
+          content={
+            isRandomizeEnabled
+              ? "Randomize: ON (Click to re-roll or disable)"
+              : "Randomize Experience (Shuffle color, pattern & effects)"
+          }
+          placement="bottom"
+        >
+          <button
+            type="button"
+            className={`${styles.iconButton} ${
+              isRandomizeEnabled ? styles.randomizeActive : ""
+            } ${!isRandomizeEnabled && isPulsing ? styles.attentionPulse : ""}`}
+            onClick={toggleRandomize}
+            aria-label={
+              isRandomizeEnabled
+                ? "Disable Randomize Experience"
+                : "Enable Randomize Experience"
+            }
+            aria-pressed={isRandomizeEnabled}
+          >
+            <DiceIcon size={18} />
+          </button>
+        </GlassTooltip>
 
         {/* Theme Toggle */}
         <GlassTooltip

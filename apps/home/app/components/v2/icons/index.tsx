@@ -403,3 +403,52 @@ export function CloseIcon({ size = 16, className, ...props }: IconProps) {
   );
 }
 
+/** Dice / Randomize icon: 6-sided die with 5 pips */
+export function DiceIcon({ size = 18, className, ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="4" />
+      <path d="M16 8h.01" strokeWidth="2.5" />
+      <path d="M8 8h.01" strokeWidth="2.5" />
+      <path d="M8 16h.01" strokeWidth="2.5" />
+      <path d="M16 16h.01" strokeWidth="2.5" />
+      <path d="M12 12h.01" strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+/** Shuffle icon: Two crossing arrows */
+export function ShuffleIcon({ size = 18, className, ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <path d="m16 3 5 5-5 5" />
+      <path d="M4 20 21 3" />
+      <path d="m21 16-5 5-5-5" />
+      <path d="m15 15-5 5H4" />
+      <path d="M4 4h5l4 4" />
+    </svg>
+  );
+}
+

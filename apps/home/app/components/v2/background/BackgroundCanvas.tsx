@@ -9,7 +9,21 @@ import { RaindropRipples } from "../effects/RaindropRipples";
 import styles from "./BackgroundCanvas.module.css";
 
 export function BackgroundCanvas() {
-  const { pattern } = useUIPreferences();
+  const { pattern, isRandomizeEnabled, activeRandomEffect } = useUIPreferences();
+
+  // When Randomize Experience is active, illuminate via exactly 1 randomly chosen effect.
+  // When inactive, fallback to explicit FEATURE_FLAGS.
+  const showPointerLight = isRandomizeEnabled
+    ? activeRandomEffect === "POINTER_LIGHT"
+    : FEATURE_FLAGS.ENABLE_POINTER_LIGHT;
+
+  const showHeartbeatRipple = isRandomizeEnabled
+    ? activeRandomEffect === "HEARTBEAT_RIPPLE"
+    : FEATURE_FLAGS.ENABLE_HEARTBEAT_RIPPLE;
+
+  const showRaindropRipple = isRandomizeEnabled
+    ? activeRandomEffect === "RAINDROP_RIPPLE"
+    : FEATURE_FLAGS.ENABLE_RAINDROP_RIPPLE;
 
   const getPatternClass = () => {
     switch (pattern) {
@@ -63,21 +77,21 @@ export function BackgroundCanvas() {
       <div className={`${styles.patternLayer} ${getPatternClass()}`} suppressHydrationWarning />
 
       {/* Interactive Light strictly illuminating pattern wireframe strokes (z-index: 2) */}
-      {FEATURE_FLAGS.ENABLE_POINTER_LIGHT && (
+      {showPointerLight && (
         <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
           <PointerLight />
         </div>
       )}
 
       {/* Rhythmic Heartbeat Ripple illuminating pattern wireframe strokes (z-index: 2) */}
-      {FEATURE_FLAGS.ENABLE_HEARTBEAT_RIPPLE && (
+      {showHeartbeatRipple && (
         <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
           <HeartbeatRipple />
         </div>
       )}
 
       {/* Random Raindrop Ripples illuminating pattern wireframe strokes (z-index: 2) */}
-      {FEATURE_FLAGS.ENABLE_RAINDROP_RIPPLE && (
+      {showRaindropRipple && (
         <div className={`${styles.lightMaskContainer} ${getPatternStrokeMaskClass()}`} suppressHydrationWarning>
           <RaindropRipples />
         </div>

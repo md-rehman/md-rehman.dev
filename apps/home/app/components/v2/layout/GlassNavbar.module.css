@@ -129,6 +129,43 @@
   transform: translateY(0);
 }
 
+/* ── Randomize Experience Button Styling ── */
+.randomizeActive {
+  background-color: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface)) !important;
+  color: var(--color-accent) !important;
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
+  box-shadow: var(--glass-shadow), 0 0 16px color-mix(in srgb, var(--color-accent) 35%, transparent) !important;
+}
+
+/* Attention-grabbing pulse when in OFF state */
+.attentionPulse {
+  animation: randomizeHeartbeat 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes randomizeHeartbeat {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.22);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attentionPulse {
+    animation: none !important;
+  }
+}
+
 @media (max-width: 860px) {
   .navButton span {
     display: none;
