@@ -21,7 +21,7 @@
   border-radius: inherit;
   background: radial-gradient(
     500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(var(--color-accent-rgb, 10, 132, 255), 0.12),
+    color-mix(in srgb, var(--color-accent) 14%, transparent),
     transparent 50%
   );
   opacity: 0;
@@ -36,7 +36,7 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(var(--color-accent-rgb, 10, 132, 255), 0.35);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
   box-shadow: var(--glass-shadow), 0 24px 50px rgba(0, 0, 0, 0.45);
 }
 
