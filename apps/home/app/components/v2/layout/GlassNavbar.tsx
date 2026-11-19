@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./GlassNavbar.module.css";
 import { useUIPreferences } from "../context/UIPreferencesContext";
+import { FEATURE_FLAGS } from "../config/features";
 import { GlassTooltip } from "../glass/GlassTooltip";
 import {
   TvIcon,
@@ -85,17 +86,19 @@ export function GlassNavbar() {
       </div>
 
       <div className={styles.right}>
-        {/* Floating Glass Inspector Modal Launcher */}
-        <GlassTooltip content="Open Glass Inspector" placement="bottom">
-          <button
-            type="button"
-            className={styles.iconButton}
-            onClick={toggleModal}
-            aria-label="Open Glass Inspector"
-          >
-            <LayersIcon size={18} />
-          </button>
-        </GlassTooltip>
+        {/* Floating Glass Inspector Modal Launcher (Hidden from Navbar by default, code preserved) */}
+        {FEATURE_FLAGS.ENABLE_INSPECTOR_BUTTON && (
+          <GlassTooltip content="Open Glass Inspector" placement="bottom">
+            <button
+              type="button"
+              className={styles.iconButton}
+              onClick={toggleModal}
+              aria-label="Open Glass Inspector"
+            >
+              <LayersIcon size={18} />
+            </button>
+          </GlassTooltip>
+        )}
 
         {/* Theme Toggle */}
         <GlassTooltip

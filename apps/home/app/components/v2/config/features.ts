@@ -19,7 +19,7 @@ export const FEATURE_FLAGS = {
    * Enables 60fps ambient pointer light ripple effect with pattern wireframe masking.
    * Set to `false` to disable the pointer light entirely.
    */
-  ENABLE_POINTER_LIGHT: true,
+  ENABLE_POINTER_LIGHT: false,
 
   /**
    * Enables rhythmic heartbeat ripple effect expanding from screen center along pattern wireframes.
@@ -32,6 +32,12 @@ export const FEATURE_FLAGS = {
    * Set to `false` to disable.
    */
   ENABLE_RAINDROP_RIPPLE: true,
+
+  /**
+   * Enables the Glass & Canvas Inspector floating button launcher in the Navbar.
+   * Set to `false` to hide the button from the Navbar while keeping the component and code intact.
+   */
+  ENABLE_INSPECTOR_BUTTON: false,
 } as const;
 
 /**
